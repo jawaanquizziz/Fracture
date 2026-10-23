@@ -1,0 +1,7 @@
+PASS Actual arena previews and four character portraits prepared
+PASS Real UDP handshake and arena loaded
+PASS round 1 role TAMER / arena 1
+PASS player-controlled battle, health and PP replicated
+PASS round 2 role WARDEN / arena 2
+PASS round 3 role TAMER / arena 3
+PASS UDP THREE-ROUND MATCH

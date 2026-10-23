@@ -1,0 +1,950 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d6b41dab32c5d4cae232074334d8e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Valmon.Campaign.CampaignCatalog
+  species:
+  - id: bulbasaur
+    displayName: Bulbasaur
+    types:
+    - Grass
+    - Poison
+    hp: 45
+    attack: 49
+    defense: 49
+    specialAttack: 65
+    specialDefense: 65
+    speed: 45
+    moves:
+    - name: Vine Whip
+      type: Grass
+      effect: 
+      power: 45
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Tackle
+      type: Normal
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Poison Powder
+      type: Poison
+      effect: poison
+      power: 0
+      accuracy: 75
+      pp: 15
+      special: 0
+    - name: Growl
+      type: Normal
+      effect: weaken
+      power: 0
+      accuracy: 100
+      pp: 25
+      special: 0
+    model: {fileID: -6689036041284674117, guid: 4eff7a54f9341894583df394a6159b6b, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: ivysaur
+    displayName: Ivysaur
+    types:
+    - Grass
+    - Poison
+    hp: 60
+    attack: 62
+    defense: 63
+    specialAttack: 80
+    specialDefense: 80
+    speed: 60
+    moves:
+    - name: Razor Leaf
+      type: Grass
+      effect: critical
+      power: 55
+      accuracy: 95
+      pp: 20
+      special: 0
+    - name: Acid
+      type: Poison
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 1
+    - name: Mega Drain
+      type: Grass
+      effect: drain
+      power: 40
+      accuracy: 100
+      pp: 15
+      special: 1
+    - name: Synthesis
+      type: Grass
+      effect: heal
+      power: 0
+      accuracy: 100
+      pp: 5
+      special: 0
+    model: {fileID: -6689036041284674117, guid: 0290f30a491ce6c41b35cf75b1c5b0ae, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: venusaur
+    displayName: Venusaur
+    types:
+    - Grass
+    - Poison
+    hp: 80
+    attack: 82
+    defense: 83
+    specialAttack: 100
+    specialDefense: 100
+    speed: 80
+    moves:
+    - name: Energy Ball
+      type: Grass
+      effect: 
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Sludge Bomb
+      type: Poison
+      effect: 
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Razor Leaf
+      type: Grass
+      effect: critical
+      power: 55
+      accuracy: 95
+      pp: 20
+      special: 0
+    - name: Synthesis
+      type: Grass
+      effect: heal
+      power: 0
+      accuracy: 100
+      pp: 5
+      special: 0
+    model: {fileID: -6689036041284674117, guid: 6d828f081ce8c414badb555d1d6a7d6a, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: chikorita
+    displayName: Chikorita
+    types:
+    - Grass
+    hp: 45
+    attack: 49
+    defense: 65
+    specialAttack: 49
+    specialDefense: 65
+    speed: 45
+    moves:
+    - name: Razor Leaf
+      type: Grass
+      effect: critical
+      power: 55
+      accuracy: 95
+      pp: 20
+      special: 0
+    - name: Tackle
+      type: Normal
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Poison Powder
+      type: Poison
+      effect: poison
+      power: 0
+      accuracy: 75
+      pp: 15
+      special: 0
+    - name: Reflect
+      type: Psychic
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 10
+      special: 0
+    model: {fileID: 919132149155446097, guid: c08cfbc52a13bd049b2c03a633387aa8, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: oddish
+    displayName: Oddish
+    types:
+    - Grass
+    - Poison
+    hp: 45
+    attack: 50
+    defense: 55
+    specialAttack: 75
+    specialDefense: 65
+    speed: 30
+    moves:
+    - name: Absorb
+      type: Grass
+      effect: drain
+      power: 20
+      accuracy: 100
+      pp: 25
+      special: 1
+    - name: Acid
+      type: Poison
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 1
+    - name: Sleep Powder
+      type: Grass
+      effect: sleep
+      power: 0
+      accuracy: 75
+      pp: 10
+      special: 0
+    - name: Moonlight
+      type: Fairy
+      effect: heal
+      power: 0
+      accuracy: 100
+      pp: 5
+      special: 0
+    model: {fileID: 919132149155446097, guid: 89ac41b9b88a9df4886e78bcebbf9734, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: snivy
+    displayName: Snivy
+    types:
+    - Grass
+    hp: 45
+    attack: 45
+    defense: 55
+    specialAttack: 45
+    specialDefense: 55
+    speed: 63
+    moves:
+    - name: Vine Whip
+      type: Grass
+      effect: 
+      power: 45
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Leaf Blade
+      type: Grass
+      effect: critical
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 0
+    - name: Tackle
+      type: Normal
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Coil
+      type: Poison
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 10
+      special: 0
+    model: {fileID: 919132149155446097, guid: eb6daf67f4a533e45b96c61809649d31, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: charmander
+    displayName: Charmander
+    types:
+    - Fire
+    hp: 39
+    attack: 52
+    defense: 43
+    specialAttack: 60
+    specialDefense: 50
+    speed: 65
+    moves:
+    - name: Scratch
+      type: Normal
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Ember
+      type: Fire
+      effect: burn
+      power: 40
+      accuracy: 100
+      pp: 25
+      special: 1
+    - name: Dragon Breath
+      type: Dragon
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 15
+      special: 1
+    - name: Smokescreen
+      type: Normal
+      effect: blind
+      power: 0
+      accuracy: 100
+      pp: 15
+      special: 0
+    model: {fileID: 919132149155446097, guid: fbc1f737eb23ed243a470ff0bcb99480, type: 3}
+    albedoOverride: {fileID: 2800000, guid: f5414fdba34074640afbb1b11bbb8793, type: 3}
+  - id: charmeleon
+    displayName: Charmeleon
+    types:
+    - Fire
+    hp: 58
+    attack: 64
+    defense: 58
+    specialAttack: 80
+    specialDefense: 65
+    speed: 80
+    moves:
+    - name: Fire Fang
+      type: Fire
+      effect: burn
+      power: 65
+      accuracy: 95
+      pp: 15
+      special: 0
+    - name: Flamethrower
+      type: Fire
+      effect: burn
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Slash
+      type: Normal
+      effect: critical
+      power: 70
+      accuracy: 100
+      pp: 15
+      special: 0
+    - name: Growl
+      type: Normal
+      effect: weaken
+      power: 0
+      accuracy: 100
+      pp: 20
+      special: 0
+    model: {fileID: 919132149155446097, guid: ca3fbe50acad1fd48bded5de4e602a20, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: charizard
+    displayName: Charizard
+    types:
+    - Fire
+    - Flying
+    hp: 78
+    attack: 84
+    defense: 78
+    specialAttack: 109
+    specialDefense: 85
+    speed: 100
+    moves:
+    - name: Flamethrower
+      type: Fire
+      effect: burn
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Wing Attack
+      type: Flying
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Dragon Claw
+      type: Dragon
+      effect: 
+      power: 80
+      accuracy: 100
+      pp: 15
+      special: 0
+    - name: Smokescreen
+      type: Normal
+      effect: blind
+      power: 0
+      accuracy: 100
+      pp: 15
+      special: 0
+    model: {fileID: -6689036041284674117, guid: 50b12a7772dd3574fa717140554de6fc, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: cyndaquil
+    displayName: Cyndaquil
+    types:
+    - Fire
+    hp: 39
+    attack: 52
+    defense: 43
+    specialAttack: 60
+    specialDefense: 50
+    speed: 65
+    moves:
+    - name: Ember
+      type: Fire
+      effect: burn
+      power: 40
+      accuracy: 100
+      pp: 25
+      special: 1
+    - name: Tackle
+      type: Normal
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Flame Wheel
+      type: Fire
+      effect: burn
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Smokescreen
+      type: Normal
+      effect: blind
+      power: 0
+      accuracy: 100
+      pp: 15
+      special: 0
+    model: {fileID: 919132149155446097, guid: a37c88d656d01d14190f21700db2a987, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: growlithe
+    displayName: Growlithe
+    types:
+    - Fire
+    hp: 55
+    attack: 70
+    defense: 45
+    specialAttack: 70
+    specialDefense: 50
+    speed: 60
+    moves:
+    - name: Bite
+      type: Dark
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Flame Wheel
+      type: Fire
+      effect: burn
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Take Down
+      type: Normal
+      effect: recoil
+      power: 90
+      accuracy: 85
+      pp: 10
+      special: 0
+    - name: Growl
+      type: Normal
+      effect: weaken
+      power: 0
+      accuracy: 100
+      pp: 20
+      special: 0
+    model: {fileID: 919132149155446097, guid: c347c17e59fa24c448c1481741601e50, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: vulpix
+    displayName: Vulpix
+    types:
+    - Fire
+    hp: 38
+    attack: 41
+    defense: 40
+    specialAttack: 50
+    specialDefense: 65
+    speed: 65
+    moves:
+    - name: Ember
+      type: Fire
+      effect: burn
+      power: 40
+      accuracy: 100
+      pp: 25
+      special: 1
+    - name: Flamethrower
+      type: Fire
+      effect: burn
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Feint Attack
+      type: Dark
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Tail Guard
+      type: Normal
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 15
+      special: 0
+    model: {fileID: 919132149155446097, guid: a1c9638a19fee524eada33bf63021339, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: squirtle
+    displayName: Squirtle
+    types:
+    - Water
+    hp: 44
+    attack: 48
+    defense: 65
+    specialAttack: 50
+    specialDefense: 64
+    speed: 43
+    moves:
+    - name: Water Gun
+      type: Water
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 25
+      special: 1
+    - name: Bite
+      type: Dark
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Tackle
+      type: Normal
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Withdraw
+      type: Water
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 20
+      special: 0
+    model: {fileID: 919132149155446097, guid: ce845c01dca9c4445a518237ed22d839, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: wartortle
+    displayName: Wartortle
+    types:
+    - Water
+    hp: 59
+    attack: 63
+    defense: 80
+    specialAttack: 65
+    specialDefense: 80
+    speed: 58
+    moves:
+    - name: Water Pulse
+      type: Water
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 1
+    - name: Bite
+      type: Dark
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Ice Beam
+      type: Ice
+      effect: 
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Withdraw
+      type: Water
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 20
+      special: 0
+    model: {fileID: 919132149155446097, guid: bab5bb8682e8da848a63d2c0cba48a20, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: blastoise
+    displayName: Blastoise
+    types:
+    - Water
+    hp: 79
+    attack: 83
+    defense: 100
+    specialAttack: 85
+    specialDefense: 105
+    speed: 78
+    moves:
+    - name: Hydro Pump
+      type: Water
+      effect: 
+      power: 110
+      accuracy: 80
+      pp: 5
+      special: 1
+    - name: Water Pulse
+      type: Water
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 1
+    - name: Ice Beam
+      type: Ice
+      effect: 
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Withdraw
+      type: Water
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 20
+      special: 0
+    model: {fileID: 919132149155446097, guid: bfd4bd3b9e16f3f49966e3c573866260, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: megablastoise
+    displayName: Mega Blastoise
+    types:
+    - Water
+    hp: 79
+    attack: 103
+    defense: 120
+    specialAttack: 135
+    specialDefense: 115
+    speed: 78
+    moves:
+    - name: Hydro Pump
+      type: Water
+      effect: 
+      power: 110
+      accuracy: 80
+      pp: 5
+      special: 1
+    - name: Dark Pulse
+      type: Dark
+      effect: 
+      power: 80
+      accuracy: 100
+      pp: 15
+      special: 1
+    - name: Aura Sphere
+      type: Fighting
+      effect: 
+      power: 80
+      accuracy: 100
+      pp: 15
+      special: 1
+    - name: Withdraw
+      type: Water
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 20
+      special: 0
+    model: {fileID: 919132149155446097, guid: 6d3c4427d3e89db4aa0f177b3d04bba0, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: lapras
+    displayName: Lapras
+    types:
+    - Water
+    - Ice
+    hp: 130
+    attack: 85
+    defense: 80
+    specialAttack: 85
+    specialDefense: 95
+    speed: 60
+    moves:
+    - name: Water Pulse
+      type: Water
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 1
+    - name: Ice Beam
+      type: Ice
+      effect: 
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Body Slam
+      type: Normal
+      effect: 
+      power: 85
+      accuracy: 100
+      pp: 15
+      special: 0
+    - name: Sing
+      type: Normal
+      effect: sleep
+      power: 0
+      accuracy: 55
+      pp: 10
+      special: 0
+    model: {fileID: 919132149155446097, guid: 60c2b3b971194ff4fa24a87a1bd91228, type: 3}
+    albedoOverride: {fileID: 2800000, guid: 80bc205bf8d2691428988b3f571bdcd8, type: 3}
+  - id: totodile
+    displayName: Totodile
+    types:
+    - Water
+    hp: 50
+    attack: 65
+    defense: 64
+    specialAttack: 44
+    specialDefense: 48
+    speed: 43
+    moves:
+    - name: Water Gun
+      type: Water
+      effect: 
+      power: 40
+      accuracy: 100
+      pp: 25
+      special: 1
+    - name: Bite
+      type: Dark
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Ice Fang
+      type: Ice
+      effect: 
+      power: 65
+      accuracy: 95
+      pp: 15
+      special: 0
+    - name: Leer
+      type: Normal
+      effect: weaken
+      power: 0
+      accuracy: 100
+      pp: 20
+      special: 0
+    model: {fileID: 919132149155446097, guid: 6f19f6b8464e41a42b73ba0bf2902812, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: vaporeon
+    displayName: Vaporeon
+    types:
+    - Water
+    hp: 130
+    attack: 65
+    defense: 60
+    specialAttack: 110
+    specialDefense: 95
+    speed: 65
+    moves:
+    - name: Water Pulse
+      type: Water
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 1
+    - name: Aurora Beam
+      type: Ice
+      effect: 
+      power: 65
+      accuracy: 100
+      pp: 20
+      special: 1
+    - name: Bite
+      type: Dark
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 20
+      special: 0
+    - name: Aqua Ring
+      type: Water
+      effect: heal
+      power: 0
+      accuracy: 100
+      pp: 5
+      special: 0
+    model: {fileID: 919132149155446097, guid: 70a4f177b49f97a4cb24afefb938e8ca, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: primalgroudon
+    displayName: Primal Groudon
+    types:
+    - Ground
+    - Fire
+    hp: 100
+    attack: 150
+    defense: 140
+    specialAttack: 120
+    specialDefense: 90
+    speed: 90
+    moves:
+    - name: Earthquake
+      type: Ground
+      effect: 
+      power: 100
+      accuracy: 100
+      pp: 10
+      special: 0
+    - name: Lava Plume
+      type: Fire
+      effect: burn
+      power: 80
+      accuracy: 100
+      pp: 15
+      special: 1
+    - name: Rock Slide
+      type: Rock
+      effect: 
+      power: 75
+      accuracy: 90
+      pp: 10
+      special: 0
+    - name: Bulk Up
+      type: Fighting
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 10
+      special: 0
+    model: {fileID: 919132149155446097, guid: 4ac4b098c207fcc48bf0df24f5b9cb4e, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: lugia
+    displayName: Lugia
+    types:
+    - Psychic
+    - Flying
+    hp: 106
+    attack: 90
+    defense: 130
+    specialAttack: 90
+    specialDefense: 154
+    speed: 110
+    moves:
+    - name: Aeroblast
+      type: Flying
+      effect: critical
+      power: 100
+      accuracy: 95
+      pp: 5
+      special: 1
+    - name: Psychic
+      type: Psychic
+      effect: 
+      power: 90
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Ancient Power
+      type: Rock
+      effect: 
+      power: 60
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Recover
+      type: Normal
+      effect: heal
+      power: 0
+      accuracy: 100
+      pp: 5
+      special: 0
+    model: {fileID: 919132149155446097, guid: 3bceeaac5e2e88c459c1a703f6f36dd9, type: 3}
+    albedoOverride: {fileID: 0}
+  - id: rayquaza
+    displayName: Rayquaza
+    types:
+    - Dragon
+    - Flying
+    hp: 105
+    attack: 150
+    defense: 90
+    specialAttack: 150
+    specialDefense: 90
+    speed: 95
+    moves:
+    - name: Dragon Pulse
+      type: Dragon
+      effect: 
+      power: 85
+      accuracy: 100
+      pp: 10
+      special: 1
+    - name: Air Slash
+      type: Flying
+      effect: 
+      power: 75
+      accuracy: 95
+      pp: 15
+      special: 1
+    - name: Crunch
+      type: Dark
+      effect: 
+      power: 80
+      accuracy: 100
+      pp: 15
+      special: 0
+    - name: Dragon Guard
+      type: Dragon
+      effect: guard
+      power: 0
+      accuracy: 100
+      pp: 10
+      special: 0
+    model: {fileID: 4357118449180629203, guid: 5e50a0beba00c2d4abe08878f05d6332, type: 3}
+    albedoOverride: {fileID: 2800000, guid: 5dc3c79410f4915478b6c272fd47af81, type: 3}
+  characters:
+  - name: Clove
+    model: {fileID: -6689036041284674117, guid: 787a4018bda05df459d9e5efdbf26916, type: 3}
+    yawOffset: 180
+  - name: Gekko
+    model: {fileID: -6689036041284674117, guid: 776022dc8f1fb4541afbe1b151bfda8a, type: 3}
+    yawOffset: 0
+  - name: Reyna
+    model: {fileID: 919132149155446097, guid: c87135438aa65084a9becfb50971e694, type: 3}
+    yawOffset: 0
+  - name: Tejo
+    model: {fileID: -6689036041284674117, guid: f7cda2ceec933eb4abe46d25821ce268, type: 3}
+    yawOffset: 180
+  maps:
+  - {fileID: 919132149155446097, guid: 23b86d8ef4a572742b8575095f18633b, type: 3}
+  - {fileID: 919132149155446097, guid: 2494b7c1bf444904889e067bfdc4dba2, type: 3}
+  - {fileID: 919132149155446097, guid: 0e34be1236ca62d40bc2376c66a41741, type: 3}
+  captureBall: {fileID: -6689036041284674117, guid: ea82618275bc0e04f90b722d3d409d5b, type: 3}
+  surfaceShader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  menuMusic: {fileID: 8300000, guid: 9f53e56b56cc92d46804ff995128dbc9, type: 3}
+  captureAudio: {fileID: 0}
+  corruptionAudio: {fileID: 0}
+  victoryAudio: {fileID: 0}
+  introFile: VALMON_Championship_Opening.mp4

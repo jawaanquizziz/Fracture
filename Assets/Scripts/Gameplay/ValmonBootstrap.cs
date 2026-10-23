@@ -1,6 +1,5 @@
 using UnityEngine;
 using Valmon.Environment;
-using Valmon.UI;
 using Valmon.Network;
 
 namespace Valmon.Gameplay
@@ -10,6 +9,9 @@ namespace Valmon.Gameplay
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         public static void EnsureGameSetup()
         {
+            // The legacy prototype only belongs to its own scenes.
+            string scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            if (scene != "SampleScene" && scene != "MainGame") return;
             if (Object.FindAnyObjectByType<GameManager>() != null)
             {
                 // GameManager already exists in the scene
@@ -120,7 +122,6 @@ namespace Valmon.Gameplay
             gameMgr.wardenCameraRig = wardenCamObj;
             gameMgr.roundDuration = 75f;
 
-            gameManagerObj.AddComponent<GameHUD>();
             gameManagerObj.AddComponent<ValmonNetworkManager>();
 
             Debug.Log("<color=#55ff99><b>[Valmon]</b> Ready to Play! Control with WASD, throw Poké Balls with [E] / [Right-Click], switch roles with [Tab].</color>");

@@ -1,0 +1,34 @@
+PASS Second player joined UDP room
+PASS Host authoritative match started
+PASS Shared capture count 1 on map 1
+PASS Remote Corruptor action arrived once
+PASS Corruption opens partner selection
+PASS Both players enter the same battle
+PASS Remote Corruptor chose its battle move
+PASS Turn delay resolved
+PASS Shared capture count 2 on map 1
+PASS Shared capture count 3 on map 1
+PASS Client observed stage clear 1
+PASS Shared capture count 1 on map 2
+PASS Remote Corruptor action arrived once
+PASS Corruption opens partner selection
+PASS Both players enter the same battle
+PASS Remote Corruptor chose its battle move
+PASS Turn delay resolved
+PASS Shared capture count 2 on map 2
+PASS Shared capture count 3 on map 2
+PASS Client observed stage clear 2
+PASS Shared capture count 1 on map 3
+PASS Remote Corruptor action arrived once
+PASS Corruption opens partner selection
+PASS Both players enter the same battle
+PASS Remote Corruptor chose its battle move
+PASS Turn delay resolved
+PASS Shared capture count 2 on map 3
+PASS Shared capture count 3 on map 3
+PASS Client observed stage clear 3
+PASS Final opponent defeated 1
+PASS Final opponent defeated 2
+FAIL System.Exception: Final opponent defeated 3 / Laptop 2 connected. Press START MATCH when ready. / Battle / corrupt
+  at Valmon.Campaign.CampaignController+<NetWait>d__236.MoveNext () [0x000e6] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:57 
+  at Valmon.Campaign.CampaignController+<NetworkSmokeRunner>d__235.MoveNext () [0x00052] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:34 

@@ -57,3 +57,8 @@ Desktop.ini
 # Crash reports
 sysinfo.txt
 crashlytics-build.properties
+
+# Local Unity validation/build logs; keep sanitized reports under Tools/Reports.
+/Tools/*.log
+/Tools/IntroFrames/
+/Tools/Reference/

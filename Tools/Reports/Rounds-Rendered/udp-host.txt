@@ -1,0 +1,46 @@
+PASS Actual arena previews and four character portraits prepared
+PASS Two players automatically start authoritative match
+PASS Both arenas acknowledge loading before countdown
+PASS Synchronized three-second countdown completes
+PASS map 1 with both 3D players, three gates, role TAMER
+PASS Warden locks an actual synchronized gate
+PASS Warden scan spends energy and enters cooldown
+PASS Warden places a synchronized trap
+PASS Trap collision damages and slows authoritative Tamer
+PASS Tamer spends one ball and starts catch
+PASS Shared capture 1 / round 1
+PASS Tamer spends one ball and starts catch
+PASS Warden corruption interrupts active capture
+PASS Partner selection leads to synchronized battle
+PASS Shared capture 2 / round 1
+PASS Tamer spends one ball and starts catch
+PASS Shared capture 3 / round 1
+PASS Both clients agree on round winner and scores
+PASS Next round accepted from host
+PASS Both arenas acknowledge loading before countdown
+PASS Synchronized three-second countdown completes
+PASS map 2 with both 3D players, three gates, role WARDEN
+PASS Tamer spends one ball and starts catch
+PASS Shared capture 1 / round 2
+PASS Tamer spends one ball and starts catch
+PASS Warden corruption interrupts active capture
+PASS Partner selection leads to synchronized battle
+PASS Shared capture 2 / round 2
+PASS Tamer spends one ball and starts catch
+PASS Shared capture 3 / round 2
+PASS Both clients agree on round winner and scores
+PASS Next round accepted from client
+PASS Both arenas acknowledge loading before countdown
+PASS Synchronized three-second countdown completes
+PASS map 3 with both 3D players, three gates, role TAMER
+PASS Tamer spends one ball and starts catch
+PASS Shared capture 1 / round 3
+PASS Tamer spends one ball and starts catch
+PASS Warden corruption interrupts active capture
+PASS Partner selection leads to synchronized battle
+PASS Shared capture 2 / round 3
+PASS Tamer spends one ball and starts catch
+PASS Shared capture 3 / round 3
+PASS Both clients agree on round winner and scores
+PASS final match results, three rounds, role swap, remote battle decisions
+PASS UDP THREE-ROUND MATCH

@@ -155,11 +155,17 @@ namespace Valmon.Environment
                 }
                 else
                 {
-                    // Fallback creature
-                    creatureObj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-                    creatureObj.name = $"Creature_{i + 1}";
-                    creatureObj.transform.localScale = Vector3.one * 0.8f;
+                    // Fallback creature: build a visible child so the hop animation has something to move,
+                    // and strip the primitive's CapsuleCollider so it doesn't fight the CharacterController.
+                    creatureObj = new GameObject($"Creature_{i + 1}");
                     creatureObj.transform.position = spawnPos;
+
+                    GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                    visual.name = "Visual";
+                    visual.transform.SetParent(creatureObj.transform);
+                    visual.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+                    visual.transform.localScale = Vector3.one * 0.8f;
+                    Destroy(visual.GetComponent<Collider>());
                 }
 
                 CreatureController cc = creatureObj.GetComponent<CreatureController>();

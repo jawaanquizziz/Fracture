@@ -1,0 +1,4 @@
+PASS Actual arena previews and four character portraits prepared
+FAIL System.Exception: Real UDP handshake and arena loaded / No response. Check the host IP, room code, UDP port and Windows Firewall. / Lobby / 
+  at Valmon.Campaign.CampaignController+<NetWait>d__257.MoveNext () [0x000ec] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:66 
+  at Valmon.Campaign.CampaignController+<NetworkSmokeRunner>d__255.MoveNext () [0x00052] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:33 

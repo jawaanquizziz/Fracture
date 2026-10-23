@@ -1,0 +1,9 @@
+PASS UDP handshake and shared stage loaded
+PASS assigned Corruptor with four-character lobby choice
+PASS synchronized map 1 with typed wild roster
+PASS synchronized battle health, PP and turn ownership
+PASS synchronized map 2 with typed wild roster
+PASS synchronized map 3 with typed wild roster
+FAIL System.Exception: Client did not observe full campaign: Connection to the other laptop was lost. / Result / 2 / corrupt-sent
+  at Valmon.Campaign.CampaignController+<NetworkSmokeFlow>d__240.MoveNext () [0x009bd] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:154 
+  at Valmon.Campaign.CampaignController+<NetworkSmokeRunner>d__235.MoveNext () [0x00052] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:34 

@@ -6,7 +6,6 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using Valmon.Gameplay;
 using Valmon.Environment;
-using Valmon.UI;
 
 namespace Valmon.Editor
 {
@@ -138,7 +137,6 @@ namespace Valmon.Editor
             gameMgr.wardenCameraRig = wardenCamObj;
             gameMgr.roundDuration = 75f;
 
-            gameManagerObj.AddComponent<GameHUD>();
             gameManagerObj.AddComponent<Valmon.Network.ValmonNetworkManager>();
 
         }

@@ -41,6 +41,8 @@ namespace Valmon.Gameplay
         private float nextStateTime = 3f;
         private Transform playerTarget;
         private CharacterController controller;
+        private Transform visualChild;
+        private Vector3 visualChildStartLocalPos;
 
         void Awake()
         {
@@ -59,6 +61,13 @@ namespace Valmon.Gameplay
             spawnPoint = transform.position;
             currentHealth = maxHealth;
             PickNewDestination();
+
+            // Cache a visual child for the hop animation (the fallback primitive has none).
+            if (transform.childCount > 0)
+            {
+                visualChild = transform.GetChild(0);
+                visualChildStartLocalPos = visualChild.localPosition;
+            }
 
             // Find player
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -110,11 +119,11 @@ namespace Valmon.Gameplay
                 HandleNormalBehavior();
             }
 
-            // Simple procedual hop/bob for walking
-            if (controller.velocity.sqrMagnitude > 0.1f)
+            // Simple procedural hop/bob for walking
+            if (visualChild != null && controller.velocity.sqrMagnitude > 0.1f)
             {
                 float hop = Mathf.Abs(Mathf.Sin(Time.time * 8f)) * 0.08f;
-                transform.GetChild(0).localPosition = new Vector3(0, hop, 0);
+                visualChild.localPosition = visualChildStartLocalPos + new Vector3(0, hop, 0);
             }
         }
 

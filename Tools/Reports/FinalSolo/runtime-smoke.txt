@@ -1,0 +1,51 @@
+PASS Opening video prepared
+PASS Campaign begins with one starter
+PASS Map 1 loaded with connected terrain
+PASS Only the campaign camera renders map 1
+PASS Map 1 type and level filters
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Clean catch spends exactly one ball
+PASS Corruption request accepted
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Corrupted capture enters battle
+PASS Battle victory catches without spending a second ball
+PASS Corruption request accepted
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Losing a wild battle removes only the selected teammate
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Three catches clear map 1
+PASS Map 2 loaded with connected terrain
+PASS Only the campaign camera renders map 2
+PASS Map 2 type and level filters
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Clean catch spends exactly one ball
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Three catches clear map 2
+PASS Map 3 loaded with connected terrain
+PASS Only the campaign camera renders map 3
+PASS Map 3 type and level filters
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Clean catch spends exactly one ball
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Three catches clear map 3
+PASS Final duel creates three random opponents and heals teams
+PASS Final team defeat completes campaign
+PASS Runtime timeout awards Corruptor victory
+PASS Insufficient balls ends run
+PASS AI Tamer navigates to a capture target / Capture / route 2
+PASS Human Corruptor interrupts AI capture
+PASS Corruptor role reaches battle against AI Tamer
+PASS Last teammate loss awards Corruptor victory
+PASS RUNTIME SMOKE COMPLETED

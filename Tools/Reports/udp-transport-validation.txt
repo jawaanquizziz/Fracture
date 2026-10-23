@@ -1,0 +1,3 @@
+PASS 30 UDP commands arrived once, in order, and were acknowledged under simulated 1-in-6 packet loss.
+PASS 11 KB snapshots reassembled from datagrams below 1,200 bytes under packet loss.
+PASS Retransmission exercised; pending reliable queue drained to zero.

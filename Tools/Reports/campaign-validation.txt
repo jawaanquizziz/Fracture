@@ -1,0 +1,41 @@
+PASS 22 species registered
+PASS 3 original maps have renderable geometry
+PASS Map meshes retain CPU data for standalone collision cooking
+PASS 4 selectable characters
+PASS Bulbasaur: mesh and four valid moves
+PASS Ivysaur: mesh and four valid moves
+PASS Venusaur: mesh and four valid moves
+PASS Chikorita: mesh and four valid moves
+PASS Oddish: mesh and four valid moves
+PASS Snivy: mesh and four valid moves
+PASS Charmander: mesh and four valid moves
+PASS Charmeleon: mesh and four valid moves
+PASS Charizard: mesh and four valid moves
+PASS Cyndaquil: mesh and four valid moves
+PASS Growlithe: mesh and four valid moves
+PASS Vulpix: mesh and four valid moves
+PASS Squirtle: mesh and four valid moves
+PASS Wartortle: mesh and four valid moves
+PASS Blastoise: mesh and four valid moves
+PASS Mega Blastoise: mesh and four valid moves
+PASS Lapras: mesh and four valid moves
+PASS Totodile: mesh and four valid moves
+PASS Vaporeon: mesh and four valid moves
+PASS Primal Groudon: mesh and four valid moves
+PASS Lugia: mesh and four valid moves
+PASS Rayquaza: mesh and four valid moves
+PASS Stage 1 level band, timer, ball reset
+PASS Stage 1 typed spawn roster
+PASS Stage 2 level band, timer, ball reset
+PASS Stage 2 typed spawn roster
+PASS Stage 3 level band, timer, ball reset
+PASS Stage 3 typed spawn roster
+PASS Last ball may finish a pending encounter
+PASS Final catch clears level and blocks extra capture
+PASS Impossible capture quota loses immediately
+PASS Timer expires during encounters
+PASS Empty team loses
+PASS Type strengths, resistance and immunity
+PASS Attack deals damage and consumes PP
+PASS 120 seeded AI battles terminate with valid health
+PASS Opening MP4 packaged

@@ -1,24 +1,6 @@
-# Valcom
+# VALMON
 
-### Catch the creature. Resist the corruption. Master the rift.
-
-**An asymmetric multiplayer creature-catching game built with Unity.**
-
-------------------------------------------------------------------------
-
-## About the Game
-
-**Valcom** is a two-player game where each player has a different
-role. The **Tamer** explores arenas and attempts to catch creatures,
-while the **Warden** protects them by spending energy to corrupt
-creatures or trigger environmental hazards.
-
-A clean catch earns a higher score. But if the Warden corrupts a
-creature at the right moment, the capture attempt is interrupted and a
-short battle begins.
-
-> **Current project status:** Early setup and asset organization.
-> Gameplay code has not been implemented yet.
+Unity **6000.6.7f1**, URP. Open this root project; the nested `Valmon/` folder is a separate older project.
 
 ## Gameplay
 
@@ -379,3 +361,16 @@ for entry in log:
 - **3D Assets**: 14 character models (creatures & agents) and 3 arena maps ready.
 - **Combat & Data Engine**: Turn-based battle resolver, 18-type chart, and 19+ creature moveset configurations functional in `Valmon/pokemon_moves/`.
 - **Multiplayer & Arena Gameplay**: Asymmetric networked gameplay and capture challenges currently in development.
+
+## Credits & License
+
+Add credits for third-party character, map, and other assets before
+publishing. No license was specified in the planning document; add a
+`LICENSE` file before public distribution and verify third-party asset
+licenses.
+
+------------------------------------------------------------------------
+
+::: {align="center"}
+**Valcom** · *Every catch has a cost.*
+:::
