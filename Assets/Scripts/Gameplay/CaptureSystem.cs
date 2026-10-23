@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Valmon.Core;
 
 namespace Valmon.Gameplay
 {
@@ -31,8 +32,8 @@ namespace Valmon.Gameplay
         {
             if (mainCamera == null) mainCamera = Camera.main;
 
-            // Throw Poké Ball on [E] or Left Click
-            if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(1)) && Time.time - lastThrowTime >= throwCooldown)
+            // Throw Poké Ball on [E] or Right Click
+            if (ValmonInput.GetThrowPokeBallDown() && Time.time - lastThrowTime >= throwCooldown)
             {
                 ThrowPokeBall();
             }

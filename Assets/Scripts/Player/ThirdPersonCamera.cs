@@ -1,4 +1,5 @@
 using UnityEngine;
+using Valmon.Core;
 
 namespace Valmon.Gameplay
 {
@@ -42,7 +43,7 @@ namespace Valmon.Gameplay
         void Update()
         {
             // Toggle cursor lock with Escape
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (ValmonInput.GetEscapeDown())
             {
                 if (Cursor.lockState == CursorLockMode.Locked)
                 {
@@ -57,7 +58,7 @@ namespace Valmon.Gameplay
             }
 
             // Scroll zoom
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            float scroll = ValmonInput.GetMouseScroll();
             if (Mathf.Abs(scroll) > 0.01f)
             {
                 targetDistance -= scroll * 3.0f;
@@ -72,8 +73,8 @@ namespace Valmon.Gameplay
             // Only rotate when cursor is locked
             if (Cursor.lockState == CursorLockMode.Locked)
             {
-                float mouseX = Input.GetAxis("Mouse X") * mouseSensitivityX * 0.02f;
-                float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivityY * 0.02f;
+                float mouseX = ValmonInput.GetMouseX() * mouseSensitivityX * 0.02f;
+                float mouseY = ValmonInput.GetMouseY() * mouseSensitivityY * 0.02f;
 
                 currentYaw += mouseX;
                 currentPitch -= mouseY;

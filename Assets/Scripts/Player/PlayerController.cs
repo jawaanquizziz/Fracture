@@ -1,4 +1,5 @@
 using UnityEngine;
+using Valmon.Core;
 
 namespace Valmon.Gameplay
 {
@@ -73,11 +74,11 @@ namespace Valmon.Gameplay
         private void Move()
         {
             // Input
-            float moveX = Input.GetAxisRaw("Horizontal");
-            float moveZ = Input.GetAxisRaw("Vertical");
+            float moveX = ValmonInput.GetHorizontal();
+            float moveZ = ValmonInput.GetVertical();
             Vector2 inputDirection = new Vector2(moveX, moveZ).normalized;
 
-            bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+            bool isSprinting = ValmonInput.IsSprinting();
             float targetSpeed = (inputDirection == Vector2.zero) ? 0.0f : (isSprinting ? sprintSpeed : walkSpeed);
 
             // Smooth speed change
@@ -134,7 +135,7 @@ namespace Valmon.Gameplay
                 }
 
                 // Jump
-                if (Input.GetButtonDown("Jump") && jumpTimeoutDelta <= 0.0f)
+                if (ValmonInput.GetJumpDown() && jumpTimeoutDelta <= 0.0f)
                 {
                     verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 }

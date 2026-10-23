@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Valmon.Environment;
+using Valmon.Core;
 
 namespace Valmon.Gameplay
 {
@@ -63,15 +64,15 @@ namespace Valmon.Gameplay
         void Update()
         {
             // Toggle between Tamer and Warden for solo testing with [Tab]
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (ValmonInput.GetTabDown())
             {
                 ToggleRole();
             }
 
             // Quick Map change hotkeys: [F1] Map 1, [F2] Map 2, [F3] Map 3
-            if (Input.GetKeyDown(KeyCode.F1)) SwitchMap(0);
-            if (Input.GetKeyDown(KeyCode.F2)) SwitchMap(1);
-            if (Input.GetKeyDown(KeyCode.F3)) SwitchMap(2);
+            if (ValmonInput.GetF1Down()) SwitchMap(0);
+            if (ValmonInput.GetF2Down()) SwitchMap(1);
+            if (ValmonInput.GetF3Down()) SwitchMap(2);
 
             // Timer
             if (state == MatchState.RoundActive)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Valmon.Core;
 
 namespace Valmon
 {
@@ -51,13 +52,13 @@ namespace Valmon
         void Update()
         {
             // Toggle auto-rotation with Space
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (ValmonInput.GetSpaceDown())
             {
                 autoRotate = !autoRotate;
             }
 
             // Zoom via Mouse Scroll
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            float scroll = ValmonInput.GetMouseScroll();
             if (Mathf.Abs(scroll) > 0.001f)
             {
                 targetDistance -= scroll * 5f;
@@ -70,10 +71,10 @@ namespace Valmon
             if (target == null) return;
 
             // Manual rotation with left mouse drag
-            if (Input.GetMouseButton(0))
+            if (ValmonInput.GetLeftClickHeld())
             {
-                currentX += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
-                currentY -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
+                currentX += ValmonInput.GetMouseX() * xSpeed * 0.02f;
+                currentY -= ValmonInput.GetMouseY() * ySpeed * 0.02f;
                 currentY = Mathf.Clamp(currentY, yMinLimit, yMaxLimit);
             }
             else if (autoRotate)

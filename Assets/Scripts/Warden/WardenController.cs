@@ -1,4 +1,5 @@
 using UnityEngine;
+using Valmon.Core;
 
 namespace Valmon.Gameplay
 {
@@ -56,14 +57,14 @@ namespace Valmon.Gameplay
 
         private void HandleCameraMovement()
         {
-            float moveX = Input.GetAxisRaw("Horizontal");
-            float moveZ = Input.GetAxisRaw("Vertical");
+            float moveX = ValmonInput.GetHorizontal();
+            float moveZ = ValmonInput.GetVertical();
             Vector3 move = new Vector3(moveX, 0, moveZ).normalized * (panSpeed * Time.deltaTime);
 
             transform.Translate(move, Space.World);
 
             // Zoom via Mouse Scroll
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            float scroll = ValmonInput.GetMouseScroll();
             if (Mathf.Abs(scroll) > 0.01f)
             {
                 Vector3 pos = transform.position;
@@ -76,9 +77,9 @@ namespace Valmon.Gameplay
         private void HandleSelectionAndAbilities()
         {
             // Click to select creature or point on arena
-            if (Input.GetMouseButtonDown(0))
+            if (ValmonInput.GetLeftClickDown())
             {
-                Ray ray = wardenCamera.ScreenPointToRay(Input.mousePosition);
+                Ray ray = wardenCamera.ScreenPointToRay(ValmonInput.GetMousePosition());
                 if (Physics.Raycast(ray, out RaycastHit hit, 200f, targetMask))
                 {
                     CreatureController creature = hit.collider.GetComponentInParent<CreatureController>();
@@ -92,19 +93,19 @@ namespace Valmon.Gameplay
 
             // Hotkeys for abilities:
             // [1] Corrupt Creature
-            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+            if (ValmonInput.GetKey1Down())
             {
                 UseCorruptAbility();
             }
 
             // [2] Deploy Rift Trap
-            if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+            if (ValmonInput.GetKey2Down())
             {
                 UseRiftTrapAbility();
             }
 
             // [3] Rift Surge
-            if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+            if (ValmonInput.GetKey3Down())
             {
                 UseRiftSurgeAbility();
             }
@@ -137,7 +138,7 @@ namespace Valmon.Gameplay
         {
             if (currentEnergy < trapCost) return false;
 
-            Ray ray = wardenCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = wardenCamera.ScreenPointToRay(ValmonInput.GetMousePosition());
             if (Physics.Raycast(ray, out RaycastHit hit, 200f))
             {
                 currentEnergy -= trapCost;
