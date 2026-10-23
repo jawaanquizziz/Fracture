@@ -59,7 +59,7 @@ The project has **14 character assets** and **3 maps** — all ready.
 
 ### 🐉 Creature & Agent Roster
 
-![Character Roster Preview](Game/Assets/Art/Previews/character_roster_preview.jpg)
+![Character Roster Preview](Game/Assets/Art/Previews/character_roster_v2.jpg)
 
 All characters are stored under `Game/Assets/Characters/`. `.glb` and `.gltf` files import directly into Unity.
 
