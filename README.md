@@ -46,51 +46,63 @@ short battle begins.
 5.  The round is scored based on catch quality and remaining time.
 6.  Players switch roles for the next round.
 
-## Characters & Maps
+### Characters & Maps
 
-The project has **14 character assets** and **3 maps** — all ready.
+The project has **25 character assets** and **3 maps** — all ready.
 
 | Asset Type | Count |
 |---|---|
-| Creature / Agent 3D models | **14** |
+| Pokémon creature models | **21** |
+| Valorant agent models | **4** |
 | Maps / arenas | **3** ✅ |
 
 ---
 
 ### 🐉 Creature & Agent Roster
 
-![Character Roster Preview](Game/Assets/Art/Previews/character_roster_v2.jpg)
+![Character Roster Preview](Assets/Art/Previews/character_roster_v3.jpg)
 
-All characters are stored under `Game/Assets/Characters/`. `.glb` and `.gltf` files import directly into Unity.
+All characters live in `Assets/Characters/`. `.glb` / `.gltf` files import directly into Unity via drag-and-drop.
 
 #### Pokémon Creatures
 
-| # | Creature | Type | Format | Texture Preview |
-|---|----------|------|--------|-----------------|
-| 1 | **Blastoise** | Water 💧 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/blastoise/textures/pm0009_00_BodyA1.png) |
-| 2 | **Bulbasaur** | Grass/Poison 🌿 | `.glb` | — |
-| 3 | **Charizard** | Fire/Flying 🔥 | `.glb` | — |
-| 4 | **Charmeleon** | Fire 🔥 | `.fbx` | ![](Game/Assets/Characters/charmeleon-005-sv/textures/pm0005_00_00_body_a_alb.png) |
-| 5 | **Ivysaur** | Grass/Poison 🌿 | `.glb` | — |
-| 6 | **Lugia** | Psychic/Flying 🌀 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/lugia/textures/pm0249_00_Body1.png) |
-| 7 | **Rayquaza** | Dragon/Flying ⚡ | `.gltf` | ![](Game/Assets/Characters/rayquaza-remastered/textures/gltf_embedded_0.png) |
-| 8 | **Squirtle** | Water 💧 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/squirtle/textures/pm0007_00_Body1.png) |
-| 9 | **Venusaur** | Grass/Poison 🌿 | `.glb` | — |
-| 10 | **Wartortle** | Water 💧 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/wartortle/textures/pm0008_00_Body1.png) |
+| # | Creature | Type | Format |
+|---|----------|------|--------|
+| 1 | **Blastoise** | Water 💧 | `.zip` (3DS/FBX + textures) |
+| 2 | **Bulbasaur** | Grass/Poison 🌿 | `.glb` |
+| 3 | **Charizard** | Fire/Flying 🔥 | `.glb` |
+| 4 | **Charmander** | Fire 🔥 | `.zip` |
+| 5 | **Charmeleon** | Fire 🔥 | `.fbx` + textures |
+| 6 | **Chikorita** | Grass 🌿 | `.zip` |
+| 7 | **Cyndaquil** | Fire 🔥 | `.zip` |
+| 8 | **Groudon** | Ground 🌋 | `.zip` |
+| 9 | **Growlithe** | Fire 🔥 | `.zip` |
+| 10 | **Ivysaur** | Grass/Poison 🌿 | `.glb` |
+| 11 | **Lapras** | Water/Ice 💧 | `.zip` |
+| 12 | **Lugia** | Psychic/Flying 🌀 | `.zip` (3DS/FBX + textures) |
+| 13 | **Oddish** | Grass/Poison 🌿 | `.zip` |
+| 14 | **Rayquaza** | Dragon/Flying ⚡ | `.gltf` + textures |
+| 15 | **Snivy** | Grass 🌿 | `.zip` |
+| 16 | **Squirtle** | Water 💧 | `.zip` (3DS/FBX + textures) |
+| 17 | **Totodile** | Water 💧 | `.zip` |
+| 18 | **Vaporeon** | Water 💧 | `.zip` |
+| 19 | **Venusaur** | Grass/Poison 🌿 | `.glb` |
+| 20 | **Vulpix** | Fire 🔥 | `.zip` |
+| 21 | **Wartortle** | Water 💧 | `.zip` (3DS/FBX + textures) |
 
 #### Valorant Agents
 
 | # | Agent | Role | Format |
 |---|-------|------|--------|
-| 11 | **Clove** | Controller 💜 | `.glb` |
-| 12 | **Gekko** | Initiator 🟢 | `.glb` |
-| 13 | **Reyna** | Duelist 🔴 | `.glb` |
-| 14 | **Tejo** | Initiator 🟡 | `.glb` |
+| 22 | **Clove** | Controller 💜 | `.glb` |
+| 23 | **Gekko** | Initiator 🟢 | `.glb` |
+| 24 | **Reyna** | Duelist 🔴 | `.glb` |
+| 25 | **Tejo** | Initiator 🟡 | `.glb` |
 
-> **Unity import:** `.glb` / `.gltf` drag-and-drop directly into Unity. For `.zip` archives, extract first and import the inner FBX. Apply textures from each character's `/textures/` subfolder as the **Albedo** on the material.
+> **Unity import:** `.glb` / `.gltf` → drag into Unity Project window. For `.zip` archives → extract, then import the inner `.fbx` file. Assign textures from the character's `/textures/` folder as the **Albedo** map on the material.
 
 **Prop:**
-- 🔵 **Poke Ball** — `.glb` (`poke_ball.glb`) — ready to use as an in-game capture prop.
+- 🔵 **Poke Ball** — `poke_ball.glb` — ready to use as an in-game capture prop.
 
 ---
 
