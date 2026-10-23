@@ -1,10 +1,8 @@
-::: {align="center"}
 # Valcom
 
 ### Catch the creature. Resist the corruption. Master the rift.
 
 **An asymmetric multiplayer creature-catching game built with Unity.**
-:::
 
 ------------------------------------------------------------------------
 
@@ -50,44 +48,63 @@ short battle begins.
 
 ## Characters & Maps
 
-The project has **6 creature assets** and **1 map** (2 more planned).
+The project has **14 character assets** and **3 maps** — all ready.
 
 | Asset Type | Count |
 |---|---|
-| Creature 3D models | **6** |
-| Maps / arenas | **1** ready · 2 planned |
+| Creature / Agent 3D models | **14** |
+| Maps / arenas | **3** ✅ |
 
 ---
 
-### 🐉 Creature Roster
+### 🐉 Creature & Agent Roster
 
 ![Character Roster Preview](Game/Assets/Art/Previews/character_roster_preview.jpg)
 
-All six creatures have full 3D models with texture sets stored under `Game/Assets/Characters/`.
+All characters are stored under `Game/Assets/Characters/`. `.glb` and `.gltf` files import directly into Unity.
 
-| # | Creature | Type | 3D Format | Body Texture |
-|---|----------|------|-----------|--------------|
-| 1 | **Blastoise** | Water 💧 | `.zip` (3DS source) | ![](Game/Assets/Characters/blastoise/textures/pm0009_00_BodyA1.png) |
-| 2 | **Charmeleon** | Fire 🔥 | `.fbx` | ![](Game/Assets/Characters/charmeleon-005-sv/textures/pm0005_00_00_body_a_alb.png) |
-| 3 | **Lugia** | Psychic/Flying 🌀 | `.zip` (3DS source) | ![](Game/Assets/Characters/lugia/textures/pm0249_00_Body1.png) |
-| 4 | **Rayquaza** | Dragon/Flying ⚡ | `.gltf` | ![](Game/Assets/Characters/rayquaza-remastered/textures/gltf_embedded_0.png) |
-| 5 | **Squirtle** | Water 💧 | `.zip` (3DS source) | ![](Game/Assets/Characters/squirtle/textures/pm0007_00_Body1.png) |
-| 6 | **Wartortle** | Water 💧 | `.zip` (3DS source) | ![](Game/Assets/Characters/wartortle/textures/pm0008_00_Body1.png) |
+#### Pokémon Creatures
 
-> **Unity import note:** `.fbx` and `.gltf` import directly into Unity. For `.zip` archives, extract first and import the inner 3DS/FBX file. Apply each character's `/textures/` folder images as the **Albedo** map on the Unity material.
+| # | Creature | Type | Format | Texture Preview |
+|---|----------|------|--------|-----------------|
+| 1 | **Blastoise** | Water 💧 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/blastoise/textures/pm0009_00_BodyA1.png) |
+| 2 | **Bulbasaur** | Grass/Poison 🌿 | `.glb` | — |
+| 3 | **Charizard** | Fire/Flying 🔥 | `.glb` | — |
+| 4 | **Charmeleon** | Fire 🔥 | `.fbx` | ![](Game/Assets/Characters/charmeleon-005-sv/textures/pm0005_00_00_body_a_alb.png) |
+| 5 | **Ivysaur** | Grass/Poison 🌿 | `.glb` | — |
+| 6 | **Lugia** | Psychic/Flying 🌀 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/lugia/textures/pm0249_00_Body1.png) |
+| 7 | **Rayquaza** | Dragon/Flying ⚡ | `.gltf` | ![](Game/Assets/Characters/rayquaza-remastered/textures/gltf_embedded_0.png) |
+| 8 | **Squirtle** | Water 💧 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/squirtle/textures/pm0007_00_Body1.png) |
+| 9 | **Venusaur** | Grass/Poison 🌿 | `.glb` | — |
+| 10 | **Wartortle** | Water 💧 | `.zip` (3DS/FBX) | ![](Game/Assets/Characters/wartortle/textures/pm0008_00_Body1.png) |
+
+#### Valorant Agents
+
+| # | Agent | Role | Format |
+|---|-------|------|--------|
+| 11 | **Clove** | Controller 💜 | `.glb` |
+| 12 | **Gekko** | Initiator 🟢 | `.glb` |
+| 13 | **Reyna** | Duelist 🔴 | `.glb` |
+| 14 | **Tejo** | Initiator 🟡 | `.glb` |
+
+> **Unity import:** `.glb` / `.gltf` drag-and-drop directly into Unity. For `.zip` archives, extract first and import the inner FBX. Apply textures from each character's `/textures/` subfolder as the **Albedo** on the material.
+
+**Prop:**
+- 🔵 **Poke Ball** — `.glb` (`poke_ball.glb`) — ready to use as an in-game capture prop.
 
 ---
 
 ### 🗺️ Maps / Arenas
 
+All 3 maps are ready as Blender scenes.
+
 | Stage | Map | File | Format | Status |
 |-------|-----|------|--------|--------|
-| Stage 1 | **Map 1** | `map 1.blend` | Blender scene | ✅ Asset ready |
-| Stage 2 | Map 2 | — | TBD | 🔲 Planned |
-| Stage 3 | Map 3 | — | TBD | 🔲 Planned |
+| Stage 1 | **Map 1** | `map 1.blend` | Blender scene | ✅ Ready |
+| Stage 2 | **Map 2** | `map2.blend` | Blender scene | ✅ Ready |
+| Stage 3 | **Map 3** | `map3.blend` | Blender scene | ✅ Ready |
 
-**Map 1** is located at `Game/Assets/Maps/map 1.blend`.  
-To use in Unity: open in Blender → **File → Export → FBX** → save to `Game/Assets/Maps/` → import the `.fbx` into Unity.
+**To use in Unity:** Open each `.blend` in Blender → **File → Export → FBX** → save to `Game/Assets/Maps/` → import the `.fbx` into Unity and set up materials in the inspector.
 
 ## Planned Features
 
