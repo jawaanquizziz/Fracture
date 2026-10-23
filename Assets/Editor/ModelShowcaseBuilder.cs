@@ -228,7 +228,7 @@ namespace Valmon.Editor
 
         private static void SetupLighting(Transform root)
         {
-            Light dirLight = Object.FindFirstObjectByType<Light>();
+            Light dirLight = Object.FindAnyObjectByType<Light>();
             if (dirLight != null && dirLight.type == LightType.Directional)
             {
                 dirLight.transform.rotation = Quaternion.Euler(45f, -35f, 0f);

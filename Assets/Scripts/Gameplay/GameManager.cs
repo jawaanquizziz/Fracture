@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Valmon.Environment;
 
 namespace Valmon.Gameplay
 {
@@ -154,7 +155,7 @@ namespace Valmon.Gameplay
         public void SwitchMap(int mapIndex)
         {
             currentMapIndex = Mathf.Clamp(mapIndex, 0, 2);
-            ArenaManager arena = FindFirstObjectByType<ArenaManager>();
+            ArenaManager arena = FindAnyObjectByType<ArenaManager>();
             if (arena != null)
             {
                 arena.LoadArena(currentMapIndex);

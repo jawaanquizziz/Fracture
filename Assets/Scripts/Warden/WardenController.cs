@@ -118,7 +118,7 @@ namespace Valmon.Gameplay
             CreatureController target = selectedCreature;
             if (target == null)
             {
-                target = FindFirstObjectByType<CreatureController>();
+                target = FindAnyObjectByType<CreatureController>();
             }
 
             if (target != null && !target.isCorrupted)

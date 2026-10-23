@@ -236,7 +236,7 @@ namespace Valmon.Network
                         break;
 
                     case "CORRUPT":
-                        CreatureController[] creatures = FindObjectsByType<CreatureController>(FindObjectsSortMode.None);
+                        CreatureController[] creatures = FindObjectsByType<CreatureController>();
                         if (packet.targetIndex >= 0 && packet.targetIndex < creatures.Length)
                         {
                             creatures[packet.targetIndex].SetCorrupted(true);

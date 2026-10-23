@@ -135,13 +135,17 @@ namespace Valmon.Environment
 
         private void SpawnArenaCreatures()
         {
+            string[] creatureAssetNames = new[] { "bulbasaur", "charizard", "ivysaur", "Squirtle" };
+            string[] displayNames = new[] { "Bulbasaur", "Charizard", "Ivysaur", "Squirtle" };
+
             for (int i = 0; i < creatureSpawnOffsets.Length; i++)
             {
                 Vector3 spawnPos = creatureSpawnOffsets[i];
-                string[] names = new[] { "bulbasaur", "charizard", "ivysaur", "Squirtle" };
-                if (prefab == null && i < names.Length)
+                GameObject prefab = (creaturePrefabs != null && i < creaturePrefabs.Length) ? creaturePrefabs[i] : null;
+
+                if (prefab == null && i < creatureAssetNames.Length)
                 {
-                    prefab = Resources.Load<GameObject>($"Characters/{names[i]}");
+                    prefab = Resources.Load<GameObject>($"Characters/{creatureAssetNames[i]}");
                 }
 
                 GameObject creatureObj;
@@ -162,8 +166,7 @@ namespace Valmon.Environment
                 if (cc == null) cc = creatureObj.AddComponent<CreatureController>();
 
                 // Configure creature names
-                string[] names = new[] { "Bulbasaur", "Charizard", "Ivysaur", "Squirtle" };
-                if (i < names.Length) cc.creatureName = names[i];
+                if (i < displayNames.Length) cc.creatureName = displayNames[i];
 
                 activeCreatures.Add(creatureObj);
             }
