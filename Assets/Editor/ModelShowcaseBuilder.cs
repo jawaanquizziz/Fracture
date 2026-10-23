@@ -9,21 +9,27 @@ namespace Valmon.Editor
     [InitializeOnLoad]
     public static class ModelShowcaseBuilder
     {
-        private static readonly string[] ValorantPaths = new string[]
+        private static readonly (string name, string[] fallbackPaths, float height)[] ValorantRoster = new[]
         {
-            "Assets/Models/Valorant/Clove.glb",
-            "Assets/Models/Valorant/Gekko.glb",
-            "Assets/Models/Valorant/Reyna.glb",
-            "Assets/Models/Valorant/Tejo.glb"
+            ("Clove", new[] { "Assets/Characters/clove__valorant.glb", "Assets/Models/Valorant/Clove.glb" }, 1.8f),
+            ("Gekko", new[] { "Assets/Characters/gekko__valorant.glb", "Assets/Models/Valorant/Gekko.glb" }, 1.8f),
+            ("Reyna", new[] { "Assets/Characters/reyna__valorant.glb", "Assets/Models/Valorant/Reyna.glb" }, 1.8f),
+            ("Tejo", new[] { "Assets/Characters/tejo__valorant.glb", "Assets/Models/Valorant/Tejo.glb" }, 1.8f)
         };
 
-        private static readonly string[] PokemonPaths = new string[]
+        private static readonly (string name, string[] fallbackPaths, float height)[] PokemonRoster = new[]
         {
-            "Assets/Models/Pokemon/Bulbasaur.glb",
-            "Assets/Models/Pokemon/Ivysaur.glb",
-            "Assets/Models/Pokemon/Venusaur.glb",
-            "Assets/Models/Pokemon/Charizard.glb",
-            "Assets/Models/Pokemon/PokeBall.glb"
+            ("Bulbasaur", new[] { "Assets/Characters/bulbasaur.glb", "Assets/Models/Pokemon/Bulbasaur.glb" }, 0.7f),
+            ("Ivysaur", new[] { "Assets/Characters/ivysaur.glb", "Assets/Models/Pokemon/Ivysaur.glb" }, 1.0f),
+            ("Venusaur", new[] { "Assets/Characters/venusaur.glb", "Assets/Models/Pokemon/Venusaur.glb" }, 1.6f),
+            ("Charizard", new[] { "Assets/Characters/charizard.glb", "Assets/Models/Pokemon/Charizard.glb" }, 2.2f),
+            ("Charmeleon", new[] { "Assets/Characters/charmeleon-005-sv/Charmeleon.fbx", "Assets/Characters/charmeleon-005-sv/source/charmeleon-sv.fbx" }, 1.2f),
+            ("Rayquaza", new[] { "Assets/Characters/rayquaza-remastered/Rayquaza.gltf", "Assets/Characters/rayquaza-remastered/source/model.gltf" }, 2.5f),
+            ("Blastoise", new[] { "Assets/Characters/blastoise/Blastoise.fbx" }, 1.7f),
+            ("Squirtle", new[] { "Assets/Characters/squirtle/Squirtle.fbx" }, 0.6f),
+            ("Wartortle", new[] { "Assets/Characters/wartortle/Wartortle.fbx" }, 1.0f),
+            ("Lugia", new[] { "Assets/Characters/lugia/Lugia.fbx" }, 2.6f),
+            ("PokeBall", new[] { "Assets/Characters/poke_ball.glb", "Assets/Models/Pokemon/PokeBall.glb" }, 0.45f)
         };
 
         static ModelShowcaseBuilder()
@@ -78,51 +84,40 @@ namespace Valmon.Editor
 
             // 2. Instantiate Valorant Agents (Back Row)
             float valorantSpacing = 2.4f;
-            float valorantStartX = -((ValorantPaths.Length - 1) * valorantSpacing) / 2f;
-            float valorantZ = 2.2f;
+            float valorantStartX = -((ValorantRoster.Length - 1) * valorantSpacing) / 2f;
+            float valorantZ = 2.4f;
 
-            for (int i = 0; i < ValorantPaths.Length; i++)
+            for (int i = 0; i < ValorantRoster.Length; i++)
             {
-                string path = ValorantPaths[i];
-                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                if (prefab == null)
-                {
-                    Debug.LogWarning($"[Valmon] Could not load model at: {path}");
-                    continue;
-                }
+                var entry = ValorantRoster[i];
+                GameObject prefab = LoadFirstAvailableAsset(entry.fallbackPaths);
+                if (prefab == null) continue;
 
                 GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, showcaseRoot.transform);
                 if (instance == null) instance = Object.Instantiate(prefab, showcaseRoot.transform);
 
-                instance.name = Path.GetFileNameWithoutExtension(path) + " (Valorant)";
+                instance.name = entry.name + " (Valorant)";
                 Vector3 targetPos = new Vector3(valorantStartX + i * valorantSpacing, 0f, valorantZ);
-                NormalizeAndGround(instance, targetHeight: 1.8f, targetPos);
+                NormalizeAndGround(instance, targetHeight: entry.height, targetPos);
             }
 
             // 3. Instantiate Pokemon Models (Front Row)
-            float pokemonSpacing = 2.0f;
-            float pokemonStartX = -((PokemonPaths.Length - 1) * pokemonSpacing) / 2f;
+            float pokemonSpacing = 1.8f;
+            float pokemonStartX = -((PokemonRoster.Length - 1) * pokemonSpacing) / 2f;
             float pokemonZ = -0.5f;
 
-            float[] targetHeights = new float[] { 0.7f, 1.0f, 1.6f, 2.2f, 0.45f };
-
-            for (int i = 0; i < PokemonPaths.Length; i++)
+            for (int i = 0; i < PokemonRoster.Length; i++)
             {
-                string path = PokemonPaths[i];
-                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                if (prefab == null)
-                {
-                    Debug.LogWarning($"[Valmon] Could not load model at: {path}");
-                    continue;
-                }
+                var entry = PokemonRoster[i];
+                GameObject prefab = LoadFirstAvailableAsset(entry.fallbackPaths);
+                if (prefab == null) continue;
 
                 GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, showcaseRoot.transform);
                 if (instance == null) instance = Object.Instantiate(prefab, showcaseRoot.transform);
 
-                instance.name = Path.GetFileNameWithoutExtension(path) + " (Pokemon)";
+                instance.name = entry.name + " (Pokemon)";
                 Vector3 targetPos = new Vector3(pokemonStartX + i * pokemonSpacing, 0f, pokemonZ);
-                float h = (i < targetHeights.Length) ? targetHeights[i] : 1.0f;
-                NormalizeAndGround(instance, targetHeight: h, targetPos);
+                NormalizeAndGround(instance, targetHeight: entry.height, targetPos);
             }
 
             // 4. Configure Camera
@@ -253,6 +248,19 @@ namespace Valmon.Editor
                 fillLight.intensity = 0.6f;
                 fillLight.color = new Color(0.7f, 0.8f, 1f);
             }
+        }
+
+        private static GameObject LoadFirstAvailableAsset(string[] paths)
+        {
+            foreach (var path in paths)
+            {
+                if (File.Exists(path))
+                {
+                    var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    if (asset != null) return asset;
+                }
+            }
+            return null;
         }
     }
 }
