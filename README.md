@@ -170,25 +170,3 @@ created or confirmed:
     multiplayer development begins.
 5.  Test networking with two clients before building gameplay systems
     that depend on it.
-
-Do not commit private credentials or secrets to version control.
-
-## Project Status
-
-**Early development / setup stage.** The five character assets and three
-maps are available for organization. Gameplay systems described above
-are planned and should not be considered implemented until they have
-been built and tested.
-
-## Credits & License
-
-Add credits for third-party character, map, and other assets before
-publishing. No license was specified in the planning document; add a
-`LICENSE` file before public distribution and verify third-party asset
-licenses.
-
-------------------------------------------------------------------------
-
-::: {align="center"}
-**Valcom** · *Every catch has a cost.*
-:::
