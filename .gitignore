@@ -1,4 +1,4 @@
-﻿# Unity .gitignore
+# Unity .gitignore
 # Generated for Rift Tamer / Fracture Unity project
 
 # Unity generated folders
@@ -20,6 +20,8 @@
 *.csproj
 *.unityproj
 *.sln
+*.slnx
+.vsconfig
 *.suo
 *.tmp
 *.user
