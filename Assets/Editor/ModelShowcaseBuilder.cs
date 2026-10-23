@@ -66,7 +66,7 @@ namespace Valmon.Editor
         {
             if (createNewScene)
             {
-                Scene newScene = EditorSceneManager.NewScene(NewSetup.DefaultGameObjects, NewSceneMode.Single);
+                Scene newScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
             }
 
             // Remove existing showcase root if present
