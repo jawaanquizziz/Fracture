@@ -1,0 +1,57 @@
+﻿# Unity .gitignore
+# Generated for Rift Tamer / Fracture Unity project
+
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+
+# Unity asset meta files (keep .meta files, but exclude these)
+# MemoryCaptures/
+
+# Visual Studio / Rider cache
+.vs/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.BIN/
+
+# Photon - DO NOT commit your App ID
+# PhotonAppSettings.asset is safe to commit only if AppId is blank
+# Recommended: add the real AppSettings to .gitignore if it contains secrets
+# Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+
+# Crash reports
+sysinfo.txt
+crashlytics-build.properties
