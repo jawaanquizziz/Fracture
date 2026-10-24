@@ -1,0 +1,585 @@
+VBCSCompilerPreWarmer: watching VBCSCompiler (PID 36948)
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 23748)
+VBCSCompiler prewarm took 98.20 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Channel LicenseClient-Jawaan Santh doesn't exist
+Built from '6000.6/staging' branch; Version is '6000.6.7f1 (b22767f04f04) revision 11675495'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26300) CoreSingleLanguage' Language: 'en' Physical Memory: 16011 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-24T05:23:33Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 34728)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Jawaan Santh" at "2026-10-24T05:23:34.1265261Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 34728, path: "C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              9beafaa56b87444e9c8f7fef130b16c1
+  Correlation Id:          b3daf2fcce91b049b1ca5f10569378dd
+  External correlation Id: 8333732430091980735
+  Machine Id:              Ymu1LoysUqkTB7kQqclBivRcJoQ=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Jawaan Santh" (connect: 0.86s, validation: 0.23s, handshake: 0.11s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Jawaan Santh-notifications" at "2026-10-24T05:23:34.4732138Z"
+[Licensing::Module] Connected to LicensingClient (PId: 34728, launch time: 0.02, total connection time: 1.20s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 13469987563184-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 1.33s
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.6.7f1\Editor\Unity.exe
+-quit
+-batchmode
+-projectPath
+c:\Users\Jawaan Santh\Desktop\fracture
+-executeMethod
+Valmon.Editor.CampaignBuilder.Build
+-logFile
+c:\Users\Jawaan Santh\Desktop\fracture\build_vector_test.log
+Successfully changed project path to: c:\Users\Jawaan Santh\Desktop\fracture
+C:/Users/Jawaan Santh/Desktop/fracture
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.
+Player connection [23224]  Target information:
+
+Player connection [23224]  * "[IP] 192.168.56.1 [Port] 55504 [Flags] 2 [Guid] 1438121042 [EditorId] 1438121042 [Version] 1048832 [Id] WindowsEditor(7,LAPTOP-E4S58GAK) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [23224]  * "[IP] 10.210.139.106 [Port] 55504 [Flags] 2 [Guid] 1438121042 [EditorId] 1438121042 [Version] 1048832 [Id] WindowsEditor(7,LAPTOP-E4S58GAK) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [23224] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [23224] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-4524" after 0.5 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Launching Unity Data Store - C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/Tools/Unity.DataStore.exe 
+Unity Data Store artifact dir = Library/DataStore, working dir = C:/Users/Jawaan Santh/Desktop/fractureUnity Data Store running and initialised
+Refreshing native plugins compatible for Editor in 2.93 ms, found 0 plugins.
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.6.7f1 (b22767f04f04)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=262144, entitiesPerBlock=1024, blocksPerSlotPage=0, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Jawaan Santh/Desktop/fracture/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.2]
+    Renderer:        NVIDIA GeForce RTX 4050 Laptop GPU (ID=0x28e1)
+    Vendor:          NVIDIA
+    VRAM:            5921 MB
+    App VRAM Budget: 5153 MB
+    Driver:          32.0.15.7705
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56524
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.008428 seconds.
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  2.302 seconds
+Domain Reload Profiling: 3755ms
+	BeginReloadAssembly (359ms)
+		CreateAndSetChildDomain (29ms)
+	RebuildCommonClasses (11ms)
+	RebuildNativeTypeToScriptingClass (39ms)
+	initialDomainReloadingComplete (178ms)
+	LoadAllAssembliesAndSetupDomain (864ms)
+		LoadAssemblies (319ms)
+		TypeCache.Refresh (597ms)
+			TypeCache.ScanAssembly (556ms)
+		AnalyzeDomain (1ms)
+	FinalizeReload (2305ms)
+		SetupLoadedEditorAssemblies (0ms)
+			LogAssemblyErrors (4ms)
+			InitializePlatformSupportModulesInManaged (5ms)
+			BeforeProcessingInitializeOnLoad (289ms)
+			ProcessInitializeOnLoadAttributes (257ms)
+			ProcessInitializeOnLoadMethodAttributes (1166ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 63 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.assistant@2.21.0-pre.1 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.ai.assistant@a0bce5f1cc56)
+    com.unity.ai.inference@2.6.1 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.ai.inference@9a123aee5df7)
+    com.unity.cloud.gltfast@6.14.1 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.cloud.gltfast@0847aee0f6da)
+    com.unity.collab-proxy@2.13.6 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.collab-proxy@4628d2ba6ea4)
+    com.unity.ide.rider@3.1.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.ide.rider@570989d4a882)
+    com.unity.ide.visualstudio@2.0.28 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.ide.visualstudio@b5edea5f33f4)
+    com.unity.inputsystem@1.20.1 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.inputsystem@2436e68c60c4)
+    com.unity.dt.app-ui@2.2.4 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.nuget.mono-cecil@1.11.6 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.searcher@4.9.5 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.searcher@a463122f2c00)
+    com.unity.profiling.core@1.0.3 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.profiling.core@8a49f7027d06)
+  Built-in packages:
+    com.unity.render-pipelines.universal@17.6.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.render-pipelines.universal@ffe395a3a1d1)
+    com.unity.ugui@2.6.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.ugui@eb824e41fbc7)
+    com.unity.modules.accessibility@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tetgen@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.tetgen)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.timelinefoundation@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.timelinefoundation)
+    com.unity.modules.ui@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.render-pipelines.core@17.6.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.render-pipelines.core@13460d8ea9e5)
+    com.unity.shadergraph@17.6.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.shadergraph@8b7e693cdbfe)
+    com.unity.render-pipelines.universal-config@17.6.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.render-pipelines.universal-config@561422b74439)
+    com.unity.test-framework@1.8.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.test-framework@ee3fe9477490)
+    com.unity.burst@2.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.burst@626e66ab421b)
+    com.unity.collections@6.6.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.collections@4920e8897b5a)
+    com.unity.mathematics@1.4.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.mathematics@8306a64d0cd6)
+    com.unity.2d.sprite@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.2d.sprite@752945c75a6f)
+    com.unity.graph-authoring@1.0.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.graph-authoring@cfd2588851ee)
+    com.unity.ext.nunit@2.1.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.ext.nunit@0198eae3b53e)
+    com.unity.test-framework.performance@6.6.0 (location: C:\Users\Jawaan Santh\Desktop\fracture\Library\PackageCache\com.unity.test-framework.performance@e8b39e3ef3d9)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.18 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Refreshing native plugins compatible for Editor in 35.71 ms, found 5 plugins.
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.7f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/Jawaan Santh/Desktop/fracture
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 16s
+[1142/1508  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1500/1508  2s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets\Scripts\Campaign\CampaignIntroCapture.cs(1,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\CampaignNetworkSmoke.cs(1,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\CampaignSmoke.cs(1,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\LanUdpTransport.cs(37,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\LanUdpTransport.cs(100,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\CampaignController.cs(84,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\CampaignNetwork.cs(264,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\CampaignNetwork.cs(303,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+
+Assets\Scripts\Campaign\CampaignRounds.cs(31,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+[1501/1508  1s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[BUSY       7s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+[1502/1508 11s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 152 defines and 367 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+[1503/1508  9s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 150 defines and 387 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+[1504/1508  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[1505/1508  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[1506/1508  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[1507/1508  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (15.99 seconds), 9 items updated, 1508 evaluated
+Assets\Scripts\Campaign\CampaignIntroCapture.cs(1,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\CampaignNetworkSmoke.cs(1,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\CampaignSmoke.cs(1,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\LanUdpTransport.cs(37,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\LanUdpTransport.cs(100,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\CampaignController.cs(84,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\CampaignNetwork.cs(264,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\CampaignNetwork.cs(303,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+Assets\Scripts\Campaign\CampaignRounds.cs(31,21): warning UAC0009: DEVELOPMENT_BUILD preprocessor directive has been deprecated. Please use one of the managed code variant directives (such as DEBUG, UNITY_ENABLE_CHECKS or UNITY_INCLUDE_INSTRUMENTATION) if different code paths are desired for different managed code variants. Checking for development build is possible at runtime using Debug.isDebugBuild. See the Conditional Compilation manual page for more details.
+AssetDatabase: script compilation time: 18.243333s
+Begin MonoManager ReloadAssembly
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+Refreshing native plugins compatible for Editor in 17.95 ms, found 5 plugins.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 35.41 ms, found 5 plugins.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  8.449 seconds
+Domain Reload Profiling: 12772ms
+	BeginReloadAssembly (968ms)
+		DisableScriptedObjects (79ms)
+		CreateAndSetChildDomain (312ms)
+	RebuildCommonClasses (19ms)
+	RebuildNativeTypeToScriptingClass (36ms)
+	initialDomainReloadingComplete (292ms)
+	LoadAllAssembliesAndSetupDomain (3006ms)
+		LoadAssemblies (1639ms)
+		TypeCache.Refresh (937ms)
+			TypeCache.ScanAssembly (892ms)
+		AnalyzeDomain (226ms)
+			BuildScriptInfoCaches (211ms)
+			ResolveRequiredComponents (11ms)
+	FinalizeReload (8451ms)
+		SetupLoadedEditorAssemblies (0ms)
+			LogAssemblyErrors (7ms)
+			InitializePlatformSupportModulesInManaged (6ms)
+			BeforeProcessingInitializeOnLoad (425ms)
+			ProcessInitializeOnLoadAttributes (5108ms)
+			ProcessInitializeOnLoadMethodAttributes (1179ms)
+			AfterProcessingInitializeOnLoad (35ms)
+			EditorAssembliesLoaded (8ms)
+		AwakeInstancesAfterBackupRestoration (89ms)
+Starting new worker id: 0 with log in C:/Users/Jawaan Santh/Desktop/fracture/Logs/AssetImportWorkerHW0.log
+Refreshing native plugins compatible for Editor in 34.64 ms, found 5 plugins.
+Preloading 2 native plugins for Editor in 31.30 ms.
+
+Asset Pipeline Refresh (id=ab7a56cde763f35468ec3d707d1b4b14): Total: 36.517 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=11184 ms
+		Asset DB Callback time: managed=1917 ms, native=314 ms
+		Scripting: domain reloads=1, domain reload time=4630 ms, compile time=18255 ms, other=210 ms
+		Project Asset Count: scripts=2032, non-scripts=5499
+		Asset File Changes: new=0, changed=3, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 189.799ms
+	ApplyChangesToAssetFolders: 2.119ms
+	Scan: 518.437ms
+	Collect global state as custom dependencies: 67.272ms
+	OnSourceAssetsModified: 2.207ms
+	CategorizeScriptCompilationAssets: 189.694ms
+	ProcessAssetsWithTransientArtifactChanges: 254.345ms
+	CategorizeAssets: 631.347ms
+	CompileScripts: 18255.436ms
+	ImportOutOfDateAssets: 8713.599ms (8528.144ms without children)
+		ReloadNativeAssets: 0.772ms
+		UnloadImportedAssets: 3.131ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 4.545ms
+		ImportSchedulerStart: 176.898ms
+	PostProcessAllAssets: 1940.892ms
+		VCAutoAddAssetPostprocess 11.085ms
+		XRBuildSystem.XRAssetImported 4.120ms
+		PostProcessCallbackCreateDeferredMaterials 1.037ms
+		WindowTitlePostprocess 0.698ms
+		RaytracingShaderImportPostprocess 0.106ms
+		MonoPostProcessAllAssets: 1916.417ms
+			AssetPostprocessor.OnPostprocessAllAssets 858.165ms
+			AssetReferenceReimportMonitor.OnPostprocessAllAssets 113.667ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 79.381ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 60.197ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 36.382ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 22.988ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 11.861ms
+			SyncVS.PostprocessSyncProject 11.216ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 10.887ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 7.589ms
+			AssetChangedListener.OnPostprocessAllAssets 6.027ms
+			AssetChangeDetector.OnPostprocessAllAssets 5.015ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 4.421ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 4.219ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 3.521ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 3.278ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 3.268ms
+			MaterialPostprocessor.OnPostprocessAllAssets 3.044ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 2.869ms
+			ModelAssetProcessor.OnPostprocessAllAssets 2.817ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 2.480ms
+			PostProcessor.OnPostprocessAllAssets 2.191ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 2.167ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 2.066ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 2.047ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 2.018ms
+			ThemePostprocessor.OnPostprocessAllAssets 1.599ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 1.402ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 1.151ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 1.020ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.822ms
+			SkillsProjectAssetPostprocessor.OnPostprocessAllAssets 0.822ms
+			AssetEvents.OnPostprocessAllAssets 0.658ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.458ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.429ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.410ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.284ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.275ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.223ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.223ms
+			TrackSelectedAssetsProcessor.OnPostprocessAllAssets 0.219ms
+	PostAssetChangesProfiler: 106.880ms
+	UnloadStreamsBegin: 3.027ms
+	PersistCurrentRevisions: 1.227ms
+	GenerateScriptTypeHashes: 8.855ms
+	GenerateScriptTypeSerializationHashes: 13.156ms
+	Untracked: 5610.999ms
+
+Application.AssetDatabase Initial Refresh End
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
+Scanning for USB devices : 14.321ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-VALMON
+Unloading 202 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 8835 unused Assets / (31.5 MB). Loaded Objects now: 9606.
+Memory consumption went from 0.54 GB to 0.51 GB.
+Total: 52.400200 ms (FindLiveObjects: 1.158100 ms CreateObjectMapping: 1.205500 ms MarkObjects: 34.976200 ms  DeleteObjects: 13.884700 ms)
+
+
+Asset Pipeline Refresh (id=a7dc1d4be3d5f874bac38ba84b75dc78): Total: 0.304 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=304 ms
+		Asset DB Callback time: managed=0 ms, native=0 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2032, non-scripts=5499
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	ApplyChangesToAssetFolders: 0.183ms
+	Scan: 65.347ms
+	Collect global state as custom dependencies: 1.702ms
+	ProcessAssetsWithTransientArtifactChanges: 0.203ms
+	CategorizeAssets: 168.857ms
+	ImportOutOfDateAssets: 3.220ms (0.674ms without children)
+		ReloadNativeAssets: 0.062ms
+		UnloadImportedAssets: 0.098ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.743ms
+		ImportSchedulerStart: 0.636ms
+	GatherAllCurrentPrimaryImportResultRevisions: 1.554ms
+	UnloadStreamsBegin: 0.120ms
+	PersistCurrentRevisions: 0.388ms
+	Untracked: 53.746ms
+
+Asset Pipeline Refresh (id=240db1385a50ad6428e12112e727d15e): Total: 0.046 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Importing 'GUID: c87135438aa65084a9becfb50971e694 - Path: Assets/Characters/ImportedCharacters/ReynaWalking.fbx' with importer (FBXImporter)
+Imported 'GUID: c87135438aa65084a9becfb50971e694' -> (Import Result ID: 'c09a78f0150298ac8052f55e363d53f1') in 0.683 seconds [static dependencies only]. Details - ImportResultOutputID=e271fae94a5191a10336585f5f502e93 DependenciesID=36ef1e2f73701423436d7013cba072f6 StaticDependenciesID=8b681fc95dc48d2952ad56f92d7a808e 
+Refreshing native plugins compatible for Editor in 19.21 ms, found 5 plugins.
+
+Asset Pipeline Refresh (id=e107e93f2aa29354284bdf13b5b14ab9): Total: 0.916 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=29 ms, native=743 ms
+		Asset DB Callback time: managed=15 ms, native=127 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2032, non-scripts=5499
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 4
+	ApplyChangesToAssetFolders: 0.203ms
+	Scan: 32.580ms
+	Collect global state as custom dependencies: 0.935ms
+	ProcessAssetsWithTransientArtifactChanges: 0.562ms
+	CategorizeAssets: 14.314ms
+	ImportOutOfDateAssets: 706.851ms (1.094ms without children)
+		ImportManagerImport: 699.003ms (7.715ms without children)
+			UpdateCategorizedAssets: 0.088ms
+		ReloadNativeAssets: 0.080ms
+		UnloadImportedAssets: 2.669ms
+		ReloadImportedAssets: 5.617ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 3.369ms
+		ImportSchedulerStart: 0.612ms
+	PostProcessAllAssets: 116.352ms
+		XRBuildSystem.XRAssetImported 99.828ms
+		MonoPostProcessAllAssets: 15.899ms
+			AssetPostprocessor.OnPostprocessAllAssets 11.785ms
+			SyncVS.PostprocessSyncProject 0.906ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.672ms
+			AssetChangedListener.OnPostprocessAllAssets 0.587ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.356ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 0.178ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 0.145ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.114ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 0.092ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.073ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.057ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.051ms
+	PostAssetChangesProfiler: 26.633ms
+	GatherAllCurrentPrimaryImportResultRevisions: 2.183ms
+	UnloadStreamsBegin: 1.667ms
+	PersistCurrentRevisions: 0.687ms
+	Untracked: 12.463ms
+
+Importing 'GUID: 0000000000000000b000000000000000 - Path: ProjectSettings/EditorBuildSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 0000000000000000b000000000000000' -> (Import Result ID: '2e81c7a029f30e76ac333b9502a4be87') in 0.037 seconds [static dependencies only]. Details - ImportResultOutputID=0a89a5c5f492143e0fa186859e17ba6f DependenciesID=b4850c5d0d46454b853fa4fe0ffe4a4e StaticDependenciesID=bff0d16e2a2258c44bafbdf63fb2766b 
+Importing 'GUID: b8cdff0d4ef8027479e02064ca4cd078 - Path: Assets/Campaign/Materials/3P_Vampire_CS_FX_Inst.mat' with importer (NativeFormatImporter)
+Imported 'GUID: b8cdff0d4ef8027479e02064ca4cd078' -> (Import Result ID: 'a8a5426a2df442ba2132ad0f58761f4a') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=3baf743f2b79d95e7ae8ef00b82164d5 DependenciesID=182f528ad3355266cf2c04fb4d804ce3 StaticDependenciesID=7fd403e97581ba209d23a51efcc6f6db 
+Importing 'GUID: ab3a10c71eb5ae14ca9af96b70c39a6b - Path: Assets/Campaign/Materials/TP_Core_Eye_MI_Reyna.mat' with importer (NativeFormatImporter)
+Imported 'GUID: ab3a10c71eb5ae14ca9af96b70c39a6b' -> (Import Result ID: 'f0817741c416f8093899d5801bd83e63') in 0.004 seconds [static dependencies only]. Details - ImportResultOutputID=3e8883b215e4a10ae46d77837a45fd11 DependenciesID=1b2cb44b0ea6d9c00ae069072eb72c23 StaticDependenciesID=600661d5c2c4358e96ed1490a028c4b4 
+Importing 'GUID: 5fb27c75653e2cd479a34242deafac9c - Path: Assets/Campaign/Materials/3P_Vampire_CS_FX_Hair_Inst.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 5fb27c75653e2cd479a34242deafac9c' -> (Import Result ID: '1853b63a94d2182a07e1b65114c714da') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=fe982c5eb9550aabf92def77b76c31cc DependenciesID=40f25ea0d156c6291cca308b79015a3f StaticDependenciesID=c8219f3f933d7e4a3471480f782aa6bb 
+Importing 'GUID: 0e31b390bd936df4c81f80d0b3266d21 - Path: Assets/Campaign/CampaignCatalog.asset' with importer (NativeFormatImporter)
+Main Object Name '' does not match filename 'CampaignCatalog'
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+Valmon.Editor.CampaignBuilder:Build () (at Assets/Editor/CampaignBuilder.cs:142)
+
+[Assets/Editor/CampaignBuilder.cs line 142]
+
+Imported 'GUID: 0e31b390bd936df4c81f80d0b3266d21' -> (Import Result ID: '792ee368e5a16e09be0308b5f77cdff9') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=4757ad0e8af71344fb0a4bb4c808caa5 DependenciesID=9f7803200fb1027097d12af31816c1e1 StaticDependenciesID=fb31d8b23de818a5d2795df44fd10423 
+Refreshing native plugins compatible for Editor in 21.26 ms, found 5 plugins.
+Asset Pipeline Refresh (id=2b79a10705d4d014895f6cb25a591c3e): Total: 0.168 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 18404 unused Assets / (100.3 MB). Loaded Objects now: 9608.
+Memory consumption went from 0.58 GB to 498.2 MB.
+Total: 72.675500 ms (FindLiveObjects: 2.147400 ms CreateObjectMapping: 3.123000 ms MarkObjects: 34.176900 ms  DeleteObjects: 32.127900 ms)
+
+Importing 'GUID: 64be2c99763ae3d4480f7bb7d6af6309 - Path: Assets/Scenes/VALMON_Campaign.unity' with importer (DefaultImporter)
+Imported 'GUID: 64be2c99763ae3d4480f7bb7d6af6309' -> (Import Result ID: '58cf8572288b5989d3008a52d16b9052') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=6653991ed95b675bbcf03b7a726f241b DependenciesID=57d79216c714b215269828361d4713e4 StaticDependenciesID=0d2f44f508487963e2776802d4184f0d 
+Refreshing native plugins compatible for Editor in 24.35 ms, found 5 plugins.
+Asset Pipeline Refresh (id=ee1f00124658dbe4090110bd11504c7e): Total: 0.246 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[VALMON] 43 checks passed, including 120 battle simulations.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Valmon.Editor.CampaignBuilder:Validate () (at Assets/Editor/CampaignBuilder.cs:224)
+Valmon.Editor.CampaignBuilder:Build () (at Assets/Editor/CampaignBuilder.cs:157)
+
+(Filename: Assets/Editor/CampaignBuilder.cs Line: 224)
+
+[VALOMON UDP] Transport validation passed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Valmon.Editor.LanNetworkValidation:Run () (at Assets/Editor/LanNetworkValidation.cs:44)
+Valmon.Editor.CampaignBuilder:Validate () (at Assets/Editor/CampaignBuilder.cs:225)
+Valmon.Editor.CampaignBuilder:Build () (at Assets/Editor/CampaignBuilder.cs:157)
+
+(Filename: Assets/Editor/LanNetworkValidation.cs Line: 44)
+
+[VALMON UDP] Compact lobby control packet budget passed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Valmon.Campaign.CampaignController:ValidateControlPacketBudget () (at Assets/Scripts/Campaign/CampaignNetwork.cs:175)
+Valmon.Editor.CampaignBuilder:Validate () (at Assets/Editor/CampaignBuilder.cs:226)
+Valmon.Editor.CampaignBuilder:Build () (at Assets/Editor/CampaignBuilder.cs:157)
+
+(Filename: Assets/Scripts/Campaign/CampaignNetwork.cs Line: 175)
+
+[VALMON] Campaign built. Intro, menus, 3 maps, 22 species, 4 characters.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Valmon.Editor.CampaignBuilder:Build () (at Assets/Editor/CampaignBuilder.cs:158)
+
+(Filename: Assets/Editor/CampaignBuilder.cs Line: 158)
+
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Jawaan Santh-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Jawaan Santh channel disconnected successfully.
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+[ExitDontLaunchBugReporter] Exiting without the bug reporter. Application will exit with return code 0
