@@ -347,18 +347,29 @@ namespace Valmon.Campaign
         private void DrawTopBar()
         {
             Rect barRect = new Rect(20, 10, 1240, 38);
-            DrawGlassPanel(barRect, UITheme.GlassHeader, UITheme.BorderMuted);
+            DrawGlassPanel(barRect, UITheme.GlassHeader, UITheme.BorderMuted, 6);
 
             Color stageColor = UITheme.GetArenaColor(Run.stage);
             Rect stripe = new Rect(20, 10, 1240, 2);
             GUI.DrawTexture(stripe, UITextures.Solid(stageColor));
 
-            string mapName = finalBattle ? "FINAL DUEL" : (Run.stage + 1) + " / " + mapNames[Run.stage].ToUpperInvariant();
-            DrawBadge(new Rect(32, 16, 200, 26), mapName, stageColor, Color.white, 11);
+            // Left Stage Pill: "MAP 1 / Verdant Ruins (TAMER SOLO)"
+            string roleLabel = RoleName(Role).ToUpperInvariant();
+            string modeTag = netMode == NetMode.None ? $" ({roleLabel} SOLO)" : $" ({roleLabel})";
+            string mapTitle = finalBattle ? "FINAL DUEL" : $"MAP {Run.stage + 1} / {mapNames[Run.stage]}{modeTag}";
+            DrawBadge(new Rect(32, 16, 260, 26), mapTitle, stageColor, Color.white, 11);
 
             // Centered match metrics cluster
-            DrawBadge(new Rect(420, 16, 160, 26), $"CATCHES  {Run.catches} / {CampaignRun.RequiredCatches}", new Color(0.08f, 0.14f, 0.24f, 0.95f), UITheme.CyanPrimary, 11);
-            DrawBadge(new Rect(595, 16, 145, 26), $"BALLS  {Run.balls} / {CampaignRun.BallsPerStage}", new Color(0.08f, 0.14f, 0.24f, 0.95f), UITheme.TextWhite, 11);
+            if (Role == PlayerRole.Tamer)
+            {
+                DrawBadge(new Rect(440, 16, 150, 26), $"CATCHES  {Run.catches} / {CampaignRun.RequiredCatches}", new Color(0.08f, 0.14f, 0.24f, 0.95f), UITheme.CyanPrimary, 11);
+                DrawBadge(new Rect(605, 16, 140, 26), $"BALLS  {Run.balls} / {CampaignRun.BallsPerStage}", new Color(0.08f, 0.14f, 0.24f, 0.95f), UITheme.TextWhite, 11);
+            }
+            else
+            {
+                DrawBadge(new Rect(440, 16, 155, 26), $"CORRUPTIONS  {CorruptionCount} / {CampaignRun.RequiredCorruptions}", new Color(0.18f, 0.08f, 0.14f, 0.95f), UITheme.CrimsonWarden, 11);
+                DrawBadge(new Rect(610, 16, 140, 26), $"ENERGY  {Mathf.FloorToInt(corruptionEnergy)} / 100", new Color(0.18f, 0.08f, 0.14f, 0.95f), UITheme.TextWhite, 11);
+            }
 
             // Digital timer with pulse when urgent
             int secs = Mathf.Max(0, Mathf.CeilToInt(Run.seconds));
@@ -366,18 +377,15 @@ namespace Valmon.Campaign
             bool isUrgent = secs < 60 && !finalBattle;
             Color timerCol = isUrgent ? (Mathf.Sin(Time.unscaledTime * 6f) > 0 ? Color.white : UITheme.CrimsonWarden) : UITheme.CyanGlow;
 
-            Rect timerRect = new Rect(755, 16, 110, 26);
-            DrawGlassPanel(timerRect, isUrgent ? new Color(0.35f, 0.05f, 0.08f, 0.95f) : new Color(0.06f, 0.10f, 0.18f, 0.95f), isUrgent ? UITheme.CrimsonWarden : UITheme.BorderCyan);
+            Rect timerRect = new Rect(765, 16, 110, 26);
+            DrawGlassPanel(timerRect, isUrgent ? new Color(0.35f, 0.05f, 0.08f, 0.95f) : new Color(0.06f, 0.10f, 0.18f, 0.95f), isUrgent ? UITheme.CrimsonWarden : UITheme.BorderCyan, 4);
             GUIStyle timerStyle = new GUIStyle(headingStyle) { fontSize = 14, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
             if (fontInterBold != null) timerStyle.font = fontInterBold;
             timerStyle.normal.textColor = timerCol;
             GUI.Label(timerRect, timeStr, timerStyle);
 
-            // Right mode & pause
-            string modeStr = (netMode == NetMode.None ? "SOLO CAMPAIGN" : "LAN MATCH");
-            DrawBadge(new Rect(1015, 16, 115, 26), modeStr, new Color(0.10f, 0.16f, 0.28f, 0.9f), UITheme.TextMuted, 10);
-
-            if (ModernButton(new Rect(1142, 15, 102, 28), "PAUSE", true, false, true)) TogglePause();
+            // Right Pause button (clean matching mockup)
+            if (ModernButton(new Rect(1140, 15, 105, 28), "||  PAUSE", true, false, true)) TogglePause();
         }
 
         private void DrawPartySidebar() { DrawRoleStatus(); }
@@ -385,25 +393,53 @@ namespace Valmon.Campaign
         private void DrawWorldLabels()
         {
             if (view == null || World?.wild == null) return;
+
+            bool nearWild = ScreenState == CampaignScreen.Explore && selected != null && !selected.captured;
+            float selDist = (nearWild && World != null && World.tamer != null && selected.root != null)
+                ? Vector3.Distance(World.tamer.transform.position, selected.root.transform.position)
+                : 999f;
+            bool canCatch = nearWild && selDist <= 4.4f;
+
             foreach (WildCreature w in World.wild)
             {
                 if (w == null || w.captured || w.root == null || !w.root.activeInHierarchy) continue;
                 float dist = Vector3.Distance(view.transform.position, w.root.transform.position);
                 if (dist > 35f) continue;
-                Vector3 p = view.WorldToScreenPoint(w.root.transform.position + Vector3.up * (w.visualHeight + 0.25f));
+                Vector3 p = view.WorldToScreenPoint(w.root.transform.position + Vector3.up * (w.visualHeight + 0.35f));
                 if (p.z <= 0) continue;
-                float x = (p.x - uiOffset.x) / uiScale - 60, y = (Screen.height - p.y - uiOffset.y) / uiScale;
-                if (x < 150 || x > (Role == PlayerRole.Corruptor ? 765 : 1120) || y < 45 || y > 660) continue;
+                float x = (p.x - uiOffset.x) / uiScale - 55, y = (Screen.height - p.y - uiOffset.y) / uiScale;
+                if (x < 150 || x > 1100 || y < 45 || y > 660) continue;
 
-                Rect labelRect = new Rect(x, y, 130, 22);
-                Color tagCol = w.corrupted ? UITheme.CrimsonWarden : UITheme.ArenaGrass;
-                DrawGlassPanel(labelRect, new Color(0.02f, 0.04f, 0.08f, 0.90f), tagCol);
+                bool isTarget = (w == selected);
 
-                string tagText = $"{w.creature.species.displayName} Lv.{w.creature.level}" + (w.corrupted ? " [C]" : "");
-                GUIStyle nameStyle = new GUIStyle(smallStyle) { fontSize = 10, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
-                if (fontInterBold != null) nameStyle.font = fontInterBold;
-                nameStyle.normal.textColor = w.corrupted ? UITheme.CoralWarden : Color.white;
-                GUI.Label(labelRect, tagText, nameStyle);
+                if (isTarget && canCatch)
+                {
+                    // Floating in-world prompt badge: [ Z ] Catch (Matching reference mockup above creature!)
+                    Rect promptRect = new Rect(x - 10, y - 12, 125, 28);
+                    DrawGlassPanel(promptRect, new Color(0.02f, 0.04f, 0.08f, 0.95f), UITheme.CyanPrimary, 6);
+
+                    // Keycap "Z"
+                    DrawKeycap(new Rect(x - 5, y - 8, 20, 20), "Z", UITheme.CyanPrimary);
+
+                    // Action label
+                    GUIStyle actStyle = new GUIStyle(headingStyle) { fontSize = 12, fontStyle = FontStyle.Bold };
+                    if (fontInterBold != null) actStyle.font = fontInterBold;
+                    actStyle.normal.textColor = Color.white;
+                    GUI.Label(new Rect(x + 22, y - 8, 90, 20), Role == PlayerRole.Tamer ? "Catch" : "Corrupt", actStyle);
+                }
+                else
+                {
+                    // Sleek compact creature chip: "Squirtle Lv.12"
+                    Rect labelRect = new Rect(x, y, 115, 22);
+                    Color tagCol = w.corrupted ? UITheme.CrimsonWarden : UITheme.ArenaGrass;
+                    DrawGlassPanel(labelRect, new Color(0.02f, 0.04f, 0.08f, 0.88f), tagCol, 4);
+
+                    string tagText = $"{w.creature.species.displayName} Lv.{w.creature.level}" + (w.corrupted ? " [C]" : "");
+                    GUIStyle nameStyle = new GUIStyle(smallStyle) { fontSize = 10, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+                    if (fontInterBold != null) nameStyle.font = fontInterBold;
+                    nameStyle.normal.textColor = w.corrupted ? UITheme.CoralWarden : Color.white;
+                    GUI.Label(labelRect, tagText, nameStyle);
+                }
             }
         }
 
@@ -414,7 +450,7 @@ namespace Valmon.Campaign
             if (ScreenState == CampaignScreen.Capture)
             {
                 Rect capRect = new Rect(340, 560, 600, 80);
-                DrawGlassCard(capRect, UITheme.GlassDark, UITheme.CyanPrimary, UITheme.CyanPrimary);
+                DrawGlassCard(capRect, UITheme.GlassDark, UITheme.CyanPrimary, UITheme.CyanPrimary, 8);
                 Text(360, 572, 560, 30, "CAPTURE IN PROGRESS...", headingStyle);
                 DrawModernBar(new Rect(360, 612, 560, 14), captureClock / 2.7f, encounter != null && encounter.corrupted ? UITheme.VioletCorruption : UITheme.CyanPrimary, new Color(0.06f, 0.10f, 0.18f, 0.85f));
             }
@@ -423,47 +459,21 @@ namespace Valmon.Campaign
 
         private void DrawFooter()
         {
-            Rect footerRect = new Rect(20, 672, 1240, 38);
-            Color roleColor = Role == PlayerRole.Tamer ? UITheme.CyanPrimary : UITheme.CrimsonWarden;
-            DrawGlassCard(footerRect, UITheme.GlassHeader, UITheme.BorderMuted, roleColor);
+            // Contextual hint banner in bottom-center (clean and uncluttered, leaving room for circular controls)
+            bool nearWild = ScreenState == CampaignScreen.Explore && selected != null && !selected.captured;
+            float distance = (nearWild && World != null && World.tamer != null && selected.root != null)
+                ? Vector3.Distance(World.tamer.transform.position, selected.root.transform.position)
+                : 999f;
 
-            if (Role == PlayerRole.Tamer)
+            if (nearWild && distance <= 18f && distance > 4.4f)
             {
-                bool canDash = dashCooldown <= 0 && ScreenState == CampaignScreen.Explore;
-                string dashText = dashCooldown > 0 ? $"[Q] QUICK DASH ({Mathf.CeilToInt(dashCooldown)}s)" : "[Q] QUICK DASH";
-                if (ModernButton(new Rect(1040, 676, 205, 30), dashText, canDash, false, true, UITheme.CyanPrimary)) UseAbility("dash");
-
-                bool nearWild = ScreenState == CampaignScreen.Explore && selected != null && !selected.captured;
-                float distance = (nearWild && World != null && World.tamer != null && selected.root != null)
-                    ? Vector3.Distance(World.tamer.transform.position, selected.root.transform.position)
-                    : 999f;
-                bool canCatch = nearWild && distance <= 4.4f;
-
-                if (canCatch)
-                {
-                    if (ModernButton(new Rect(825, 676, 205, 30), "[Z] CATCH CREATURE", true, true, true, UITheme.GoldChampion)) BeginCapture(selected);
-                    string prompt = "▶ " + selected.creature.species.displayName.ToUpperInvariant() + " IN RANGE (" + distance.ToString("0.0") + "m): PRESS Z TO CATCH" + (selected.corrupted ? " (CORRUPTED BATTLE)" : "");
-                    GUIStyle pStyle = new GUIStyle(smallStyle) { fontSize = 12, fontStyle = FontStyle.Bold };
-                    if (fontInterBold != null) pStyle.font = fontInterBold;
-                    pStyle.normal.textColor = Color.white;
-                    GUI.Label(new Rect(32, 680, 780, 24), prompt, pStyle);
-                }
-                else
-                {
-                    string footerInfo;
-                    if (nearWild && distance <= 18f)
-                        footerInfo = "Target: " + selected.creature.species.displayName + " (" + distance.ToString("0") + "m)  •  Approach within 4.0m to catch  •  WASD move  •  Shift sprint  •  R respawn";
-                    else
-                        footerInfo = "WASD move  •  Shift sprint  •  Right mouse orbit  •  Press Z to catch  •  R respawn  •  Esc pause";
-                    GUIStyle fStyle = new GUIStyle(smallStyle) { fontSize = 12 };
-                    if (fontInterRegular != null) fStyle.font = fontInterRegular;
-                    fStyle.normal.textColor = UITheme.TextMuted;
-                    GUI.Label(new Rect(32, 681, 990, 24), footerInfo, fStyle);
-                }
-            }
-            else
-            {
-                Text(32, 681, 1200, 24, "WASD move  •  Shift sprint  •  Right mouse orbit  •  Q corrupt  •  E place trap  •  R lock gate  •  F radar scan  •  Esc pause", new GUIStyle(smallStyle) { fontSize = 12 });
+                Rect hintRect = new Rect(420, 678, 440, 26);
+                DrawGlassPanel(hintRect, new Color(0.02f, 0.04f, 0.08f, 0.85f), UITheme.BorderMuted, 4);
+                string hint = $"Target: {selected.creature.species.displayName} ({distance:0.0}m)  •  Approach within 4.0m to catch";
+                GUIStyle hStyle = new GUIStyle(smallStyle) { fontSize = 11, alignment = TextAnchor.MiddleCenter };
+                if (fontInterRegular != null) hStyle.font = fontInterRegular;
+                hStyle.normal.textColor = UITheme.TextMuted;
+                GUI.Label(hintRect, hint, hStyle);
             }
         }
 

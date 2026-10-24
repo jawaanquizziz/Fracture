@@ -316,58 +316,97 @@ namespace Valmon.Campaign
             GUI.DrawTexture(new Rect(0, 0, 1280, 720), UITextures.Solid(new Color(0.015f, 0.025f, 0.06f, 0.94f)));
             bool final = ScreenState == CampaignScreen.MatchResult;
 
-            Text(240, 60, 800, 55, final ? "FINAL MATCH RESULTS" : "ROUND " + (roundIndex + 1) + " COMPLETE", new GUIStyle(titleStyle) { alignment = TextAnchor.MiddleCenter });
+            string title = final ? "MATCH RESULTS" : $"ROUND {roundIndex + 1} COMPLETE";
+            GUIStyle rTitle = new GUIStyle(titleStyle) { alignment = TextAnchor.MiddleCenter, fontSize = 28 };
+            if (fontInterBold != null) rTitle.font = fontInterBold;
+            Text(240, 45, 800, 42, title, rTitle);
 
-            string winText = final
-                ? "CHAMPION: " + (hostMatchWinner ? hostPlayerName : clientPlayerName).ToUpperInvariant()
-                : (outcomeTamer ? "TAMER WINS THE ROUND" : "WARDEN WINS THE ROUND");
-            Color winCol = (final ? UITheme.GoldChampion : (outcomeTamer ? UITheme.CyanPrimary : UITheme.CrimsonWarden));
-            GUIStyle winStyle = new GUIStyle(headingStyle) { alignment = TextAnchor.MiddleCenter, fontSize = 22 };
-            winStyle.normal.textColor = winCol;
-            Text(240, 120, 800, 35, winText, winStyle);
-
-            // Side-by-side performance cards
-            Rect tamerCard = new Rect(165, 175, 455, 240);
-            Rect wardenCard = new Rect(660, 175, 455, 240);
+            // Side-by-side performance cards (Matching Panel 6 mockup)
+            Rect tamerCard = new Rect(200, 105, 420, 240);
+            Rect wardenCard = new Rect(660, 105, 420, 240);
 
             DrawGlassCard(tamerCard, UITheme.GlassDark, UITheme.CyanPrimary, UITheme.CyanPrimary, 8);
             DrawGlassCard(wardenCard, UITheme.GlassDark, UITheme.CrimsonWarden, UITheme.CrimsonWarden, 8);
 
-            DrawBadge(new Rect(185, 190, 90, 22), "TAMER", UITheme.CyanPrimary, Color.white, 10);
-            DrawBadge(new Rect(680, 190, 90, 22), "WARDEN", UITheme.CrimsonWarden, Color.white, 10);
+            // Tamer Header with Avatar
+            GUI.DrawTexture(new Rect(220, 120, 44, 44), UITextures.AvatarTamer(44));
+            GUIStyle tHead = new GUIStyle(headingStyle) { fontSize = 16, fontStyle = FontStyle.Bold };
+            if (fontInterBold != null) tHead.font = fontInterBold;
+            tHead.normal.textColor = UITheme.CyanPrimary;
+            GUI.Label(new Rect(275, 130, 200, 26), "TAMER", tHead);
 
-            // Stats breakdown
-            string tamerDetails = $"Creatures captured: {Run.catches} / {CampaignRun.RequiredCatches}\n" +
-                                 $"Time remaining: {Mathf.CeilToInt(Run.seconds)}s\n" +
-                                 $"Round score: {roundTamerScore} PTS";
-            Text(185, 230, 415, 120, tamerDetails, new GUIStyle(textStyle) { fontSize = 15 });
+            // Warden Header with Avatar
+            GUI.DrawTexture(new Rect(680, 120, 44, 44), UITextures.AvatarWarden(44));
+            GUIStyle wHead = new GUIStyle(headingStyle) { fontSize = 16, fontStyle = FontStyle.Bold };
+            if (fontInterBold != null) wHead.font = fontInterBold;
+            wHead.normal.textColor = UITheme.CrimsonWarden;
+            GUI.Label(new Rect(735, 130, 200, 26), "WARDEN", wHead);
 
-            string wardenDetails = $"Captures stopped: {roundStopped}\n" +
-                                  $"Sabotage actions: {roundSabotages}\n" +
-                                  $"Bonus point: +{WardenBonus}\n" +
-                                  $"Round score: {roundWardenScore} PTS";
-            Text(680, 230, 415, 120, wardenDetails, new GUIStyle(textStyle) { fontSize = 15 });
+            // Tamer Stats
+            float runSecs = Run != null ? Run.seconds : CampaignRun.SecondsPerStage;
+            int elapsedSecs = Mathf.Max(0, Mathf.RoundToInt(CampaignRun.SecondsPerStage - runSecs));
+            string timeStr = $"{elapsedSecs / 60:00}:{elapsedSecs % 60:00}";
 
-            // Aggregate Match Standings
-            Rect standCard = new Rect(165, 435, 950, 75);
-            DrawGlassPanel(standCard, UITheme.GlassCard, UITheme.BorderMuted, 8);
+            float ty = 180, lineH = 32;
+            Text(220, ty + 0 * lineH, 200, 24, "Creatures Captured", smallStyle);
+            Text(480, ty + 0 * lineH, 120, 24, Run.catches.ToString(), headingStyle);
 
-            Text(195, 448, 420, 48, hostPlayerName + " (Host)\n" + hostWins + " Rounds Won  •  " + hostScore + " Total Points", headingStyle);
-            Text(680, 448, 420, 48, clientPlayerName + " (Client)\n" + clientWins + " Rounds Won  •  " + clientScore + " Total Points", headingStyle);
+            Text(220, ty + 1 * lineH, 200, 24, "Time Taken", smallStyle);
+            Text(480, ty + 1 * lineH, 120, 24, timeStr, headingStyle);
 
-            string bottomHint = final
-                ? "Match concluded. Championship winner decided by rounds won."
-                : "Next round: roles swap automatically and both players load the next arena.";
-            Text(165, 530, 950, 25, bottomHint, new GUIStyle(smallStyle) { alignment = TextAnchor.MiddleCenter });
+            Text(220, ty + 2 * lineH, 200, 24, "Score", smallStyle);
+            GUIStyle tScore = new GUIStyle(headingStyle) { fontStyle = FontStyle.Bold };
+            if (fontInterBold != null) tScore.font = fontInterBold;
+            tScore.normal.textColor = UITheme.CyanPrimary;
+            Text(480, ty + 2 * lineH, 120, 24, $"+{roundTamerScore}", tScore);
+
+            // Warden Stats
+            Text(680, ty + 0 * lineH, 200, 24, "Captures Stopped", smallStyle);
+            Text(940, ty + 0 * lineH, 120, 24, roundStopped.ToString(), headingStyle);
+
+            Text(680, ty + 1 * lineH, 200, 24, "Sabotages Used", smallStyle);
+            Text(940, ty + 1 * lineH, 120, 24, roundSabotages.ToString(), headingStyle);
+
+            Text(680, ty + 2 * lineH, 200, 24, "Score", smallStyle);
+            GUIStyle wScore = new GUIStyle(headingStyle) { fontStyle = FontStyle.Bold };
+            if (fontInterBold != null) wScore.font = fontInterBold;
+            wScore.normal.textColor = UITheme.CrimsonWarden;
+            Text(940, ty + 2 * lineH, 120, 24, $"+{roundWardenScore}", wScore);
+
+            // Center Golden Trophy & Winner Banner
+            Rect trophyRect = new Rect(616, 365, 48, 48);
+            GUI.DrawTexture(trophyRect, UITextures.TrophyIcon(48));
+
+            string winTitle = final
+                ? $"{(hostMatchWinner ? hostPlayerName : clientPlayerName).ToUpperInvariant()} WINS THE MATCH!"
+                : (outcomeTamer ? "TAMER WINS" : "WARDEN WINS");
+            GUIStyle winStyle = new GUIStyle(headingStyle) { alignment = TextAnchor.MiddleCenter, fontSize = 22, fontStyle = FontStyle.Bold };
+            if (fontInterBold != null) winStyle.font = fontInterBold;
+            winStyle.normal.textColor = UITheme.GoldChampion;
+            Text(240, 420, 800, 32, winTitle, winStyle);
+
+            string winSub = final
+                ? "Championship concluded. Returning to lobby will reset match scores."
+                : "Roles will switch next round";
+            GUIStyle subWin = new GUIStyle(smallStyle) { alignment = TextAnchor.MiddleCenter, fontSize = 12 };
+            if (fontInterRegular != null) subWin.font = fontInterRegular;
+            subWin.normal.textColor = UITheme.TextMuted;
+            Text(240, 455, 800, 24, winSub, subWin);
+
+            // Match Aggregate Standings
+            Rect standCard = new Rect(200, 490, 880, 68);
+            DrawGlassPanel(standCard, UITheme.GlassCard, UITheme.BorderMuted, 6);
+            Text(225, 502, 400, 46, $"{hostPlayerName} (Host)\n{hostWins} Rounds Won  •  {hostScore} Points", headingStyle);
+            Text(680, 502, 400, 46, $"{clientPlayerName} (Client)\n{clientWins} Rounds Won  •  {clientScore} Points", headingStyle);
 
             // Action Buttons
-            if (ModernButton(new Rect(165, 580, 455, 55), final ? "PLAY AGAIN" : "NEXT ROUND ▶", true, true))
+            if (ModernButton(new Rect(200, 585, 420, 52), final ? "PLAY AGAIN" : "NEXT ROUND ▶", true, true))
             {
                 if (final) PlayAgain();
                 else NextRound();
             }
 
-            if (ModernButton(new Rect(660, 580, 455, 55), "RETURN TO LOBBY")) ReturnToLobby();
+            if (ModernButton(new Rect(660, 585, 420, 52), "BACK TO LOBBY")) ReturnToLobby();
         }
     }
 }
