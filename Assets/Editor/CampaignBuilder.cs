@@ -122,6 +122,20 @@ namespace Valmon.Editor
             }
             data.captureBall = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Characters/poke_ball.glb");
             data.surfaceShader = Shader.Find("Universal Render Pipeline/Lit");
+            data.battleMaps = new[]
+            {
+                AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Scenes/BlenderMaps/PokemonBattleScene.blend"),
+                AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Scenes/BlenderMaps/CaveBattleScene.blend"),
+                AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Scenes/BlenderMaps/SandyBeachScene.blend"),
+            };
+            data.menuMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokemon game intro.mp3");
+            data.introMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokemon game intro.mp3");
+            data.gameSoundtrack = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Full game sound trak.mp3");
+            data.battleMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokemon battling.mp3");
+            data.victoryMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Pokemon Victory Theme.mp3");
+            data.battleLostAudio = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/battle lost.mp3");
+            data.captureAudio = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokeom caught.mp3");
+            data.corruptionAudio = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/corruption pokemon.mp3");
             CampaignCatalog existing = AssetDatabase.LoadAssetAtPath<CampaignCatalog>(CatalogPath);
             if (existing == null) { AssetDatabase.CreateAsset(data, CatalogPath); existing = data; }
             else { EditorUtility.CopySerialized(data, existing); UnityEngine.Object.DestroyImmediate(data); }
