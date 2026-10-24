@@ -77,8 +77,7 @@ namespace Valmon.Campaign
             gameAudio = gameObject.AddComponent<AudioSource>(); gameAudio.loop = true; gameAudio.volume = 0f; gameAudio.clip = catalog.gameSoundtrack;
             if (gameAudio.clip != null) gameAudio.Play();
 
-            battleAudio = gameObject.AddComponent<AudioSource>(); battleAudio.loop = true; battleAudio.volume = 0f; battleAudio.clip = catalog.battleMusic;
-            if (battleAudio.clip != null) battleAudio.Play();
+            battleAudio = gameObject.AddComponent<AudioSource>(); battleAudio.loop = false; battleAudio.volume = .9f; battleAudio.clip = catalog.battleMusic;
 
             if (!string.IsNullOrEmpty(catalog.introFile)) StartVideo();
             Cursor.lockState = CursorLockMode.None; Cursor.visible = true;
@@ -130,9 +129,10 @@ namespace Valmon.Campaign
             bool isBattle = ScreenState == CampaignScreen.Battle;
             bool isGameplay = !isMenu && !isBattle && Active && ScreenState != CampaignScreen.Result && ScreenState != CampaignScreen.StageClear;
 
-            if (menuAudio != null) menuAudio.volume = Mathf.MoveTowards(menuAudio.volume, isMenu ? .22f : 0f, Time.unscaledDeltaTime * .6f);
-            if (gameAudio != null) gameAudio.volume = Mathf.MoveTowards(gameAudio.volume, isGameplay ? .26f : 0f, Time.unscaledDeltaTime * .6f);
-            if (battleAudio != null) battleAudio.volume = Mathf.MoveTowards(battleAudio.volume, isBattle ? .28f : 0f, Time.unscaledDeltaTime * .6f);
+            if (menuAudio != null) menuAudio.volume = Mathf.MoveTowards(menuAudio.volume, isMenu ? .8f : 0f, Time.unscaledDeltaTime * 1.2f);
+            if (gameAudio != null) gameAudio.volume = Mathf.MoveTowards(gameAudio.volume, isGameplay ? .8f : 0f, Time.unscaledDeltaTime * 1.2f);
+            // battleAudio no longer tied to state volume - played once per battle via BeginBattleView; stop it when state leaves Battle.
+            if (battleAudio != null && !isBattle && battleAudio.isPlaying) battleAudio.Stop();
             if (netMode == NetMode.Client) { NetClientFrame(); return; }
             if (ScreenState == CampaignScreen.Menu || ScreenState == CampaignScreen.Lobby) World?.TickPresentation(Time.unscaledDeltaTime);
             if (ScreenState == CampaignScreen.Lobby) return;
@@ -448,6 +448,7 @@ namespace Valmon.Campaign
             ScreenState = CampaignScreen.Battle;
             tamerTurn = Run.party[partyIndex].Speed >= opponent.Speed;
             turnDelay = 1.4f; animationClock = 0;
+            if (battleAudio != null && battleAudio.clip != null) { battleAudio.Stop(); battleAudio.Play(); }
             World.ShowBattle(Run.party[partyIndex], opponent, Run.stage);
             message = finalBattle ? "Final duel. Defeat the Corruptor's entire team." : "Defeat the corrupted Pokémon to complete your capture.";
         }
