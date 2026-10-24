@@ -465,7 +465,7 @@ namespace Valmon.Campaign
             netTurnSerial++;
             OwnedCreature friendly = Run.party[partyIndex];
             message = BattleRules.Attack(tamerTurn ? friendly : opponent, tamerTurn ? opponent : friendly, move, random);
-            attackByTamer = tamerTurn; animationClock = .42f; Cue(tamerTurn ? 1.3f : .8f);
+            attackByTamer = tamerTurn; animationClock = .42f; PlayAttackCue(tamerTurn ? catalog.captureAudio : catalog.corruptionAudio);
             bool allyLost = friendly.health <= 0, enemyLost = opponent.health <= 0;
             if (allyLost)
             {
@@ -591,6 +591,24 @@ namespace Valmon.Campaign
             resultReason = "All three habitats cleared and the Corruptor's final team defeated.";
             ScreenState = CampaignScreen.Result; Cue(1.8f);
             PlayerPrefs.SetInt("VALMON.CampaignComplete", 1); PlayerPrefs.Save();
+        }
+        private AudioSource attackCueSource;
+        private void PlayAttackCue(AudioClip clip)
+        {
+            if (clip == null) return;
+            if (attackCueSource == null)
+            {
+                attackCueSource = gameObject.AddComponent<AudioSource>();
+                attackCueSource.playOnAwake = false;
+                attackCueSource.loop = false;
+            }
+            attackCueSource.Stop();
+            attackCueSource.clip = clip;
+            attackCueSource.volume = .9f;
+            attackCueSource.pitch = 1f;
+            attackCueSource.Play();
+            // Stop at exactly half the clip's length so only the first half is heard.
+            attackCueSource.SetScheduledEndTime(AudioSettings.dspTime + clip.length * 0.5);
         }
         private void Cue(float pitchValue)
         {
