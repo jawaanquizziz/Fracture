@@ -10,48 +10,71 @@ namespace Valmon.Campaign
         {
             Color roleColor = Role == PlayerRole.Tamer ? UITheme.CyanPrimary : UITheme.CrimsonWarden;
 
-            // Compact floating status card on top-left
-            Rect cardRect = new Rect(20, 52, 160, 205);
-            DrawGlassCard(cardRect, UITheme.GlassCard, UITheme.BorderMuted, roleColor, 8);
+            // Spacious, razor-sharp floating status card on top-left
+            Rect cardRect = new Rect(20, 52, 210, 210);
+            DrawGlassCard(cardRect, UITheme.GlassDark, UITheme.BorderMuted, roleColor);
 
-            // Role & Match Mode badges
-            DrawBadge(new Rect(28, 62, 85, 22), RoleName(Role), roleColor, Color.white, 10);
+            // Role Badge & Match Mode pill
+            DrawBadge(new Rect(32, 62, 100, 24), RoleName(Role), roleColor, Color.white, 11);
             string modeStr = IsRoundMatch ? $"RND {roundIndex + 1}/3" : "SOLO";
-            DrawBadge(new Rect(118, 62, 54, 22), modeStr, new Color(0.10f, 0.16f, 0.26f, 0.85f), UITheme.TextMuted, 9);
+            DrawBadge(new Rect(138, 62, 78, 24), modeStr, new Color(0.12f, 0.20f, 0.34f, 0.95f), UITheme.TextWhite, 10);
 
-            // Health or Energy progress bar
+            // Health or Energy Header
             float fraction = Role == PlayerRole.Tamer ? (tamerHealth / 100f) : (corruptionEnergy / 100f);
             Color barCol = Role == PlayerRole.Tamer
                 ? (tamerHealth > 50 ? UITheme.ArenaGrass : (tamerHealth > 25 ? UITheme.AmberWarning : UITheme.CrimsonWarden))
                 : UITheme.VioletCorruption;
 
-            DrawModernBar(new Rect(28, 94, 144, 10), fraction, barCol, new Color(0.08f, 0.12f, 0.20f, 0.9f));
+            string lblTitle = Role == PlayerRole.Tamer ? "PLAYER HEALTH" : "CORRUPTION ENERGY";
+            string valText = Role == PlayerRole.Tamer ? $"{tamerHealth} / 100 HP" : $"{Mathf.FloorToInt(corruptionEnergy)} / 100 NRG";
 
-            string valText = Role == PlayerRole.Tamer ? $"HP  {tamerHealth} / 100" : $"ENERGY  {Mathf.FloorToInt(corruptionEnergy)} / 100";
-            Text(28, 108, 144, 18, valText, new GUIStyle(smallStyle) { fontSize = 11, fontStyle = FontStyle.Bold });
+            Text(32, 94, 95, 18, lblTitle, styleSubLabel);
+            GUIStyle valStyle = new GUIStyle(styleCardValue) { fontSize = 12, fontStyle = FontStyle.Bold };
+            valStyle.normal.textColor = Color.white;
+            GUI.Label(new Rect(125, 94, 91, 18), valText, valStyle);
 
-            // Objective inset card
-            Rect objRect = new Rect(28, 132, 144, 115);
-            DrawGlassPanel(objRect, UITheme.GlassInset, UITheme.BorderMuted, 6);
-            Text(36, 138, 128, 18, "OBJECTIVE", new GUIStyle(smallStyle) { fontSize = 10, fontStyle = FontStyle.Bold, normal = { textColor = UITheme.CyanPrimary } });
+            // 14px thick progress bar with specular highlight
+            DrawModernBar(new Rect(32, 114, 184, 14), fraction, barCol, new Color(0.06f, 0.10f, 0.18f, 0.95f));
 
-            string objText;
+            // Inset Objective Card
+            Rect objRect = new Rect(32, 138, 184, 112);
+            DrawGlassPanel(objRect, UITheme.GlassInset, UITheme.BorderMuted);
+
+            GUIStyle objHeaderStyle = new GUIStyle(headingStyle) { fontSize = 11, fontStyle = FontStyle.Bold };
+            objHeaderStyle.normal.textColor = UITheme.CyanPrimary;
+            GUI.Label(new Rect(42, 144, 164, 18), "CURRENT OBJECTIVE", objHeaderStyle);
+
             if (Role == PlayerRole.Tamer)
             {
-                objText = $"Capture: {Run.catches} / {CampaignRun.RequiredCatches}";
-                if (slowSeconds > 0) objText += $"\nSlow: {Mathf.CeilToInt(slowSeconds)}s";
-                else objText += $"\nBonus: +{TamerBonus} (at 6)";
+                string goalStr = $"{Run.catches} / {CampaignRun.RequiredCatches} Captured";
+                GUIStyle goalStyle = new GUIStyle(headingStyle) { fontSize = 14, fontStyle = FontStyle.Bold };
+                goalStyle.normal.textColor = Color.white;
+                GUI.Label(new Rect(42, 166, 164, 22), goalStr, goalStyle);
+
+                string bonusStr = slowSeconds > 0
+                    ? $"Slowed: {Mathf.CeilToInt(slowSeconds)}s remaining"
+                    : $"Bonus: +{TamerBonus} point at 6 catches";
+                GUIStyle subStyle = new GUIStyle(smallStyle) { fontSize = 11 };
+                subStyle.normal.textColor = slowSeconds > 0 ? UITheme.AmberWarning : UITheme.GoldChampion;
+                GUI.Label(new Rect(42, 194, 164, 38), bonusStr, subStyle);
             }
             else
             {
-                objText = $"Corrupt: {CorruptionCount} / {CampaignRun.RequiredCorruptions}\nBonus: +{WardenBonus}";
+                string goalStr = $"{CorruptionCount} / {CampaignRun.RequiredCorruptions} Corrupted";
+                GUIStyle goalStyle = new GUIStyle(headingStyle) { fontSize = 14, fontStyle = FontStyle.Bold };
+                goalStyle.normal.textColor = Color.white;
+                GUI.Label(new Rect(42, 166, 164, 22), goalStr, goalStyle);
+
+                string bonusStr = $"Bonus: +{WardenBonus} point at 6";
+                GUIStyle subStyle = new GUIStyle(smallStyle) { fontSize = 11 };
+                subStyle.normal.textColor = UITheme.GoldChampion;
+                GUI.Label(new Rect(42, 194, 164, 38), bonusStr, subStyle);
             }
-            Text(36, 158, 128, 80, objText, new GUIStyle(smallStyle) { fontSize = 11 });
 
             // Finish Goal CTA Button
             if (Role == PlayerRole.Tamer && ScreenState == CampaignScreen.Explore && Run.catches >= CampaignRun.RequiredCatches)
             {
-                Rect finishRect = new Rect(190, 52, 200, 38);
+                Rect finishRect = new Rect(245, 52, 210, 42);
                 if (ModernButton(finishRect, IsRoundMatch ? "FINISH ROUND ▶" : "FINISH LEVEL ▶", true, true, false, UITheme.GoldChampion))
                     FinishCaptureGoal();
             }
@@ -63,21 +86,27 @@ namespace Valmon.Campaign
         {
             Rect radar = new Rect(1120, 52, 140, 140);
 
-            // Dark circular radar disc
-            DrawGlassPanel(radar, new Color(0.015f, 0.035f, 0.07f, 0.94f), UITheme.BorderMuted, 8);
+            // Fully opaque dark disc (blocks any 3D beams or lights from shining through!)
+            GUI.DrawTexture(radar, UITextures.Solid(new Color(0.012f, 0.024f, 0.055f, 1.0f)));
+
+            // Outer 1px frame
+            GUI.DrawTexture(new Rect(radar.x, radar.y, radar.width, 1), UITextures.Solid(UITheme.BorderCyan));
+            GUI.DrawTexture(new Rect(radar.x, radar.y + radar.height - 1, radar.width, 1), UITextures.Solid(UITheme.BorderCyan));
+            GUI.DrawTexture(new Rect(radar.x, radar.y + 1, 1, radar.height - 2), UITextures.Solid(UITheme.BorderCyan));
+            GUI.DrawTexture(new Rect(radar.x + radar.width - 1, radar.y + 1, 1, radar.height - 2), UITextures.Solid(UITheme.BorderCyan));
 
             // Range rings & tactical grid
-            Color gridCol = new Color(0.12f, 0.22f, 0.35f, 0.5f);
+            Color gridCol = new Color(0.12f, 0.28f, 0.44f, 0.45f);
             for (int i = 1; i < 4; i++)
             {
-                GUI.DrawTexture(new Rect(radar.x + i * radar.width / 4, radar.y + 4, 1, radar.height - 8), UITextures.Solid(gridCol));
-                GUI.DrawTexture(new Rect(radar.x + 4, radar.y + i * radar.height / 4, radar.width - 8, 1), UITextures.Solid(gridCol));
+                GUI.DrawTexture(new Rect(radar.x + i * radar.width / 4, radar.y + 2, 1, radar.height - 4), UITextures.Solid(gridCol));
+                GUI.DrawTexture(new Rect(radar.x + 2, radar.y + i * radar.height / 4, radar.width - 4, 1), UITextures.Solid(gridCol));
             }
 
             // Cardinal North marker
             GUIStyle nStyle = new GUIStyle(smallStyle) { fontSize = 10, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
             nStyle.normal.textColor = UITheme.CyanGlow;
-            GUI.Label(new Rect(radar.x + radar.width / 2 - 10, radar.y + 3, 20, 16), "N", nStyle);
+            GUI.Label(new Rect(radar.x + radar.width / 2 - 10, radar.y + 2, 20, 16), "N", nStyle);
 
             // Radar dots
             GameObject own = Role == PlayerRole.Tamer ? World.tamer : World.warden;
@@ -111,9 +140,9 @@ namespace Valmon.Campaign
             }
 
             // Bottom radar status badge
-            string rBadge = scanSeconds > 0 ? "SCAN ACTIVE" : "RADAR";
+            string rBadge = scanSeconds > 0 ? "SCAN ACTIVE" : "RADAR ACTIVE";
             Color rBadgeCol = scanSeconds > 0 ? UITheme.GoldChampion : UITheme.CyanPrimary;
-            DrawBadge(new Rect(radar.x + 15, radar.y + radar.height + 4, radar.width - 30, 20), rBadge, rBadgeCol, Color.white, 9);
+            DrawBadge(new Rect(radar.x + 10, radar.y + radar.height + 4, radar.width - 20, 22), rBadge, rBadgeCol, Color.white, 10);
         }
 
         private void RadarDot(Rect radar, Vector3 position, Color color, float size)
@@ -137,7 +166,7 @@ namespace Valmon.Campaign
             {
                 bool can = corruptionEnergy >= cost[i] && cooldown[i] <= 0 && (ScreenState == CampaignScreen.Explore || ScreenState == CampaignScreen.Capture);
 
-                Rect aRect = new Rect(960, 330 + i * 56, 285, 50);
+                Rect aRect = new Rect(960, 320 + i * 58, 290, 52);
                 string costOrCd = cooldown[i] > 0 ? $"{Mathf.CeilToInt(cooldown[i])}s cooldown" : $"{cost[i]} energy";
                 string btnLabel = $"[{keys[i]}]  {names[i]}\n{costOrCd}";
 

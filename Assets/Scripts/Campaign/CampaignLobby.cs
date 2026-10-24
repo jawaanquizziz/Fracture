@@ -346,46 +346,38 @@ namespace Valmon.Campaign
 
         private void DrawTopBar()
         {
-            Rect barRect = new Rect(20, 10, 1240, 36);
-            DrawGlassPanel(barRect, UITheme.GlassHeader, UITheme.BorderMuted, 8);
+            Rect barRect = new Rect(20, 10, 1240, 38);
+            DrawGlassPanel(barRect, UITheme.GlassHeader, UITheme.BorderMuted);
 
             Color stageColor = UITheme.GetArenaColor(Run.stage);
-            Rect stripe = new Rect(28, 10, 1224, 2);
+            Rect stripe = new Rect(20, 10, 1240, 2);
             GUI.DrawTexture(stripe, UITextures.Solid(stageColor));
 
             string mapName = finalBattle ? "FINAL DUEL" : (Run.stage + 1) + " / " + mapNames[Run.stage].ToUpperInvariant();
-            DrawBadge(new Rect(32, 16, 140, 24), mapName, stageColor, Color.white, 11);
+            DrawBadge(new Rect(32, 16, 200, 26), mapName, stageColor, Color.white, 11);
 
-            string roleStr = RoleName(Role);
-            Color roleCol = Role == PlayerRole.Tamer ? UITheme.CyanPrimary : UITheme.CrimsonWarden;
-            DrawBadge(new Rect(180, 16, 95, 24), roleStr, roleCol, Color.white, 11);
+            // Centered match metrics cluster
+            DrawBadge(new Rect(420, 16, 160, 26), $"CATCHES  {Run.catches} / {CampaignRun.RequiredCatches}", new Color(0.08f, 0.14f, 0.24f, 0.95f), UITheme.CyanPrimary, 11);
+            DrawBadge(new Rect(595, 16, 145, 26), $"BALLS  {Run.balls} / {CampaignRun.BallsPerStage}", new Color(0.08f, 0.14f, 0.24f, 0.95f), UITheme.TextWhite, 11);
 
-            string modeStr = (netMode == NetMode.None ? "SOLO" : "LAN LINK");
-            DrawBadge(new Rect(282, 16, 75, 24), modeStr, new Color(0.12f, 0.18f, 0.28f, 0.8f), UITheme.TextMuted, 10);
-
-            // Catches Pill
-            Rect catchPill = new Rect(430, 16, 160, 24);
-            DrawGlassPanel(catchPill, new Color(0.06f, 0.10f, 0.18f, 0.8f), UITheme.BorderMuted, 12);
-            Text(catchPill.x + 10, catchPill.y + 4, catchPill.width - 20, 18, $"CATCHES  {Run.catches} / {CampaignRun.RequiredCatches}", new GUIStyle(smallStyle) { fontSize = 11, fontStyle = FontStyle.Bold });
-
-            // Balls Pill
-            Rect ballPill = new Rect(605, 16, 145, 24);
-            DrawGlassPanel(ballPill, new Color(0.06f, 0.10f, 0.18f, 0.8f), UITheme.BorderMuted, 12);
-            Text(ballPill.x + 10, ballPill.y + 4, ballPill.width - 20, 18, $"BALLS  {Run.balls} / {CampaignRun.BallsPerStage}", new GUIStyle(smallStyle) { fontSize = 11, fontStyle = FontStyle.Bold });
-
-            // Digital timer
+            // Digital timer with pulse when urgent
             int secs = Mathf.Max(0, Mathf.CeilToInt(Run.seconds));
             string timeStr = finalBattle ? "DUEL" : $"{secs / 60:00}:{secs % 60:00}";
             bool isUrgent = secs < 60 && !finalBattle;
             Color timerCol = isUrgent ? (Mathf.Sin(Time.unscaledTime * 6f) > 0 ? Color.white : UITheme.CrimsonWarden) : UITheme.CyanGlow;
 
-            Rect timerRect = new Rect(775, 16, 110, 24);
-            DrawGlassPanel(timerRect, isUrgent ? new Color(0.25f, 0.05f, 0.08f, 0.9f) : new Color(0.06f, 0.10f, 0.18f, 0.8f), isUrgent ? UITheme.CrimsonWarden : UITheme.BorderMuted, 12);
-            GUIStyle timerStyle = new GUIStyle(headingStyle) { fontSize = 14, alignment = TextAnchor.MiddleCenter };
+            Rect timerRect = new Rect(755, 16, 110, 26);
+            DrawGlassPanel(timerRect, isUrgent ? new Color(0.35f, 0.05f, 0.08f, 0.95f) : new Color(0.06f, 0.10f, 0.18f, 0.95f), isUrgent ? UITheme.CrimsonWarden : UITheme.BorderCyan);
+            GUIStyle timerStyle = new GUIStyle(headingStyle) { fontSize = 14, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+            if (fontInterBold != null) timerStyle.font = fontInterBold;
             timerStyle.normal.textColor = timerCol;
             GUI.Label(timerRect, timeStr, timerStyle);
 
-            if (ModernButton(new Rect(1145, 15, 100, 26), "PAUSE", true, false, true)) TogglePause();
+            // Right mode & pause
+            string modeStr = (netMode == NetMode.None ? "SOLO CAMPAIGN" : "LAN MATCH");
+            DrawBadge(new Rect(1015, 16, 115, 26), modeStr, new Color(0.10f, 0.16f, 0.28f, 0.9f), UITheme.TextMuted, 10);
+
+            if (ModernButton(new Rect(1142, 15, 102, 28), "PAUSE", true, false, true)) TogglePause();
         }
 
         private void DrawPartySidebar() { DrawRoleStatus(); }
@@ -403,12 +395,15 @@ namespace Valmon.Campaign
                 float x = (p.x - uiOffset.x) / uiScale - 60, y = (Screen.height - p.y - uiOffset.y) / uiScale;
                 if (x < 150 || x > (Role == PlayerRole.Corruptor ? 765 : 1120) || y < 45 || y > 660) continue;
 
-                Rect labelRect = new Rect(x, y, 126, 22);
+                Rect labelRect = new Rect(x, y, 130, 22);
                 Color tagCol = w.corrupted ? UITheme.CrimsonWarden : UITheme.ArenaGrass;
-                DrawGlassCard(labelRect, new Color(0.02f, 0.04f, 0.08f, 0.88f), UITheme.BorderMuted, tagCol, 4);
+                DrawGlassPanel(labelRect, new Color(0.02f, 0.04f, 0.08f, 0.90f), tagCol);
 
-                string tagText = w.creature.species.displayName + " Lv." + w.creature.level + (w.corrupted ? " [C]" : "");
-                Text(x + 6, y + 2, 116, 18, tagText, new GUIStyle(smallStyle) { fontSize = 10 });
+                string tagText = $"{w.creature.species.displayName} Lv.{w.creature.level}" + (w.corrupted ? " [C]" : "");
+                GUIStyle nameStyle = new GUIStyle(smallStyle) { fontSize = 10, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+                if (fontInterBold != null) nameStyle.font = fontInterBold;
+                nameStyle.normal.textColor = w.corrupted ? UITheme.CoralWarden : Color.white;
+                GUI.Label(labelRect, tagText, nameStyle);
             }
         }
 
@@ -419,7 +414,7 @@ namespace Valmon.Campaign
             if (ScreenState == CampaignScreen.Capture)
             {
                 Rect capRect = new Rect(340, 560, 600, 80);
-                DrawGlassCard(capRect, UITheme.GlassDark, UITheme.CyanPrimary, UITheme.CyanPrimary, 10);
+                DrawGlassCard(capRect, UITheme.GlassDark, UITheme.CyanPrimary, UITheme.CyanPrimary);
                 Text(360, 572, 560, 30, "CAPTURE IN PROGRESS...", headingStyle);
                 DrawModernBar(new Rect(360, 612, 560, 14), captureClock / 2.7f, encounter != null && encounter.corrupted ? UITheme.VioletCorruption : UITheme.CyanPrimary, new Color(0.06f, 0.10f, 0.18f, 0.85f));
             }
@@ -430,7 +425,7 @@ namespace Valmon.Campaign
         {
             Rect footerRect = new Rect(20, 672, 1240, 38);
             Color roleColor = Role == PlayerRole.Tamer ? UITheme.CyanPrimary : UITheme.CrimsonWarden;
-            DrawGlassCard(footerRect, UITheme.GlassHeader, UITheme.BorderMuted, roleColor, 8);
+            DrawGlassCard(footerRect, UITheme.GlassHeader, UITheme.BorderMuted, roleColor);
 
             if (Role == PlayerRole.Tamer)
             {
@@ -448,7 +443,10 @@ namespace Valmon.Campaign
                 {
                     if (ModernButton(new Rect(825, 676, 205, 30), "[Z] CATCH CREATURE", true, true, true, UITheme.GoldChampion)) BeginCapture(selected);
                     string prompt = "▶ " + selected.creature.species.displayName.ToUpperInvariant() + " IN RANGE (" + distance.ToString("0.0") + "m): PRESS Z TO CATCH" + (selected.corrupted ? " (CORRUPTED BATTLE)" : "");
-                    Text(32, 680, 780, 24, prompt, new GUIStyle(smallStyle) { fontSize = 12, fontStyle = FontStyle.Bold });
+                    GUIStyle pStyle = new GUIStyle(smallStyle) { fontSize = 12, fontStyle = FontStyle.Bold };
+                    if (fontInterBold != null) pStyle.font = fontInterBold;
+                    pStyle.normal.textColor = Color.white;
+                    GUI.Label(new Rect(32, 680, 780, 24), prompt, pStyle);
                 }
                 else
                 {
@@ -457,7 +455,10 @@ namespace Valmon.Campaign
                         footerInfo = "Target: " + selected.creature.species.displayName + " (" + distance.ToString("0") + "m)  •  Approach within 4.0m to catch  •  WASD move  •  Shift sprint  •  R respawn";
                     else
                         footerInfo = "WASD move  •  Shift sprint  •  Right mouse orbit  •  Press Z to catch  •  R respawn  •  Esc pause";
-                    Text(32, 681, 990, 24, footerInfo, new GUIStyle(smallStyle) { fontSize = 12 });
+                    GUIStyle fStyle = new GUIStyle(smallStyle) { fontSize = 12 };
+                    if (fontInterRegular != null) fStyle.font = fontInterRegular;
+                    fStyle.normal.textColor = UITheme.TextMuted;
+                    GUI.Label(new Rect(32, 681, 990, 24), footerInfo, fStyle);
                 }
             }
             else
