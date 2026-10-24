@@ -4,7 +4,7 @@ namespace Valmon.Campaign
 {
     public partial class CampaignController
     {
-        private GUIStyle headingStyle, titleStyle, textStyle, smallStyle, buttonStyle, tinyButton, logoStyle, fieldStyle;
+        private GUIStyle headingStyle, titleStyle, textStyle, smallStyle, tinyStyle, buttonStyle, tinyButton, logoStyle, fieldStyle;
         private Vector2 partyScroll, corruptionScroll;
         private float uiScale = 1;
         private Vector2 uiOffset;
@@ -20,6 +20,7 @@ namespace Valmon.Campaign
             if (textStyle != null) return;
             textStyle = new GUIStyle(GUI.skin.label) { fontSize = 18, wordWrap = true }; textStyle.normal.textColor = Color.white;
             smallStyle = new GUIStyle(textStyle) { fontSize = 14 };
+            tinyStyle = new GUIStyle(textStyle) { fontSize = 12 };
             headingStyle = new GUIStyle(textStyle) { fontSize = 27, fontStyle = FontStyle.Bold };
             titleStyle = new GUIStyle(headingStyle) { fontSize = 48 };
             logoStyle = new GUIStyle(titleStyle) { fontSize = 104, alignment = TextAnchor.MiddleCenter, wordWrap = false };
@@ -255,15 +256,15 @@ namespace Valmon.Campaign
             Panel(new Rect(30, 608, 470, 100), cardBg);
             Panel(new Rect(30, 608, 470, 2), barAccent);
             Text(44, 613, 442, 24, turnDelay > 0 ? "RESOLVING TURN..." : HumanTurn ? "YOUR TURN" : "OPPONENT'S TURN", smallStyle);
-            Text(44, 634, 442, 36, message, tinyButton);
+            Text(44, 634, 442, 36, message, tinyStyle);
 
             var team = Role == PlayerRole.Tamer ? Run.party : bossTeam;
             if (Role == PlayerRole.Tamer || finalBattle)
             {
-                Text(44, 674, 90, 24, "SWITCH:", tinyButton);
+                Text(44, 674, 70, 24, "SWITCH:", tinyStyle);
                 for (int i = 0; i < team.Count; i++)
                 {
-                    if (Button(new Rect(120 + i * 82, 673, 76, 26), team[i].species.displayName, HumanTurn && turnDelay <= 0, Role == PlayerRole.Tamer ? i == partyIndex : team[i] == opponent, true))
+                    if (Button(new Rect(105 + i * 82, 672, 76, 26), team[i].species.displayName, HumanTurn && turnDelay <= 0, Role == PlayerRole.Tamer ? i == partyIndex : team[i] == opponent, true))
                         SwitchParty(i);
                 }
             }
