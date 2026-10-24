@@ -86,7 +86,7 @@ namespace Valmon.Gameplay
                 playerCtrl.visualRoot = capsule.transform;
             }
 
-            // Capture System (Poké Ball thrower)
+            // Capture System (Valmon Ball thrower)
             CaptureSystem captureSys = playerObj.AddComponent<CaptureSystem>();
             captureSys.pokeBallPrefab = Resources.Load<GameObject>("Characters/poke_ball");
 
@@ -124,7 +124,7 @@ namespace Valmon.Gameplay
 
             gameManagerObj.AddComponent<ValmonNetworkManager>();
 
-            Debug.Log("<color=#55ff99><b>[Valmon]</b> Ready to Play! Control with WASD, throw Poké Balls with [E] / [Right-Click], switch roles with [Tab].</color>");
+            Debug.Log("<color=#55ff99><b>[Valmon]</b> Ready to Play! Control with WASD, throw Valmon Balls with [E] / [Right-Click], switch roles with [Tab].</color>");
         }
     }
 }

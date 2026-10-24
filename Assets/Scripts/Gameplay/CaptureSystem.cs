@@ -6,7 +6,7 @@ namespace Valmon.Gameplay
 {
     public class CaptureSystem : MonoBehaviour
     {
-        [Header("Poké Ball Settings")]
+        [Header("Valmon Ball Settings")]
         public GameObject pokeBallPrefab;
         public Transform throwOrigin;
         public float throwForce = 18f;
@@ -32,7 +32,7 @@ namespace Valmon.Gameplay
         {
             if (mainCamera == null) mainCamera = Camera.main;
 
-            // Throw Poké Ball on [E] or Right Click
+            // Throw Valmon Ball on [E] or Right Click
             if (ValmonInput.GetThrowPokeBallDown() && Time.time - lastThrowTime >= throwCooldown)
             {
                 ThrowPokeBall();
@@ -66,7 +66,7 @@ namespace Valmon.Gameplay
                 ball.transform.position = spawnPos;
             }
 
-            ball.name = "Thrown_PokeBall";
+            ball.name = "Thrown_ValmonBall";
 
             // Physics setup
             Rigidbody rb = ball.GetComponent<Rigidbody>();

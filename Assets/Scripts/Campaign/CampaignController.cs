@@ -227,7 +227,7 @@ namespace Valmon.Campaign
             try { World.LoadStage(Run, selectedCharacter, new System.Random(netStageSeed)); World.ShowCorruptor(netMode == NetMode.None ? (selectedCharacter + 1) % 4 : netCorruptorCharacter); }
             catch (Exception error) { Debug.LogException(error); ScreenState = CampaignScreen.Result; resultReason = "Map could not be loaded: " + error.Message; return; }
             ScreenState = CampaignScreen.Explore; yaw = World.StartingYaw; pitch = 27; verticalSpeed = 0;
-            message = "Catch " + CampaignRun.RequiredCatches + " " + Run.Habitat + " Pokémon. Your starter does not count toward the goal.";
+            message = "Catch " + CampaignRun.RequiredCatches + " " + Run.Habitat + " Valmons. Your starter does not count toward the goal.";
             if (Role == PlayerRole.Corruptor)
             {
                 World.controller.enabled = netMode == NetMode.Host;
@@ -282,7 +282,7 @@ namespace Valmon.Campaign
             if (aiTarget == null || aiTarget.captured)
             {
                 var choices=World.wild.Where(w=>!w.captured).OrderBy(w=>Vector3.Distance(w.root.transform.position,World.tamer.transform.position)+w.creature.level*.5f+(w.corrupted?8:0)).ToArray();
-                if(choices.Length==0) { Lose("No wild Pokémon remain."); return; }
+                if(choices.Length==0) { Lose("No wild Valmons remain."); return; }
                 aiTarget=null;
                 foreach(WildCreature candidate in choices)
                 {
@@ -386,7 +386,7 @@ namespace Valmon.Campaign
             ScreenState = CampaignScreen.Capture;
             captureOrigin = World.tamer.transform.position + Vector3.up * 1.1f;
             captureVisual = World.Model(catalog.captureBall, null, captureOrigin, .35f);
-            // Comet trail for the thrown Poké Ball.
+            // Comet trail for the thrown Valmon Ball.
             TrailRenderer trail = captureVisual.AddComponent<TrailRenderer>();
             trail.time = .45f; trail.minVertexDistance = .05f;
             trail.widthCurve = AnimationCurve.EaseInOut(0f, .18f, 1f, 0f);
@@ -418,7 +418,7 @@ namespace Valmon.Campaign
             {
                 encounter.creature.Heal();
                 ScreenState = CampaignScreen.ChoosePartner;
-                message = "Corruption interrupted the capture! Choose your battling Pokémon.";
+                message = "Corruption interrupted the capture! Choose your battling Valmon.";
             }
             else FinishCatch();
         }
@@ -450,7 +450,7 @@ namespace Valmon.Campaign
             turnDelay = 1.4f; animationClock = 0;
             if (battleAudio != null && battleAudio.clip != null) { battleAudio.Stop(); battleAudio.Play(); }
             World.ShowBattle(Run.party[partyIndex], opponent, Run.stage);
-            message = finalBattle ? "Final duel. Defeat the Corruptor's entire team." : "Defeat the corrupted Pokémon to complete your capture.";
+            message = finalBattle ? "Final duel. Defeat the Corruptor's entire team." : "Defeat the corrupted Valmon to complete your capture.";
         }
         public void PlayMove(int index)
         {
@@ -471,7 +471,7 @@ namespace Valmon.Campaign
             {
                 Cue(.5f);
                 Run.party.RemoveAt(partyIndex); partyIndex = 0;
-                if (Run.party.Count == 0) { Lose("Your last Pokémon was defeated. The Tamer's team is empty."); return; }
+                if (Run.party.Count == 0) { Lose("Your last Valmon was defeated. The Tamer's team is empty."); return; }
             }
             if (finalBattle)
             {
@@ -481,7 +481,7 @@ namespace Valmon.Campaign
                 if (allyLost || enemyLost)
                 {
                     partyIndex = BestPartner(opponent); BeginBattleView();
-                    message = allyLost ? "A Tamer Pokémon was lost. The next teammate enters!" : "One Corruptor Pokémon defeated. The next one enters!";
+                    message = allyLost ? "A Tamer Valmon was lost. The next teammate enters!" : "One Corruptor Valmon defeated. The next one enters!";
                     return;
                 }
             }
@@ -490,7 +490,7 @@ namespace Valmon.Campaign
                 if (allyLost)
                 {
                     if(IsRoundMatch) roundStopped++;
-                    message = friendly.species.displayName + " was lost from your team. The wild Pokémon remains corrupted.";
+                    message = friendly.species.displayName + " was lost from your team. The wild Valmon remains corrupted.";
                     ReturnToMap(); CheckOutcome(); return;
                 }
                 if (enemyLost)
@@ -533,7 +533,7 @@ namespace Valmon.Campaign
             World.ShowBattle(Run.party[partyIndex], opponent, Run.stage);
             netTurnSerial++;
             tamerTurn = !tamerTurn; turnDelay = 1.4f;
-            message = "Switched Pokémon. Switching consumes one turn.";
+            message = "Switched Valmon. Switching consumes one turn.";
         }
 
         private void FinishCatch()
@@ -561,9 +561,9 @@ namespace Valmon.Campaign
                 unlocked = Mathf.Max(unlocked, Mathf.Min(2, Run.stage + 1));
                 PlayerPrefs.SetInt("VALMON.UnlockedStage", unlocked); PlayerPrefs.Save();
             }
-            else if (outcome == StageOutcome.PartyLost) Lose("The Tamer has no Pokémon left.");
+            else if (outcome == StageOutcome.PartyLost) Lose("The Tamer has no Valmons left.");
             else if (outcome == StageOutcome.TimeExpired) Lose("The 8-minute timer expired.");
-            else if (outcome == StageOutcome.NoBalls) Lose("Not enough Poké Balls remain to reach " + CampaignRun.RequiredCatches + " catches.");
+            else if (outcome == StageOutcome.NoBalls) Lose("Not enough Valmon Balls remain to reach " + CampaignRun.RequiredCatches + " catches.");
         }
         public void Advance()
         {

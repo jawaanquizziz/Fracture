@@ -769,7 +769,7 @@ namespace Valmon.Campaign
             Vector3 side     = Vector3.Cross(Vector3.up, fwdDir);
             if (mapSpawned)
             {
-                // Classic Pokemon over-the-shoulder: behind + slightly left of the player,
+                // Classic Valmon over-the-shoulder: behind + slightly left of the player,
                 // low to the ground, looking across at the opponent.
                 camera.transform.position = playerSpawn
                                             - fwdDir * 2.6f           // behind the player

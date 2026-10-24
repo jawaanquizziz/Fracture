@@ -89,7 +89,7 @@ namespace Valmon.Campaign
                 }
                 return;
             }
-            // Fallback: unrigged character — Pokemon-GO-style procedural step.
+            // Fallback: unrigged character — procedural step animation.
             // Vertical hop (both feet "touch" when |sin phase|==0), slight side sway and forward lean.
             float hop=Mathf.Abs(Mathf.Sin(phase))*Mathf.Lerp(.09f,.17f,run)*weight;
             float sway=stride*Mathf.Lerp(4.5f,7f,run)*weight;

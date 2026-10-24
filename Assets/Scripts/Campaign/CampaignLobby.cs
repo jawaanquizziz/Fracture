@@ -123,7 +123,7 @@ namespace Valmon.Campaign
                     Text(310,y+53,400,29,i==0?"GRASS / LEVELS 1–15":i==1?"FIRE / LEVELS 16–30":"WATER / LEVELS 31–50",smallStyle);
                     if(Button(new Rect(758,y+17,210,57),i<=unlocked?"SELECT":"LOCKED",i<=unlocked)) { selectedLevel=i; menuStep=2; }
                 }
-                Text(310,578,640,55,"10 Poké Balls. 8 minutes. Catch 5 to advance. Your surviving team carries forward.");
+                Text(310,578,640,55,"10 Valmon Balls. 8 minutes. Catch 5 to advance. Your surviving team carries forward.");
             }
             else if(menuStep==2)
             {
@@ -137,7 +137,7 @@ namespace Valmon.Campaign
                 Text(410,132,590,45,"03 / ROLE & STARTER",headingStyle);
                 if(Button(new Rect(310,215,315,70),"TAMER",true,Role==PlayerRole.Tamer)) Role=PlayerRole.Tamer;
                 if(Button(new Rect(650,215,315,70),"CORRUPTOR",true,Role==PlayerRole.Corruptor)) Role=PlayerRole.Corruptor;
-                Text(312,306,650,65,Role==PlayerRole.Tamer?"Explore and capture creatures. Defeat corrupted Pokémon in turn battles.":"Control corruption and the wild Pokémon's moves. Eliminate the AI Tamer's team.");
+                Text(312,306,650,65,Role==PlayerRole.Tamer?"Explore and capture creatures. Defeat corrupted Valmons in turn battles.":"Control corruption and the wild Valmons' moves. Eliminate the AI Tamer's team.");
                 Text(312,396,650,30,"TAMER'S STARTER",headingStyle);
                 for(int i=0;i<3;i++) if(Button(new Rect(310+i*223,443,210,68),catalog.Find(starterIds[i]).displayName,true,selectedStarter==i)) selectedStarter=i;
                 if(Button(new Rect(310,581,650,62),"ENTER THE HABITAT",true,true)) StartCampaign(selectedLevel,selectedCharacter,Role,starterIds[selectedStarter]);
@@ -295,8 +295,8 @@ namespace Valmon.Campaign
         {
             Panel(new Rect(220,120,840,500),ink);
             Text(255,145,780,70,"HABITAT CLEARED",titleStyle);
-            Text(255,235,780,70,"3 new Pokémon caught in "+mapNames[Run.stage]+".\n"+Run.party.Count+" teammates remain.");
-            Text(255,325,780,50,Run.stage<2?"Next habitat: team healed, ten balls and eight minutes.":"Final duel: defeat three random Corruptor Pokémon.",smallStyle);
+            Text(255,235,780,70,"3 new Valmons caught in "+mapNames[Run.stage]+".\n"+Run.party.Count+" teammates remain.");
+            Text(255,325,780,50,Run.stage<2?"Next habitat: team healed, ten balls and eight minutes.":"Final duel: defeat three random Corruptor Valmons.",smallStyle);
 
             // Character swap (single-player only; LAN character is locked at lobby)
             bool canSwap = netMode == NetMode.None && catalog != null && catalog.characters != null && catalog.characters.Length > 0;
