@@ -48,13 +48,31 @@ namespace Valmon.CampaignEditor
                 for (int i = 0; i < desired.Length; i++)
                     if (catalog.battleMaps[i] != desired[i]) { matches = false; break; }
 
-            if (matches) return;
+            AudioClip introClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokemon game intro.mp3");
+            AudioClip soundtrackClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Full game sound trak.mp3");
+            AudioClip battleClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokemon battling.mp3");
+            AudioClip victoryClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Pokemon Victory Theme.mp3");
+            AudioClip defeatClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/battle lost.mp3");
+            AudioClip catchClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokeom caught.mp3");
+            AudioClip corruptClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/corruption pokemon.mp3");
 
-            Undo.RecordObject(catalog, "Wire Battle Maps");
-            catalog.battleMaps = desired;
+            bool audioChanged = false;
+            if (catalog.menuMusic != introClip && introClip != null) { catalog.menuMusic = introClip; audioChanged = true; }
+            if (catalog.introMusic != introClip && introClip != null) { catalog.introMusic = introClip; audioChanged = true; }
+            if (catalog.gameSoundtrack != soundtrackClip && soundtrackClip != null) { catalog.gameSoundtrack = soundtrackClip; audioChanged = true; }
+            if (catalog.battleMusic != battleClip && battleClip != null) { catalog.battleMusic = battleClip; audioChanged = true; }
+            if (catalog.victoryMusic != victoryClip && victoryClip != null) { catalog.victoryMusic = victoryClip; audioChanged = true; }
+            if (catalog.battleLostAudio != defeatClip && defeatClip != null) { catalog.battleLostAudio = defeatClip; audioChanged = true; }
+            if (catalog.captureAudio != catchClip && catchClip != null) { catalog.captureAudio = catchClip; audioChanged = true; }
+            if (catalog.corruptionAudio != corruptClip && corruptClip != null) { catalog.corruptionAudio = corruptClip; audioChanged = true; }
+
+            if (matches && !audioChanged) return;
+
+            Undo.RecordObject(catalog, "Wire Battle Maps & Audio");
+            if (!matches) catalog.battleMaps = desired;
             EditorUtility.SetDirty(catalog);
             AssetDatabase.SaveAssetIfDirty(catalog);
-            Debug.Log("[BattleMapsAutoWire] CampaignCatalog.battleMaps -> [grass, cave, beach]");
+            Debug.Log("[BattleMapsAutoWire] CampaignCatalog wired with battle maps and audio tracks.");
         }
     }
 }
