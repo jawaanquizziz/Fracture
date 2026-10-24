@@ -243,15 +243,52 @@ namespace Valmon.Campaign
         }
         private void DrawBattle()
         {
-            if(Run.party.Count==0||opponent==null) return;
-            HealthCard(30,Run.party[partyIndex],"TAMER",accent); HealthCard(860,opponent,finalBattle?"CORRUPTOR / "+bossTeam.Count+" LEFT":"CORRUPTED WILD",violet);
-            Panel(new Rect(20,486,1240,222),ink); Text(42,499,510,40,turnDelay>0?"RESOLVING TURN...":HumanTurn?"YOUR TURN":"OPPONENT'S TURN",headingStyle); Text(42,546,500,88,message);
-            OwnedCreature actor=Role==PlayerRole.Tamer?Run.party[partyIndex]:opponent;
-            if(BattleRules.HasMoves(actor)) for(int i=0;i<actor.species.moves.Length;i++) { MoveDefinition m=actor.species.moves[i]; if(Button(new Rect(585+i%2*330,502+i/2*69,310,60),m.name+" / "+m.type+"\n"+(m.power>0?"Power "+m.power:m.effect.ToUpperInvariant())+" / PP "+actor.pp[i]+"/"+m.pp,HumanTurn&&turnDelay<=0&&actor.pp[i]>0)) PlayMove(i); }
-            else if(Button(new Rect(585,502,640,120),"STRUGGLE / RECOIL",HumanTurn&&turnDelay<=0)) PlayMove(-1);
-            Text(42,652,150,40,"SWITCH TEAM\nCosts a turn",smallStyle);
-            var team=Role==PlayerRole.Tamer?Run.party:bossTeam;
-            if(Role==PlayerRole.Tamer||finalBattle) for(int i=0;i<team.Count;i++) if(Button(new Rect(205+i*102,650,96,43),team[i].species.displayName,HumanTurn&&turnDelay<=0,Role==PlayerRole.Tamer?i==partyIndex:team[i]==opponent,true)) SwitchParty(i);
+            if (Run.party.Count == 0 || opponent == null) return;
+            HealthCard(30, Run.party[partyIndex], "TAMER", accent);
+            HealthCard(860, opponent, finalBattle ? "CORRUPTOR / " + bossTeam.Count + " LEFT" : "CORRUPTED WILD", violet);
+
+            // Translucent glassmorphism floating cards instead of solid opaque screen-blocking panel
+            Color cardBg = new Color(.02f, .04f, .09f, .75f);
+            Color barAccent = HumanTurn ? accent : violet;
+
+            // Compact left card: Turn status, battle message, and switch buttons (height 100px instead of 222px)
+            Panel(new Rect(30, 608, 470, 100), cardBg);
+            Panel(new Rect(30, 608, 470, 2), barAccent);
+            Text(44, 613, 442, 24, turnDelay > 0 ? "RESOLVING TURN..." : HumanTurn ? "YOUR TURN" : "OPPONENT'S TURN", smallStyle);
+            Text(44, 634, 442, 36, message, tinyButton);
+
+            var team = Role == PlayerRole.Tamer ? Run.party : bossTeam;
+            if (Role == PlayerRole.Tamer || finalBattle)
+            {
+                Text(44, 674, 90, 24, "SWITCH:", tinyButton);
+                for (int i = 0; i < team.Count; i++)
+                {
+                    if (Button(new Rect(120 + i * 82, 673, 76, 26), team[i].species.displayName, HumanTurn && turnDelay <= 0, Role == PlayerRole.Tamer ? i == partyIndex : team[i] == opponent, true))
+                        SwitchParty(i);
+                }
+            }
+
+            // Compact right card: 50% smaller Moves panel (2x2 grid, each button 210x44 instead of 310x60, panel ~450x100 instead of 660x222)
+            OwnedCreature actor = Role == PlayerRole.Tamer ? Run.party[partyIndex] : opponent;
+            Panel(new Rect(520, 608, 450, 100), cardBg);
+            Panel(new Rect(520, 608, 450, 2), barAccent);
+
+            if (BattleRules.HasMoves(actor))
+            {
+                for (int i = 0; i < actor.species.moves.Length; i++)
+                {
+                    MoveDefinition m = actor.species.moves[i];
+                    float bx = 530 + (i % 2) * 218;
+                    float by = 615 + (i / 2) * 44;
+                    string moveDesc = m.name + " (" + m.type + ")\n" + (m.power > 0 ? "Pwr " + m.power : m.effect.ToUpperInvariant()) + " • PP " + actor.pp[i] + "/" + m.pp;
+                    if (Button(new Rect(bx, by, 210, 39), moveDesc, HumanTurn && turnDelay <= 0 && actor.pp[i] > 0, false, true))
+                        PlayMove(i);
+                }
+            }
+            else if (Button(new Rect(530, 622, 430, 60), "STRUGGLE / RECOIL", HumanTurn && turnDelay <= 0))
+            {
+                PlayMove(-1);
+            }
         }
         private void DrawStageClear()
         {
