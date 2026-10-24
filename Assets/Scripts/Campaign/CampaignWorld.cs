@@ -755,7 +755,7 @@ namespace Valmon.Campaign
             if (!mapSpawned)
                 Platform("Battle floor", presentationRoot.transform, new Vector3(0, -.25f, 1), new Vector3(22, .5f, 18), new Color(.07f, .085f, .14f));
 
-            float modelSize = mapSpawned ? 0.9f : 2.6f;
+            float modelSize = mapSpawned ? 1.1f : 2.6f;
             battleTamer = Model(friendly.species.model, presentationRoot.transform, playerSpawn, modelSize).transform;
             battleEnemy = Model(enemy.species.model, presentationRoot.transform, enemySpawn, modelSize).transform;
             battleTamerHome = playerSpawn;
@@ -764,14 +764,25 @@ namespace Valmon.Campaign
             battleEnemy.LookAt(new Vector3(playerSpawn.x, enemySpawn.y, playerSpawn.z));
             Ring(battleTamer, new Color(.2f, .9f, .7f)); Ring(battleEnemy, new Color(.8f, .2f, 1f));
 
-            Vector3 midpoint = (playerSpawn + enemySpawn) * 0.5f;
             Vector3 forward  = (enemySpawn - playerSpawn); forward.y = 0;
-            Vector3 side     = Vector3.Cross(Vector3.up, forward.normalized);
-            float camPull = mapSpawned ? 5.5f : 7f;
-            float camHeight = mapSpawned ? 2.8f : 4.8f;
-            float camBack = mapSpawned ? 0.5f : 2f;
-            camera.transform.position = midpoint + side * camPull + Vector3.up * camHeight - forward.normalized * camBack;
-            camera.transform.LookAt(midpoint + Vector3.up * 0.6f);
+            Vector3 fwdDir   = forward.normalized;
+            Vector3 side     = Vector3.Cross(Vector3.up, fwdDir);
+            if (mapSpawned)
+            {
+                // Classic Pokemon over-the-shoulder: behind + slightly left of the player,
+                // low to the ground, looking across at the opponent.
+                camera.transform.position = playerSpawn
+                                            - fwdDir * 2.6f           // behind the player
+                                            + side  * 0.9f            // offset left/right of center
+                                            + Vector3.up * 1.6f;      // low height
+                camera.transform.LookAt(enemySpawn + Vector3.up * 0.4f);
+            }
+            else
+            {
+                Vector3 midpoint = (playerSpawn + enemySpawn) * 0.5f;
+                camera.transform.position = midpoint + side * 7f + Vector3.up * 4.8f - fwdDir * 2f;
+                camera.transform.LookAt(midpoint + Vector3.up * 1.2f);
+            }
         }
 
         private static Transform FindDeepChild(Transform parent, string name)
