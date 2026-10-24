@@ -103,13 +103,13 @@ namespace Valmon.Campaign
         private string CatalogSignature()
         {
             if (netCatalog != null) return netCatalog;
-            var text = new StringBuilder("VALMON-LAN-4-WALKING|");
+            var text = new StringBuilder("VALMON-LAN-5-INNER-ARENA|");
             foreach (SpeciesDefinition s in catalog.species)
             {
                 text.Append(s.id).Append(':').Append(s.hp).Append(':').Append(s.attack).Append(':').Append(s.defense).Append(':').Append(s.specialAttack).Append(':').Append(s.specialDefense).Append(':').Append(s.speed).Append(string.Join(",", s.types));
                 foreach (MoveDefinition m in s.moves) text.Append(m.name).Append(m.type).Append(m.power).Append(m.accuracy).Append(m.pp).Append(m.effect);
             }
-            text.Append(CampaignRun.RequiredCatches).Append(CampaignRun.BallsPerStage).Append(CampaignRun.SecondsPerStage);
+            text.Append(CampaignRun.RequiredCorruptions).Append(CampaignRun.RequiredCatches).Append(CampaignRun.BallsPerStage).Append(CampaignRun.SecondsPerStage);
             using (SHA256 hash = SHA256.Create()) netCatalog = BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(text.ToString()))).Replace("-", "");
             return netCatalog;
         }
@@ -286,6 +286,7 @@ namespace Valmon.Campaign
             if (paused) return;
             switch (p.action)
             {
+                case "finish": if(remote==PlayerRole.Tamer) FinishCaptureGoal(); break;
                 case "next": NextRound(); break;
                 case "again": PlayAgain(); break;
                 case "lobby": ReturnToLobby(); break;
@@ -371,7 +372,7 @@ namespace Valmon.Campaign
             if (ScreenState == CampaignScreen.Battle && Run.party.Count > 0 && opponent != null)
             {
                 string key = s.battleSerial + ":" + partyIndex + ":" + Run.party[partyIndex].species.id + ":" + opponent.species.id;
-                if (key != netBattleVisualKey) { World.ShowBattle(Run.party[partyIndex], opponent); netBattleVisualKey = key; }
+                if (key != netBattleVisualKey) { World.ShowBattle(Run.party[partyIndex], opponent, Run.stage); netBattleVisualKey = key; }
             }
             else if (previous == CampaignScreen.Battle || load) { World.ResumeMap(); netBattleVisualKey = ""; UpdateCamera(true); }
             if (ScreenState == CampaignScreen.Capture && encounter != null)
@@ -393,8 +394,8 @@ namespace Valmon.Campaign
                 if(Mouse.current!=null&&Mouse.current.rightButton.isPressed)
                 {
                     Vector2 d=Mouse.current.delta.ReadValue();
-                    if(Role==PlayerRole.Tamer) { yaw+=d.x*.16f; pitch=Mathf.Clamp(pitch-d.y*.12f,10,65); }
-                    else { corruptorYaw+=d.x*.16f; corruptorPitch=Mathf.Clamp(corruptorPitch-d.y*.12f,10,65); }
+                    if(Role==PlayerRole.Tamer) { yaw=(yaw+d.x*.22f)%360f; pitch=Mathf.Clamp(pitch-d.y*.18f,-85f,85f); }
+                    else { corruptorYaw=(corruptorYaw+d.x*.22f)%360f; corruptorPitch=Mathf.Clamp(corruptorPitch-d.y*.18f,-85f,85f); }
                 }
                 if(Role==PlayerRole.Tamer)
                 {

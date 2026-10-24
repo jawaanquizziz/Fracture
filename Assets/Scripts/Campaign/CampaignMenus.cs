@@ -53,7 +53,7 @@ namespace Valmon.Campaign
             Panel(new Rect(255,155,770,510),ink); Text(290,185,700,65,helpPage,titleStyle);
             string content=helpPage=="CREDITS"?
                 "VALMON / The Rift Championship\n\nCharacters, creature models and Blender arenas are supplied by this project's asset collection. Original source archives remain in Assets.\n\nThe championship interface, local UDP match flow and original opening score are included with this project.\n\nSee the original asset archives for their creator and license information.":
-                "TWO PLAYERS / THREE ROUNDS\nHost or join on the same Wi-Fi or hotspot. Roles are assigned by the host and swap every round.\n\nTAMER: WASD move, Shift sprint, right mouse orbit, Z catch, Q dash, R respawn. Catch three creatures with ten balls before eight minutes expire.\n\nWARDEN: WASD move, right mouse orbit, Q corrupt nearby creature, E place trap, R lock a nearby gate, F scan. Abilities cost energy and have cooldowns.\n\nCorruption turns captures into battles. Choose your own side's moves when it is your turn. Esc pauses both players. Win two of three rounds to win the match.";
+                "TWO PLAYERS / THREE ROUNDS\nHost or join on the same Wi-Fi or hotspot. Roles are assigned by the host and swap every round.\n\nTAMER: WASD move, Shift sprint, right mouse orbit, Z catch, Q dash, R respawn. Catch at least five with ten balls in eight minutes. Finish at five or continue to six for +1 bonus point.\n\nWARDEN: Corrupt six distinct creatures for +1 bonus point; this does not end the round. WASD move, right mouse orbit, Q corrupt nearby creature, E place trap, R lock a nearby gate, F scan. Abilities cost energy and have cooldowns.\n\nCorruption turns captures into battles. Choose your own side's moves when it is your turn. Esc pauses both players. Win two of three rounds to win the match.";
             Text(292,266,690,293,content,new GUIStyle(textStyle){fontSize=16});
             if(Button(new Rect(292,585,690,52),"BACK",true,true)) helpPage="";
         }
@@ -127,7 +127,7 @@ namespace Valmon.Campaign
             Panel(new Rect(165,241,450,220),ink); Panel(new Rect(665,241,450,220),ink);
             Text(190,260,410,45,"TAMER",headingStyle); Text(690,260,410,45,"WARDEN",headingStyle);
             Text(190,315,405,115,"Creatures captured: "+Run.catches+"\nTime remaining: "+Mathf.CeilToInt(Run.seconds)+" seconds\nRound score: "+roundTamerScore);
-            Text(690,315,405,115,"Captures stopped: "+roundStopped+"\nSabotage actions: "+roundSabotages+"\nRound score: "+roundWardenScore);
+            Text(690,315,405,115,"Captures stopped: "+roundStopped+"\nSabotage actions: "+roundSabotages+"\nBonus point: +"+WardenBonus+"\nRound score: "+roundWardenScore);
             Text(165,490,450,50,hostPlayerName+"\n"+hostWins+" rounds / "+hostScore+" points",new GUIStyle(headingStyle){fontSize=19});
             Text(665,490,450,50,clientPlayerName+"\n"+clientWins+" rounds / "+clientScore+" points",new GUIStyle(headingStyle){fontSize=19});
             Text(165,548,980,48,final?"Three rounds complete. Match winner is decided by rounds won.":"Next round: roles swap automatically and both players load the next arena.",smallStyle);

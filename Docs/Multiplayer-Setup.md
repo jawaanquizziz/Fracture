@@ -24,7 +24,7 @@ Use the Wi-Fi/Ethernet IPv4, not a VPN, virtual adapter, or 127.0.0.1 address. G
 ## Controls and rules
 
 - Both roles: WASD move, Shift sprint, hold right mouse to orbit. Esc pauses both players.
-- Tamer: **Z** catches within range, **Q** dashes, **R** returns to spawn. Start each round with one starter, 10 balls and 8 minutes. Catch 3 wild creatures to win. The starter is excluded from the quota.
+- Tamer: **Z** catches within range, **Q** dashes, **R** returns to spawn. Start each round with one starter, 10 balls and 8 minutes. Catch at least 5 wild creatures to qualify. Then choose Finish Round or keep catching until the timer expires. At 6 catches, earn one additional score point. The starter is excluded from the quota. The Corruptor earns one additional score point after corrupting 6 distinct wild creatures; this does not end the round. Captured creatures retain their corruption credit. Both counters reset each round.
 - Warden: **Q** corrupts the nearest clean creature within 12m (25 energy); **E** places a trap at your feet (30); **R** locks a gate within 8m for 8 seconds (35); **F** reveals targets on the radar for 6 seconds (15). Buttons show cooldowns. Left-click a creature to target corruption; Shift-click terrain within 15m for an area burst (55 energy).
 - A trap causes 25 damage and a four-second slow; it also interrupts an active catch. Four trap hits defeat the Tamer.
 - Corrupting a creature during a catch triggers partner selection and a turn-based battle. Each player chooses their side's moves. Winning completes the catch. Losing removes the selected teammate. Losing the entire team, exhausting the quota's possible balls, or running out of time awards the round to the Warden.

@@ -941,10 +941,18 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 23b86d8ef4a572742b8575095f18633b, type: 3}
   - {fileID: 919132149155446097, guid: 2494b7c1bf444904889e067bfdc4dba2, type: 3}
   - {fileID: 919132149155446097, guid: 0e34be1236ca62d40bc2376c66a41741, type: 3}
+  battleMaps:
+  - {fileID: 919132149155446097, guid: cda55474338cd2c4d96b1fb8a3aa7828, type: 3}
+  - {fileID: 919132149155446097, guid: 1ad160aa27fa20b44ae5fee767264f79, type: 3}
+  - {fileID: 919132149155446097, guid: 601183f54073a4e489ba2f4db86634a5, type: 3}
   captureBall: {fileID: -6689036041284674117, guid: ea82618275bc0e04f90b722d3d409d5b, type: 3}
   surfaceShader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   menuMusic: {fileID: 8300000, guid: 9f53e56b56cc92d46804ff995128dbc9, type: 3}
-  captureAudio: {fileID: 0}
-  corruptionAudio: {fileID: 0}
-  victoryAudio: {fileID: 0}
+  gameSoundtrack: {fileID: 8300000, guid: 904d6511e29e53f43ae947ce36eddfc4, type: 3}
+  battleMusic: {fileID: 8300000, guid: 094119c784b3a684f8a13c0e11ffd1fb, type: 3}
+  introMusic: {fileID: 8300000, guid: f56f9dc1dff9fbe4fb766ed7da1c57ac, type: 3}
+  victoryMusic: {fileID: 8300000, guid: bdf655b8db959db4b978c313f3fd22a8, type: 3}
+  battleLostAudio: {fileID: 8300000, guid: e763958dbaa664546879e08c1b34e6a9, type: 3}
+  captureAudio: {fileID: 8300000, guid: e77e6c17f854a214585ca94d7aed62f9, type: 3}
+  corruptionAudio: {fileID: 8300000, guid: d2aa189573f5272409ffbf8dcb1d1c7d, type: 3}
   introFile: VALMON_Championship_Opening.mp4

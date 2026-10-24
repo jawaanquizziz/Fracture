@@ -43,7 +43,7 @@ namespace Valmon.Campaign
 
     public sealed class CampaignRun
     {
-        public const int RequiredCatches = 3, BallsPerStage = 10;
+        public const int RequiredCatches = 5, RequiredCorruptions = 6, BallsPerStage = 10;
         public const float SecondsPerStage = 480f;
         public int stage, balls, catches;
         public float seconds;
@@ -79,8 +79,8 @@ namespace Valmon.Campaign
         public StageOutcome Outcome(bool encounterPending)
         {
             if (party.Count == 0) return StageOutcome.PartyLost;
-            if (seconds <= 0) return StageOutcome.TimeExpired;
-            if (catches >= RequiredCatches) return StageOutcome.Cleared;
+            if (seconds <= 0) return catches >= RequiredCatches ? StageOutcome.Cleared : StageOutcome.TimeExpired;
+            if (!encounterPending && balls == 0 && catches >= RequiredCatches) return StageOutcome.Cleared;
             // The last ball can still complete a capture or a battle.
             if (!encounterPending && balls < RequiredCatches - catches) return StageOutcome.NoBalls;
             return StageOutcome.Playing;

@@ -15,12 +15,12 @@ namespace Valmon.Campaign
         {
             if(terrainRoot==null) return;
             if(warden!=null) { warden.SetActive(false); Object.Destroy(warden); }
-            int node=reachable.OrderBy(n=>Mathf.Abs(Vector3.Distance(nodes[n],spawn)-12f)).First();
+            int node=reachable.Where(n=>InsideSpawnArea(nodes[n]) && SpawnClear(nodes[n])).OrderBy(n=>Mathf.Abs(Vector3.Distance(nodes[n],spawn)-12f)).First();
             wardenSpawn=nodes[node]+Vector3.up*.12f;
             warden=new GameObject("Warden Player"); warden.transform.SetParent(terrainRoot.transform,false); warden.transform.position=wardenSpawn;
             Model(catalog.characters[character].model,warden.transform,Vector3.zero,PlayerHeight,true).transform.localRotation=Quaternion.Euler(0,catalog.characters[character].yawOffset,0);
             wardenController=warden.AddComponent<CharacterController>(); warden.AddComponent<CharacterLocomotion>().Initialize(warden.transform.GetChild(0));
-            wardenController.height=PlayerHeight; wardenController.radius=.32f; wardenController.center=Vector3.up*(PlayerHeight*.5f); wardenController.stepOffset=.55f;
+            wardenController.height=PlayerHeight; wardenController.radius=.22f; wardenController.center=Vector3.up*(PlayerHeight*.5f); wardenController.stepOffset=.35f;
             gates.Clear(); trapVisuals.Clear();
             for(int i=0;i<3;i++)
             {

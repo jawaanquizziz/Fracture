@@ -22,7 +22,7 @@ namespace Valmon.Campaign
         private System.Random random;
         private Camera view;
         private AudioSource sound;
-        private AudioSource menuAudio;
+        private AudioSource menuAudio, gameAudio, battleAudio;
         private bool introRecording;
         private AudioClip cue;
         private VideoPlayer video;
@@ -70,8 +70,16 @@ namespace Valmon.Campaign
             World = new CampaignWorld(catalog, view);
             ScreenState = CampaignScreen.Intro;
             World.ShowStadium();
-            menuAudio = gameObject.AddComponent<AudioSource>(); menuAudio.loop = true; menuAudio.volume = .2f; menuAudio.clip = catalog.menuMusic;
+            AudioClip menuClip = catalog.menuMusic != null ? catalog.menuMusic : catalog.introMusic;
+            menuAudio = gameObject.AddComponent<AudioSource>(); menuAudio.loop = true; menuAudio.volume = .2f; menuAudio.clip = menuClip;
             if (menuAudio.clip != null) menuAudio.Play();
+
+            gameAudio = gameObject.AddComponent<AudioSource>(); gameAudio.loop = true; gameAudio.volume = 0f; gameAudio.clip = catalog.gameSoundtrack;
+            if (gameAudio.clip != null) gameAudio.Play();
+
+            battleAudio = gameObject.AddComponent<AudioSource>(); battleAudio.loop = true; battleAudio.volume = 0f; battleAudio.clip = catalog.battleMusic;
+            if (battleAudio.clip != null) battleAudio.Play();
+
             if (!string.IsNullOrEmpty(catalog.introFile)) StartVideo();
             Cursor.lockState = CursorLockMode.None; Cursor.visible = true;
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -117,7 +125,14 @@ namespace Valmon.Campaign
         {
             // Always pump networking first so packets apply before game logic.
             NetTick();
-            if (menuAudio != null) menuAudio.volume = Mathf.MoveTowards(menuAudio.volume, (ScreenState == CampaignScreen.Menu || ScreenState == CampaignScreen.Lobby || (ScreenState == CampaignScreen.Intro && video == null)) ? .2f : 0, Time.unscaledDeltaTime * .5f);
+            // Smooth dynamic music crossfades based on game state
+            bool isMenu = ScreenState == CampaignScreen.Menu || ScreenState == CampaignScreen.Lobby || (ScreenState == CampaignScreen.Intro && video == null);
+            bool isBattle = ScreenState == CampaignScreen.Battle;
+            bool isGameplay = !isMenu && !isBattle && Active && ScreenState != CampaignScreen.Result && ScreenState != CampaignScreen.StageClear;
+
+            if (menuAudio != null) menuAudio.volume = Mathf.MoveTowards(menuAudio.volume, isMenu ? .22f : 0f, Time.unscaledDeltaTime * .6f);
+            if (gameAudio != null) gameAudio.volume = Mathf.MoveTowards(gameAudio.volume, isGameplay ? .26f : 0f, Time.unscaledDeltaTime * .6f);
+            if (battleAudio != null) battleAudio.volume = Mathf.MoveTowards(battleAudio.volume, isBattle ? .28f : 0f, Time.unscaledDeltaTime * .6f);
             if (netMode == NetMode.Client) { NetClientFrame(); return; }
             if (ScreenState == CampaignScreen.Menu || ScreenState == CampaignScreen.Lobby) World?.TickPresentation(Time.unscaledDeltaTime);
             if (ScreenState == CampaignScreen.Lobby) return;
@@ -212,7 +227,7 @@ namespace Valmon.Campaign
             try { World.LoadStage(Run, selectedCharacter, new System.Random(netStageSeed)); World.ShowCorruptor(netMode == NetMode.None ? (selectedCharacter + 1) % 4 : netCorruptorCharacter); }
             catch (Exception error) { Debug.LogException(error); ScreenState = CampaignScreen.Result; resultReason = "Map could not be loaded: " + error.Message; return; }
             ScreenState = CampaignScreen.Explore; yaw = World.StartingYaw; pitch = 27; verticalSpeed = 0;
-            message = "Catch 3 " + Run.Habitat + " Pokémon. Your starter does not count toward the goal.";
+            message = "Catch " + CampaignRun.RequiredCatches + " " + Run.Habitat + " Pokémon. Your starter does not count toward the goal.";
             if (Role == PlayerRole.Corruptor)
             {
                 World.controller.enabled = netMode == NetMode.Host;
@@ -248,7 +263,8 @@ namespace Valmon.Campaign
             if (Mouse.current != null && Mouse.current.rightButton.isPressed)
             {
                 Vector2 delta = Mouse.current.delta.ReadValue();
-                yaw += delta.x * .16f; pitch = Mathf.Clamp(pitch - delta.y * .12f, -85f, 85f);
+                yaw = (yaw + delta.x * .22f) % 360f;
+                pitch = Mathf.Clamp(pitch - delta.y * .18f, -85f, 85f);
             }
             Vector3 direction = Quaternion.Euler(0, yaw, 0) * new Vector3(input.x, 0, input.y).normalized;
             float speed = TamerSpeed(Keyboard.current != null && Keyboard.current.leftShiftKey.isPressed);
@@ -262,6 +278,7 @@ namespace Valmon.Campaign
 
         private void MoveAITamer()
         {
+            if(Run.catches>=6) { FinishCaptureGoal(); return; }
             if (aiTarget == null || aiTarget.captured)
             {
                 var choices=World.wild.Where(w=>!w.captured).OrderBy(w=>Vector3.Distance(w.root.transform.position,World.tamer.transform.position)+w.creature.level*.5f+(w.corrupted?8:0)).ToArray();
@@ -292,8 +309,8 @@ namespace Valmon.Campaign
             if(avatar==null) return;
             Vector3 focus=avatar.transform.position+Vector3.up*(CampaignWorld.PlayerHeight*.6f);
             Quaternion rotation=Quaternion.Euler(Role==PlayerRole.Tamer?pitch:corruptorPitch,Role==PlayerRole.Tamer?yaw:corruptorYaw,0);
-            float distance=CampaignWorld.PlayerHeight*2.4f; Vector3 direction=rotation*Vector3.back;
-            if(Physics.SphereCast(focus,.2f,direction,out RaycastHit hit,distance,1<<CampaignWorld.TerrainLayer)) distance=Mathf.Max(1.3f,hit.distance-.2f);
+            float distance=CampaignWorld.PlayerHeight*3.6f; Vector3 direction=rotation*Vector3.back;
+            if(Physics.SphereCast(focus,.18f,direction,out RaycastHit hit,distance,1<<CampaignWorld.TerrainLayer)) distance=Mathf.Max(1.1f,hit.distance-.18f);
             Vector3 destination=focus+direction*distance;
             view.transform.position=snap?destination:Vector3.Lerp(view.transform.position,destination,1-Mathf.Exp(-8*Time.deltaTime)); view.transform.rotation=rotation;
         }
@@ -301,7 +318,12 @@ namespace Valmon.Campaign
         {
             if(World.wardenController==null) return;
             Vector2 input=ReadMoveInput();
-            if(Mouse.current!=null&&Mouse.current.rightButton.isPressed) { Vector2 delta=Mouse.current.delta.ReadValue(); corruptorYaw+=delta.x*.16f; corruptorPitch=Mathf.Clamp(corruptorPitch-delta.y*.12f,-85f,85f); }
+            if(Mouse.current!=null&&Mouse.current.rightButton.isPressed)
+            {
+                Vector2 delta=Mouse.current.delta.ReadValue();
+                corruptorYaw=(corruptorYaw+delta.x*.22f)%360f;
+                corruptorPitch=Mathf.Clamp(corruptorPitch-delta.y*.18f,-85f,85f);
+            }
             Vector3 direction=Quaternion.Euler(0,corruptorYaw,0)*new Vector3(input.x,0,input.y);
             bool sprint=Keyboard.current!=null&&Keyboard.current.leftShiftKey.isPressed;
             if(World.wardenController.isGrounded&&wardenVertical<0) wardenVertical=-2;
@@ -346,6 +368,13 @@ namespace Valmon.Campaign
             message = creature.creature.species.displayName + " is corrupted. Its next capture requires a battle.";
             Cue(.7f);
             return true;
+        }
+
+        private void FinishCaptureGoal()
+        {
+            if (netMode == NetMode.Client) { if(Role == PlayerRole.Tamer) NetCommand("finish",0); return; }
+            if (ScreenState != CampaignScreen.Explore || Run.catches < CampaignRun.RequiredCatches) return;
+            CheckOutcome(true);
         }
 
         public bool BeginCapture(WildCreature creature)
@@ -419,7 +448,7 @@ namespace Valmon.Campaign
             ScreenState = CampaignScreen.Battle;
             tamerTurn = Run.party[partyIndex].Speed >= opponent.Speed;
             turnDelay = 1.4f; animationClock = 0;
-            World.ShowBattle(Run.party[partyIndex], opponent);
+            World.ShowBattle(Run.party[partyIndex], opponent, Run.stage);
             message = finalBattle ? "Final duel. Defeat the Corruptor's entire team." : "Defeat the corrupted Pokémon to complete your capture.";
         }
         public void PlayMove(int index)
@@ -439,6 +468,7 @@ namespace Valmon.Campaign
             bool allyLost = friendly.health <= 0, enemyLost = opponent.health <= 0;
             if (allyLost)
             {
+                Cue(.5f);
                 Run.party.RemoveAt(partyIndex); partyIndex = 0;
                 if (Run.party.Count == 0) { Lose("Your last Pokémon was defeated. The Tamer's team is empty."); return; }
             }
@@ -476,8 +506,9 @@ namespace Valmon.Campaign
             if (animationClock <= 0 || World.battleTamer == null || World.battleEnemy == null) return;
             animationClock = Mathf.Max(0, animationClock - Time.deltaTime);
             float offset = Mathf.Sin((1 - animationClock / .42f) * Mathf.PI) * .7f;
-            World.battleTamer.position = new Vector3(-2.5f + (attackByTamer ? offset : 0), 0, 0);
-            World.battleEnemy.position = new Vector3(2.5f - (!attackByTamer ? offset : 0), 0, 2);
+            Vector3 lunge = (World.battleEnemyHome - World.battleTamerHome); lunge.y = 0; lunge = lunge.normalized;
+            World.battleTamer.position = World.battleTamerHome + (attackByTamer ? lunge * offset : Vector3.zero);
+            World.battleEnemy.position = World.battleEnemyHome - (!attackByTamer ? lunge * offset : Vector3.zero);
         }
 
         private void SwitchParty(int index)
@@ -498,7 +529,7 @@ namespace Valmon.Campaign
                 if (!finalBattle || index < 0 || index >= bossTeam.Count || bossTeam[index] == opponent) return;
                 opponent = bossTeam[index];
             }
-            World.ShowBattle(Run.party[partyIndex], opponent);
+            World.ShowBattle(Run.party[partyIndex], opponent, Run.stage);
             netTurnSerial++;
             tamerTurn = !tamerTurn; turnDelay = 1.4f;
             message = "Switched Pokémon. Switching consumes one turn.";
@@ -511,19 +542,20 @@ namespace Valmon.Campaign
             World.SpawnCatchSparkle(at);
             Run.Catch(encounter.creature);
             message = "Caught " + encounter.creature.species.displayName + "! " + Run.catches + "/" + CampaignRun.RequiredCatches + " this level.";
-            Cue(1.6f); ReturnToMap(); CheckOutcome();
+            Cue(1.2f); ReturnToMap(); CheckOutcome();
         }
         private void ReturnToMap()
         {
             World.ResumeMap(); encounter = null; aiTarget = null; aiRoute.Clear();
             ScreenState = CampaignScreen.Explore; UpdateCamera(true);
         }
-        private void CheckOutcome()
+        private void CheckOutcome(bool finishGoal = false)
         {
-            StageOutcome outcome = Run.Outcome(ScreenState == CampaignScreen.Capture || ScreenState == CampaignScreen.ChoosePartner || ScreenState == CampaignScreen.Battle);
+            StageOutcome outcome = finishGoal ? StageOutcome.Cleared : Run.Outcome(ScreenState == CampaignScreen.Capture || ScreenState == CampaignScreen.ChoosePartner || ScreenState == CampaignScreen.Battle);
             if (outcome == StageOutcome.Cleared)
             {
-                if(IsRoundMatch) { FinishRound(true,"The Tamer caught three creatures before time ran out."); return; }
+                Cue(1.8f);
+                if(IsRoundMatch) { FinishRound(true,"The Tamer caught five creatures before time ran out."); return; }
                 ScreenState = CampaignScreen.StageClear;
                 unlocked = Mathf.Max(unlocked, Mathf.Min(2, Run.stage + 1));
                 PlayerPrefs.SetInt("VALMON.UnlockedStage", unlocked); PlayerPrefs.Save();
@@ -562,10 +594,16 @@ namespace Valmon.Campaign
         private void Cue(float pitchValue)
         {
             if(sound==null) return;
-            AudioClip supplied=pitchValue>=1.5f?catalog.victoryAudio:pitchValue>=1.1f?catalog.captureAudio:catalog.corruptionAudio;
-            AudioClip clip=supplied!=null?supplied:cue;
+            AudioClip supplied = null;
+            if (pitchValue >= 1.5f) supplied = catalog.victoryMusic;
+            else if (pitchValue >= 1.1f) supplied = catalog.captureAudio;
+            else if (pitchValue <= .55f) supplied = catalog.battleLostAudio;
+            else supplied = catalog.corruptionAudio;
+
+            AudioClip clip = supplied != null ? supplied : cue;
             if(clip==null) return;
-            sound.pitch=supplied!=null?1:pitchValue; sound.PlayOneShot(clip);
+            sound.pitch = supplied != null ? 1f : pitchValue;
+            sound.PlayOneShot(clip, 0.8f);
         }
         private void RemoveCaptureVisual() { if (captureVisual != null) Destroy(captureVisual); captureVisual = null; }
         private void OnDestroy()

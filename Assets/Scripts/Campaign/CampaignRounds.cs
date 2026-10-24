@@ -9,6 +9,9 @@ namespace Valmon.Campaign
     public partial class CampaignController
     {
         private const int MatchRounds=3;
+        private int TamerBonus => Run != null && Run.catches >= 6 ? 1 : 0;
+        private int WardenBonus => CorruptionCount >= CampaignRun.RequiredCorruptions ? 1 : 0;
+        private int CorruptionCount => World == null ? 0 : World.wild.Count(w => w.corrupted);
         private int roundIndex, firstArena, hostWins, clientWins, hostScore, clientScore;
         private int roundSabotages, roundStopped, roundTamerScore, roundWardenScore, nextTrapId;
         private bool roundScored, waitingForArena, autoStartArmed=true, hostMatchWinner;
@@ -56,8 +59,8 @@ namespace Valmon.Campaign
         {
             if(roundScored||netMode!=NetMode.Host) return;
             roundScored=true; outcomeTamer=tamerWon; resultReason=reason; RemoveCaptureVisual(); paused=false;
-            roundTamerScore=Run.catches*100+(tamerWon?200+Mathf.FloorToInt(Run.seconds/10):0);
-            roundWardenScore=roundSabotages*50+roundStopped*100+(!tamerWon?200:0);
+            roundTamerScore=TamerBonus+Run.catches*100+(tamerWon?200+Mathf.FloorToInt(Run.seconds/10):0);
+            roundWardenScore=WardenBonus+roundSabotages*50+roundStopped*100+(!tamerWon?200:0);
             bool hostWon=tamerWon==(Role==PlayerRole.Tamer);
             if(hostWon) hostWins++; else clientWins++;
             hostScore+=Role==PlayerRole.Tamer?roundTamerScore:roundWardenScore;

@@ -122,7 +122,7 @@ namespace Valmon.Campaign
                     Text(310,y+53,400,29,i==0?"GRASS / LEVELS 1–15":i==1?"FIRE / LEVELS 16–30":"WATER / LEVELS 31–50",smallStyle);
                     if(Button(new Rect(758,y+17,210,57),i<=unlocked?"SELECT":"LOCKED",i<=unlocked)) { selectedLevel=i; menuStep=2; }
                 }
-                Text(310,578,640,55,"10 Poké Balls. 8 minutes. Catch 3 to advance. Your surviving team carries forward.");
+                Text(310,578,640,55,"10 Poké Balls. 8 minutes. Catch 5 to advance. Your surviving team carries forward.");
             }
             else if(menuStep==2)
             {
@@ -174,13 +174,13 @@ namespace Valmon.Campaign
                 if (w == null || w.captured || w.root == null || !w.root.activeInHierarchy) continue;
                 float dist = Vector3.Distance(view.transform.position, w.root.transform.position);
                 if (dist > 35f) continue;
-                Vector3 p = view.WorldToScreenPoint(w.root.transform.position + Vector3.up * (w.visualHeight + .4f));
+                Vector3 p = view.WorldToScreenPoint(w.root.transform.position + Vector3.up * (w.visualHeight + .25f));
                 if (p.z <= 0) continue;
-                float x = (p.x - uiOffset.x) / uiScale - 70, y = (Screen.height - p.y - uiOffset.y) / uiScale;
+                float x = (p.x - uiOffset.x) / uiScale - 60, y = (Screen.height - p.y - uiOffset.y) / uiScale;
                 if (x < 150 || x > (Role == PlayerRole.Corruptor ? 765 : 1120) || y < 45 || y > 660) continue;
-                Panel(new Rect(x, y, 140, 24), new Color(.02f, .04f, .08f, .85f));
-                Panel(new Rect(x, y, 3, 24), w.corrupted ? new Color(1f, .2f, .25f) : new Color(.3f, 1f, .6f));
-                Text(x + 7, y + 2, 130, 20, w.creature.species.displayName + " Lv." + w.creature.level + (w.corrupted ? " [C]" : ""), new GUIStyle(smallStyle) { fontSize = 10 });
+                Panel(new Rect(x, y, 120, 20), new Color(.02f, .04f, .08f, .85f));
+                Panel(new Rect(x, y, 3, 20), w.corrupted ? new Color(1f, .2f, .25f) : new Color(.3f, 1f, .6f));
+                Text(x + 5, y + 1, 112, 18, w.creature.species.displayName + " Lv." + w.creature.level + (w.corrupted ? " [C]" : ""), new GUIStyle(smallStyle) { fontSize = 9 });
             }
         }
         private void DrawCorruptionPanel() { DrawWardenAbilities(); }
@@ -255,16 +255,90 @@ namespace Valmon.Campaign
         }
         private void DrawStageClear()
         {
-            Panel(new Rect(280,180,720,385),ink); Text(315,205,650,70,"HABITAT CLEARED",titleStyle);
-            Text(315,298,650,70,"3 new Pokémon caught in "+mapNames[Run.stage]+".\n"+Run.party.Count+" teammates remain.");
-            Text(315,389,650,50,Run.stage<2?"Next habitat: team healed, ten balls and eight minutes.":"Final duel: defeat three random Corruptor Pokémon.",smallStyle);
-            if(Button(new Rect(315,466,650,65),netMode==NetMode.Client?"WAITING FOR HOST":Run.stage<2?"ADVANCE TO LEVEL "+(Run.stage+2):"FACE THE CORRUPTOR",netMode!=NetMode.Client,true)) Advance();
+            Panel(new Rect(220,120,840,500),ink);
+            Text(255,145,780,70,"HABITAT CLEARED",titleStyle);
+            Text(255,235,780,70,"3 new Pokémon caught in "+mapNames[Run.stage]+".\n"+Run.party.Count+" teammates remain.");
+            Text(255,325,780,50,Run.stage<2?"Next habitat: team healed, ten balls and eight minutes.":"Final duel: defeat three random Corruptor Pokémon.",smallStyle);
+
+            // Character swap (single-player only; LAN character is locked at lobby)
+            bool canSwap = netMode == NetMode.None && catalog != null && catalog.characters != null && catalog.characters.Length > 0;
+            if (canSwap)
+            {
+                Text(255,385,780,28,"CHOOSE YOUR CHARACTER FOR THE NEXT ROUND", smallStyle);
+                int count = Mathf.Min(4, catalog.characters.Length);
+                for (int i = 0; i < count; i++)
+                    if (Button(new Rect(255+(i%2)*395, 420+(i/2)*52, 375, 46), catalog.characters[i].name, true, selectedCharacter==i))
+                        selectedCharacter = i;
+            }
+
+            if(Button(new Rect(255,540,780,62),netMode==NetMode.Client?"WAITING FOR HOST":Run.stage<2?"ADVANCE TO LEVEL "+(Run.stage+2):"FACE THE CORRUPTOR",netMode!=NetMode.Client,true)) Advance();
         }
         private void DrawResult()
         {
-            Panel(new Rect(0,0,1280,720),new Color(.015f,.025f,.06f,.94f)); Logo(70,80);
-            Text(100,255,1080,80,outcomeTamer?"THE TAMER PREVAILS":"MATCH FINISHED",titleStyle); Text(105,350,1050,100,resultReason,headingStyle);
-            if(Button(new Rect(105,525,490,65),"RETURN TO TITLE",true,true)) BackToTitle(); if(Button(new Rect(635,525,490,65),"QUIT")) Quit();
+            Panel(new Rect(0,0,1280,720),new Color(.015f,.025f,.06f,.96f));
+            Logo(40,72);
+
+            int habitatsCleared = outcomeTamer ? 3 : Mathf.Clamp(Run != null ? Run.stage : 0, 0, 3);
+            int catches = Run != null ? Run.catches : 0;
+            int balls = Run != null ? Run.balls : 0;
+            int teamSize = Run != null ? Run.party.Count : 0;
+            float secondsLeft = Run != null ? Mathf.Max(0, Run.seconds) : 0;
+            int timeBonus = Mathf.RoundToInt(secondsLeft * 2);
+            int catchPts = catches * 100;
+            int ballPts = balls * 25;
+            int habitatPts = habitatsCleared * 500;
+            int teamPts = teamSize * 150;
+            int winBonus = outcomeTamer ? 1000 : 0;
+            int totalPts = catchPts + ballPts + timeBonus + habitatPts + teamPts + winBonus;
+
+            Panel(new Rect(140,150,1000,460), ink);
+            Panel(new Rect(140,150,1000,6), outcomeTamer ? gold : violet);
+
+            Text(170,170,940,70, outcomeTamer ? "VICTORY" : "MATCH FINISHED", titleStyle);
+            Text(170,235,940,34, resultReason, smallStyle);
+
+            // Stats grid (left column)
+            float sx = 180, sy = 300; float lineH = 36;
+            Text(sx, sy + 0*lineH, 240, 30, "Habitats cleared", smallStyle);
+            Text(sx + 250, sy + 0*lineH, 100, 30, habitatsCleared + " / 3", headingStyle);
+            Text(sx, sy + 1*lineH, 240, 30, "Final-stage catches", smallStyle);
+            Text(sx + 250, sy + 1*lineH, 100, 30, catches.ToString(), headingStyle);
+            Text(sx, sy + 2*lineH, 240, 30, "Balls remaining", smallStyle);
+            Text(sx + 250, sy + 2*lineH, 100, 30, balls + " / 10", headingStyle);
+            Text(sx, sy + 3*lineH, 240, 30, "Team members", smallStyle);
+            Text(sx + 250, sy + 3*lineH, 100, 30, teamSize.ToString(), headingStyle);
+            Text(sx, sy + 4*lineH, 240, 30, "Time remaining", smallStyle);
+            Text(sx + 250, sy + 4*lineH, 160, 30, Mathf.FloorToInt(secondsLeft/60f) + ":" + (Mathf.FloorToInt(secondsLeft)%60).ToString("D2"), headingStyle);
+
+            // Score breakdown (right column)
+            float bx = 630, by = 300;
+            Text(bx, by - 30, 400, 30, "SCORE BREAKDOWN", headingStyle);
+            Text(bx, by + 0*lineH, 300, 30, "Catches x100", smallStyle);
+            Text(bx + 300, by + 0*lineH, 160, 30, "+ " + catchPts, textStyle);
+            Text(bx, by + 1*lineH, 300, 30, "Balls x25", smallStyle);
+            Text(bx + 300, by + 1*lineH, 160, 30, "+ " + ballPts, textStyle);
+            Text(bx, by + 2*lineH, 300, 30, "Time x2/s", smallStyle);
+            Text(bx + 300, by + 2*lineH, 160, 30, "+ " + timeBonus, textStyle);
+            Text(bx, by + 3*lineH, 300, 30, "Habitats x500", smallStyle);
+            Text(bx + 300, by + 3*lineH, 160, 30, "+ " + habitatPts, textStyle);
+            Text(bx, by + 4*lineH, 300, 30, "Team x150", smallStyle);
+            Text(bx + 300, by + 4*lineH, 160, 30, "+ " + teamPts, textStyle);
+            if (outcomeTamer) {
+                Text(bx, by + 5*lineH, 300, 30, "Victory bonus", smallStyle);
+                Text(bx + 300, by + 5*lineH, 160, 30, "+ " + winBonus, textStyle);
+            }
+
+            // Total line
+            Panel(new Rect(170, 540, 940, 2), new Color(.3f,.35f,.5f));
+            Text(180, 548, 400, 50, "TOTAL SCORE", headingStyle);
+            GUIStyle totalStyle = new GUIStyle(titleStyle);
+            totalStyle.normal.textColor = outcomeTamer ? gold : accent;
+            totalStyle.alignment = TextAnchor.MiddleRight;
+            Text(600, 548, 510, 55, totalPts.ToString("N0") + " pts", totalStyle);
+
+            // Buttons
+            if(Button(new Rect(140,635,480,55),"RETURN TO TITLE",true,true)) BackToTitle();
+            if(Button(new Rect(660,635,480,55),"QUIT")) Quit();
         }
         private void DrawPause()
         {

@@ -17,9 +17,11 @@ namespace Valmon.Campaign
             Text(26, 101, 113, 15, Role == PlayerRole.Tamer ? "HP " + tamerHealth + "/100" : "NRG " + Mathf.FloorToInt(corruptionEnergy) + "/100", new GUIStyle(smallStyle) { fontSize = 10 });
             Text(26, 118, 113, 15, "OBJECTIVE", new GUIStyle(textStyle) { fontSize = 10 });
             string objText = Role == PlayerRole.Tamer
-                ? "Catch: " + Run.catches + "/3" + (slowSeconds > 0 ? "\nSlow: " + Mathf.CeilToInt(slowSeconds) + "s" : "\nParty: " + Run.party.Count)
-                : "Sabotages: " + roundSabotages + "\nStopped: " + roundStopped;
+                ? "Catch: " + Run.catches + "/" + CampaignRun.RequiredCatches + (slowSeconds > 0 ? "\nSlow: " + Mathf.CeilToInt(slowSeconds) + "s" : "\nBonus: " + TamerBonus + " (6 catches)")
+                : "Corrupt: " + CorruptionCount + "/" + CampaignRun.RequiredCorruptions + "\nBonus: " + WardenBonus;
             Text(26, 134, 113, 80, objText, new GUIStyle(smallStyle) { fontSize = 10 });
+            if(Role==PlayerRole.Tamer && ScreenState==CampaignScreen.Explore && Run.catches>=CampaignRun.RequiredCatches)
+                if(Button(new Rect(165,52,190,38),IsRoundMatch?"FINISH ROUND":"FINISH LEVEL")) FinishCaptureGoal();
             DrawRadar();
         }
         private void DrawRadar()

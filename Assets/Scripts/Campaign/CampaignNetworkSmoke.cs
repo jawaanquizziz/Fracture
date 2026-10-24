@@ -153,7 +153,7 @@ namespace Valmon.Campaign
                     yield return NetWait(()=>tamerHealth==75&&slowSeconds>0,"Trap collision damages and slows authoritative Tamer");
                     yield return new WaitForSeconds(.4f); yield return SmokeShot("host-trap-feedback");
                 }
-                for(int capture=0;capture<3;capture++)
+                for(int capture=0;capture<CampaignRun.RequiredCatches;capture++)
                 {
                     int target=World.wild.FindIndex(w=>!w.captured&&!w.corrupted); WildCreature wild=World.wild[target];
                     SmokePlace(World.tamer,World.controller,wild.root.transform.position+Vector3.back*2);
@@ -173,6 +173,7 @@ namespace Valmon.Campaign
                     yield return NetWait(()=>Run.catches==capture+1,"Shared capture "+(capture+1)+" / round "+(round+1));
                     if(Run.balls!=9-capture) throw new Exception("Duplicate ball spending under packet loss");
                 }
+                FinishCaptureGoal();
                 string expected="result-"+roundIndex+"-"+hostWins+"-"+clientWins+"-"+hostScore+"-"+clientScore;
                 yield return NetWait(()=>netSmokeRemotePhase==expected,"Both clients agree on round winner and scores");
                 yield return SmokeShot("host-result-"+round);

@@ -33,9 +33,10 @@ namespace Valmon.Campaign
         public SpeciesDefinition[] species;
         public CharacterDefinition[] characters;
         public GameObject[] maps;
+        public GameObject[] battleMaps;
         public GameObject captureBall;
         public Shader surfaceShader;
-        public UnityEngine.AudioClip menuMusic, captureAudio, corruptionAudio, victoryAudio;
+        public UnityEngine.AudioClip menuMusic, gameSoundtrack, battleMusic, introMusic, victoryMusic, battleLostAudio, captureAudio, corruptionAudio;
         public string introFile = "VALMON_Opening.mp4";
         public SpeciesDefinition Find(string id) => Array.Find(species, s => s.id == id);
     }

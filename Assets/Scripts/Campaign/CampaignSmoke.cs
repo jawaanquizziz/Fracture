@@ -65,7 +65,7 @@ namespace Valmon.Campaign
             captureIntervened = true;
             float deadline = Time.realtimeSinceStartup + 7;
             while (ScreenState == CampaignScreen.Capture && Time.realtimeSinceStartup < deadline) yield return null;
-            SmokeCheck(ScreenState == (corrupted ? CampaignScreen.ChoosePartner : Run.catches >= 3 ? CampaignScreen.StageClear : CampaignScreen.Explore), "Capture finishes in correct state");
+            SmokeCheck(ScreenState == (corrupted ? CampaignScreen.ChoosePartner : Run.balls == 0 && Run.catches >= CampaignRun.RequiredCatches ? CampaignScreen.StageClear : CampaignScreen.Explore), "Capture finishes in correct state");
         }
         private IEnumerator SmokeShot(string name)
         {
@@ -91,6 +91,8 @@ namespace Valmon.Campaign
                 SmokeCheck(Run.stage == stage && World.MapMeshCount > 0 && World.NavigableNodes >= 20, "Map " + (stage + 1) + " loaded with connected terrain");
                 SmokeCheck(Camera.allCamerasCount == 1 && Camera.main == view, "Only the campaign camera renders map " + (stage + 1));
                 SmokeCheck(World.wild.Count >= 6 && World.wild.All(w => w.creature.species.types.Contains(Run.Habitat) && w.creature.level >= Run.MinLevel && w.creature.level <= Run.MaxLevel), "Map " + (stage + 1) + " type and level filters");
+                SmokeCheck(World.InsideSpawnArea(World.tamer.transform.position) && World.InsideSpawnArea(World.warden.transform.position) && World.wild.All(w=>World.InsideSpawnArea(w.root.transform.position)), "All players and creatures spawn inside the tower/tree arena");
+                SmokeCheck(World.wild.Count>=11,"Enough distinct creatures for both objectives");
                 yield return SmokeShot("06-map-" + (stage + 1));
                 yield return SmokeCapture(false);
                 SmokeCheck(Run.catches == 1 && Run.balls == 9, "Clean catch spends exactly one ball");
@@ -119,7 +121,21 @@ namespace Valmon.Campaign
                 }
                 else yield return SmokeCapture(false);
                 yield return SmokeCapture(false);
-                SmokeCheck(ScreenState == CampaignScreen.StageClear && Run.catches == 3, "Three catches clear map " + (stage + 1));
+                while (Run.catches < CampaignRun.RequiredCatches) {
+                    WildCreature extra = World.wild.First(w => !w.captured && !w.corrupted);
+                    World.wild.Remove(extra); World.wild.Insert(0, extra);
+                    yield return SmokeCapture(false);
+                }
+                if(stage==0) {
+                    SmokeCheck(ScreenState==CampaignScreen.Explore,"Five catches leave time for optional bonus catches");
+                    for(int extraCatch=0;extraCatch<1;extraCatch++) {
+                        WildCreature extra=World.wild.First(w=>!w.captured&&!w.corrupted);
+                        World.wild.Remove(extra); World.wild.Insert(0,extra); yield return SmokeCapture(false);
+                    }
+                    SmokeCheck(TamerBonus==1 && Run.catches==6,"Six catches earn exactly one Tamer bonus point");
+                }
+                FinishCaptureGoal();
+                SmokeCheck(ScreenState == CampaignScreen.StageClear && Run.catches >= CampaignRun.RequiredCatches, "Minimum five catches clear map " + (stage + 1));
                 yield return SmokeShot("08-clear-" + (stage + 1));
                 Advance();
             }
@@ -136,6 +152,17 @@ namespace Valmon.Campaign
             SmokeCheck(ScreenState == CampaignScreen.Result && !outcomeTamer, "Runtime timeout awards Corruptor victory");
             StartCampaign(0, 2, PlayerRole.Tamer, "squirtle"); Run.balls = 2; CheckOutcome();
             SmokeCheck(ScreenState == CampaignScreen.Result, "Insufficient balls ends run");
+            StartCampaign(0, 3, PlayerRole.Corruptor, "bulbasaur");
+            for(int i=0;i<CampaignRun.RequiredCorruptions;i++) {
+                var target=World.wild[i]; World.wardenController.enabled=false;
+                World.warden.transform.position=target.root.transform.position+Vector3.right*2;
+                World.wardenController.enabled=true; corruptionEnergy=100; wardenCorruptCooldown=0;
+                SmokeCheck(TryCorrupt(target),"Distinct corruption accepted " + (i+1));
+                wardenCorruptCooldown=0;
+                SmokeCheck(!TryCorrupt(target) && CorruptionCount==i+1,"Duplicate corruption cannot increase objective");
+                if(i<CampaignRun.RequiredCorruptions-1) SmokeCheck(ScreenState==CampaignScreen.Explore,"No early corruption victory");
+            }
+            SmokeCheck(ScreenState==CampaignScreen.Explore && WardenBonus==1,"Six corruptions award a bonus without ending the match");
             StartCampaign(0, 3, PlayerRole.Corruptor, "bulbasaur");
             yield return SmokeShot("11-corruptor-view");
             float aiDeadline = Time.realtimeSinceStartup + 40;

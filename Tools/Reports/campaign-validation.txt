@@ -32,6 +32,8 @@ PASS Stage 3 level band, timer, ball reset
 PASS Stage 3 typed spawn roster
 PASS Last ball may finish a pending encounter
 PASS Final catch clears level and blocks extra capture
+PASS Five catches allow continuing toward the six-catch bonus
+PASS Quota achieved wins when time expires
 PASS Impossible capture quota loses immediately
 PASS Timer expires during encounters
 PASS Empty team loses

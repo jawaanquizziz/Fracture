@@ -1,0 +1,38 @@
+PASS Opening video prepared
+PASS Campaign begins with one starter
+PASS Map 1 loaded with connected terrain
+PASS Only the campaign camera renders map 1
+PASS Map 1 type and level filters
+PASS All players and creatures spawn inside the tower/tree arena
+PASS Enough distinct creatures for both objectives
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Clean catch spends exactly one ball
+PASS Corruption request accepted
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Corrupted capture enters battle
+PASS Battle victory catches without spending a second ball
+PASS Corruption request accepted
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Losing a wild battle removes only the selected teammate
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Five catches leave time for optional bonus catches
+PASS Capture started in range
+PASS Capture finishes in correct state
+PASS Six catches earn exactly one Tamer bonus point
+PASS Minimum five catches clear map 1
+PASS Map 2 loaded with connected terrain
+PASS Only the campaign camera renders map 2
+FAIL System.Exception: Map 2 type and level filters
+  at Valmon.Campaign.CampaignController.SmokeCheck (System.Boolean pass, System.String description) [0x00020] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignSmoke.cs:56 
+  at Valmon.Campaign.CampaignController+<SmokeFlow>d__328.MoveNext () [0x002a3] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignSmoke.cs:93 
+  at Valmon.Campaign.CampaignController+<SmokeRunner>d__323.MoveNext () [0x000d0] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignSmoke.cs:31 
+Runtime errors:
+InvalidOperationException: Need at least eleven separated interior creatures for both objectives; found 2

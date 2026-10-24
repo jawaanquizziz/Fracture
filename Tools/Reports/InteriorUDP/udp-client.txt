@@ -1,0 +1,7 @@
+PASS Actual arena previews and four character portraits prepared
+PASS Real UDP handshake and arena loaded
+PASS round 1 role WARDEN / arena 1
+PASS player-controlled battle, health and PP replicated
+FAIL System.Exception: Client did not observe complete match: Result / corrupt-sent
+  at Valmon.Campaign.CampaignController+<NetworkSmokeFlow>d__262.MoveNext () [0x00f83] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:194 
+  at Valmon.Campaign.CampaignController+<NetworkSmokeRunner>d__255.MoveNext () [0x00052] in C:\Users\araji\AI\GAME DEV HACK\Assets\Scripts\Campaign\CampaignNetworkSmoke.cs:33 

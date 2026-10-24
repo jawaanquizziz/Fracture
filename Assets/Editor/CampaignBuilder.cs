@@ -63,12 +63,13 @@ namespace Valmon.Editor
             if (File.Exists("Video/valmon_soundtrack.wav")) File.Copy("Video/valmon_soundtrack.wav", "Assets/Audio/ValomonMenuTheme.wav", true);
             AssetDatabase.Refresh();
             data.menuMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/ValomonMenuTheme.wav");
-            CampaignCatalog previousAudio=AssetDatabase.LoadAssetAtPath<CampaignCatalog>(CatalogPath);
-            if(previousAudio!=null)
-            {
-                if(previousAudio.menuMusic!=null) data.menuMusic=previousAudio.menuMusic;
-                data.captureAudio=previousAudio.captureAudio; data.corruptionAudio=previousAudio.corruptionAudio; data.victoryAudio=previousAudio.victoryAudio;
-            }
+            data.gameSoundtrack = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Full game sound trak.mpeg");
+            data.battleMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokemon battling.mpeg");
+            data.introMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokemon game intro.mpeg");
+            data.victoryMusic = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Pokemon Victory Theme.mp3.mpeg");
+            data.battleLostAudio = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/battle lost.mpeg");
+            data.captureAudio = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/pokeom caught.mpeg");
+            data.corruptionAudio = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/corruption pokemon.mpeg");
             data.species = Definitions(); data.characters = new CharacterDefinition[4]; data.maps = new GameObject[3];
             string[] assets = AssetDatabase.GetAllAssetPaths().Where(p => p.StartsWith("Assets/Characters/") && !p.Contains("/source/") && (p.EndsWith(".glb", StringComparison.OrdinalIgnoreCase) || p.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase)))
                 .OrderBy(p => p.Contains("/ImportedPokemon/") ? 0 : 1).ToArray();
@@ -175,6 +176,10 @@ namespace Valmon.Editor
             check(run.SpendBall() && run.Outcome(true) == StageOutcome.Playing, "Last ball may finish a pending encounter");
             run.Catch(new OwnedCreature(data.Find("oddish"), 5));
             check(run.Outcome(false) == StageOutcome.Cleared && !run.SpendBall(), "Final catch clears level and blocks extra capture");
+            run.StartStage(0); run.catches=5;
+            check(run.Outcome(false)==StageOutcome.Playing && run.SpendBall(), "Five catches allow continuing toward the six-catch bonus");
+            run.catches=6; run.seconds=0;
+            check(run.Outcome(false)==StageOutcome.Cleared, "Quota achieved wins when time expires");
             run.StartStage(0); run.balls = CampaignRun.RequiredCatches - 1;
             check(run.Outcome(false) == StageOutcome.NoBalls, "Impossible capture quota loses immediately");
             run.StartStage(0); run.seconds = 0;

@@ -18,13 +18,16 @@ namespace Valmon.Campaign
         public float visualHeight;
         public Transform marker;
         public Renderer markerRenderer;
+        public Vector3 wanderTarget;
+        public float wanderWaitTimer;
+        public float moveSpeed = 1.1f;
     }
 
     public sealed partial class CampaignWorld : IDisposable
     {
         public const int TerrainLayer = 8, CreatureLayer = 9;
-        public const float PlayerHeight = 5.0f;
-        public const float CreatureHeight = 3.6f;
+        public const float PlayerHeight = 1.15f;
+        public const float CreatureHeight = 0.75f;
 
         // Per-stage visual + spawn tuning so each map feels proportioned.
         public struct StageProfile
@@ -35,11 +38,14 @@ namespace Valmon.Campaign
         }
         // All maps now share the small Map 1 spire size; creatures and radii still vary.
         public static StageProfile ProfileFor(int stage) => stage == 0
-            ? new StageProfile { TowerScale = .22f, CreatureScale = .9f,  SpawnRadius = 20f }   // Grass: tiny spire, tight ring
+            ? new StageProfile { TowerScale = .22f, CreatureScale = .9f,  SpawnRadius = 11f }   // Grass: tiny spire, tight ring
             : stage == 1
-            ? new StageProfile { TowerScale = .22f, CreatureScale = 1.0f, SpawnRadius = 22f }   // Fire
-            :                    new StageProfile { TowerScale = .22f, CreatureScale = 1.15f, SpawnRadius = 22f };  // Water
-        private const int Grid = 41;
+            ? new StageProfile { TowerScale = .22f, CreatureScale = 1.0f, SpawnRadius = 16f }   // Fire
+            :                    new StageProfile { TowerScale = .22f, CreatureScale = 1.15f, SpawnRadius = 11f };  // Water
+        private const int Grid = 81;
+        public Vector3 ArenaCenter { get; private set; }
+        public float ArenaRadius { get; private set; }
+        public bool InsideSpawnArea(Vector3 p) { Vector2 d=new Vector2(p.x-ArenaCenter.x,p.z-ArenaCenter.z); return d.magnitude>=3.4f && d.magnitude<=ArenaRadius; }
         private readonly CampaignCatalog catalog;
         private readonly List<Material> materials = new List<Material>();
         private GameObject terrainRoot, presentationRoot;
@@ -52,6 +58,7 @@ namespace Valmon.Campaign
         public Vector3 towerPosition;
         public Camera camera;
         public Transform battleTamer, battleEnemy;
+        public Vector3 battleTamerHome, battleEnemyHome;
         private readonly List<Transform> skyDrifters = new List<Transform>();
         private Transform towerBeacon;
         private float ambientClock;
@@ -194,23 +201,18 @@ namespace Valmon.Campaign
             }
             // A foundation below the imported map closes holes at its outer boundary.
             Platform("Arena foundation", terrainRoot.transform, new Vector3(0, -.3f, 0), new Vector3(92, .4f, 92), Theme(run.stage));
-            BuildTower(run.stage);
+            var towerRenderers = map.GetComponentsInChildren<Renderer>().Where(r => r.name.ToLowerInvariant().Contains("tower")).ToArray();
+            ArenaCenter = towerRenderers.Length > 0 ? BoundsOf(towerRenderers).center : Vector3.zero;
+            ArenaRadius = ProfileFor(run.stage).SpawnRadius;
+            if(towerRenderers.Length > 0) towerPosition = new Vector3(ArenaCenter.x, BoundsOf(towerRenderers).max.y + 2, ArenaCenter.z);
+            else BuildTower(run.stage);
             Physics.SyncTransforms();
             bounds = BoundsOf(map.GetComponentsInChildren<Renderer>());
             BuildNavigation(bounds.max.y + 10);
             if (reachable.Count < 20) throw new InvalidOperationException("Map has insufficient connected walking surface.");
-            // Confine the player spawn to the same ring the creatures use on stages with a declared SpawnRadius.
-            StageProfile stageProfile = ProfileFor(run.stage);
-            IEnumerable<int> startCandidates = reachable;
-            if (stageProfile.SpawnRadius > 0f)
-            {
-                var ringNodes = reachable.Where(n => {
-                    float r = new Vector2(nodes[n].x, nodes[n].z).magnitude;
-                    return r >= 8f && r <= stageProfile.SpawnRadius;
-                }).ToArray();
-                if (ringNodes.Length > 0) startCandidates = ringNodes;
-            }
-            int startNode = startCandidates.OrderByDescending(n => SpawnScore(nodes[n])).First();
+            var spawnNodes = reachable.Where(n => InsideSpawnArea(nodes[n]) && SpawnClear(nodes[n])).ToArray();
+            if(spawnNodes.Length < 12) throw new InvalidOperationException("Insufficient safe interior spawn points: " + spawnNodes.Length);
+            int startNode = spawnNodes.OrderByDescending(n => SpawnScore(nodes[n])).First();
             spawn = nodes[startNode] + Vector3.up * .12f;
             tamer = new GameObject("Tamer");
             tamer.transform.SetParent(terrainRoot.transform);
@@ -219,32 +221,24 @@ namespace Valmon.Campaign
             tamer.transform.rotation = Quaternion.Euler(0, StartingYaw, 0);
             tamer.AddComponent<CharacterLocomotion>().Initialize(tamer.transform.GetChild(0));
             controller = tamer.AddComponent<CharacterController>();
-            controller.height = PlayerHeight; controller.radius = .32f; controller.center = Vector3.up * (PlayerHeight * .5f);
-            controller.stepOffset = .55f; controller.slopeLimit = 50;
+            controller.height = PlayerHeight; controller.radius = .22f; controller.center = Vector3.up * (PlayerHeight * .5f);
+            controller.stepOffset = .35f; controller.slopeLimit = 50;
             SpeciesDefinition[] candidates = catalog.species.Where(s => s.types.Contains(run.Habitat)).ToArray();
             StageProfile profile = ProfileFor(run.stage);
             var used = new List<Vector3> { spawn };
-            var shuffled = reachable.OrderBy(_ => random.Next()).ToList();
-            // Two-pass: prefer the stage ring, then fall back to the full reachable set if we don't have 6 yet.
-            bool enforceRing = profile.SpawnRadius > 0f;
-            retry:
-            foreach (int node in shuffled)
+            var shuffled = spawnNodes.OrderBy(_ => random.Next()).ToList();
+            while (shuffled.Count > 0)
             {
+                int node=shuffled.OrderByDescending(n=>used.Min(p=>(p-nodes[n]).sqrMagnitude)).First();
+                shuffled.Remove(node);
                 Vector3 position = nodes[node];
-                if (used.Any(p => Vector3.Distance(p, position) < 5f)) continue;
-                // Stay inside the stage's ring and keep creatures within sight of the player's spawn.
-                if (enforceRing)
-                {
-                    float r = new Vector2(position.x, position.z).magnitude;
-                    if (r > profile.SpawnRadius || r < 6f) continue;         // outside tree ring, or clipping the tower
-                    if (Vector3.Distance(position, spawn) > 18f) continue;   // keep them visible from spawn
-                }
+                if (used.Any(p => Vector3.Distance(p, position) < 3.2f)) continue;
                 SpeciesDefinition species = candidates[wild.Count % candidates.Length];
                 int level = random.Next(run.MinLevel, run.MaxLevel + 1);
                 var creature = new WildCreature { creature = new OwnedCreature(species, level), node = node };
                 creature.root = Model(species.model, terrainRoot.transform, position + Vector3.up * .06f, CreatureHeight * profile.CreatureScale);
                 Bounds creatureBounds = BoundsOf(creature.root.GetComponentsInChildren<Renderer>());
-                float enlarge = Mathf.Min(1.6f, (CreatureHeight * profile.CreatureScale * .55f) / Mathf.Max(.01f, creatureBounds.size.y));
+                float enlarge = Mathf.Min(1.4f, (CreatureHeight * profile.CreatureScale * .55f) / Mathf.Max(.01f, creatureBounds.size.y));
                 if (enlarge > 1) creature.root.transform.GetChild(0).localScale *= enlarge;
                 creatureBounds = BoundsOf(creature.root.GetComponentsInChildren<Renderer>());
                 // Re-ground short, wide species after enlargement.
@@ -255,6 +249,9 @@ namespace Valmon.Campaign
                 SphereCollider hit = creature.root.AddComponent<SphereCollider>();
                 hit.center = Vector3.up * (creature.visualHeight * .5f); hit.radius = Mathf.Max(1, creature.visualHeight * .5f); hit.isTrigger = true;
                 creature.ring = Ring(creature.root.transform, new Color(.25f, .85f, .65f));
+                creature.wanderTarget = position + Vector3.up * .06f;
+                creature.wanderWaitTimer = (float)(random.NextDouble() * 2.0);
+                creature.moveSpeed = Mathf.Lerp(.9f, 1.4f, (float)random.NextDouble());
                 if (creature.root.transform.childCount > 0)
                 {
                     creature.visual = creature.root.transform.GetChild(0);
@@ -268,8 +265,8 @@ namespace Valmon.Campaign
                 marker.name = "Marker";
                 marker.GetComponent<Collider>().enabled = false;
                 marker.transform.SetParent(markerRoot.transform, false);
-                marker.transform.localPosition = new Vector3(0f, 5.5f, 0f);
-                marker.transform.localScale = Vector3.one * .32f;
+                marker.transform.localPosition = new Vector3(0f, Mathf.Max(2.8f, creature.visualHeight + 1.2f), 0f);
+                marker.transform.localScale = Vector3.one * .25f;
                 Material markerMat = Material(new Color(.4f, 1f, .78f));
                 if (markerMat.HasProperty("_EmissionColor")) { markerMat.EnableKeyword("_EMISSION"); markerMat.SetColor("_EmissionColor", new Color(1.3f, 2.1f, 1.5f)); }
                 marker.GetComponent<Renderer>().sharedMaterial = markerMat;
@@ -278,8 +275,8 @@ namespace Valmon.Campaign
                 beam.name = "Marker beam";
                 beam.GetComponent<Collider>().enabled = false;
                 beam.transform.SetParent(markerRoot.transform, false);
-                beam.transform.localPosition = new Vector3(0f, creature.visualHeight + .5f, 0f);
-                beam.transform.localScale = new Vector3(.035f, .4f, .035f);
+                beam.transform.localPosition = new Vector3(0f, creature.visualHeight + .35f, 0f);
+                beam.transform.localScale = new Vector3(.028f, .3f, .028f);
                 Material beamMat = Material(new Color(.4f, 1f, .78f, .55f));
                 if (beamMat.HasProperty("_EmissionColor")) { beamMat.EnableKeyword("_EMISSION"); beamMat.SetColor("_EmissionColor", new Color(.9f, 1.7f, 1.1f)); }
                 beam.GetComponent<Renderer>().sharedMaterial = beamMat;
@@ -288,13 +285,7 @@ namespace Valmon.Campaign
                 wild.Add(creature); used.Add(position);
                 if (wild.Count == 12) break;
             }
-            // If the stage ring was too restrictive, retry once without it so Map 1 forests still fill.
-            if (enforceRing && wild.Count < 6)
-            {
-                enforceRing = false;
-                goto retry;
-            }
-            if (wild.Count < 6) throw new InvalidOperationException("Not enough separated creature spawn points on map.");
+            if (wild.Count < 11) throw new InvalidOperationException("Need at least eleven separated interior creatures for both objectives; found " + wild.Count);
             camera.fieldOfView = 55;
             // Sky drifters removed — they were bobbing into view and polluting the scene.
             BuildArenaBoundary(run.stage);
@@ -349,12 +340,12 @@ namespace Valmon.Campaign
             Color postColor = Color.Lerp(Theme(stage), new Color(.95f, .95f, 1f), .35f);
             Material postMat = Material(postColor);
             if (postMat.HasProperty("_EmissionColor")) { postMat.EnableKeyword("_EMISSION"); postMat.SetColor("_EmissionColor", postColor * 1.4f); }
-            float r = profile.SpawnRadius + 1.5f;
+            float r = ArenaRadius + 1.5f;
             int count = 20;
             for (int i = 0; i < count; i++)
             {
                 float ang = i * Mathf.PI * 2f / count;
-                Vector3 pos = new Vector3(Mathf.Cos(ang) * r, 0f, Mathf.Sin(ang) * r);
+                Vector3 pos = new Vector3(ArenaCenter.x + Mathf.Cos(ang) * r, 0f, ArenaCenter.z + Mathf.Sin(ang) * r);
                 // Drop onto the terrain.
                 if (Physics.Raycast(pos + Vector3.up * 40f, Vector3.down, out RaycastHit hit, 80f, 1 << TerrainLayer))
                     pos.y = hit.point.y;
@@ -484,6 +475,44 @@ namespace Valmon.Campaign
             {
                 WildCreature c = wild[i];
                 if (c == null || c.captured || c.root == null) continue;
+                // Wander logic: creatures walk smoothly between safe interior reachable nodes within allowed area
+                if (c.wanderWaitTimer > 0f)
+                {
+                    c.wanderWaitTimer -= dt;
+                }
+                else
+                {
+                    Vector3 toTarget = c.wanderTarget - c.root.transform.position; toTarget.y = 0f;
+                    float dist = toTarget.magnitude;
+                    if (dist > .2f)
+                    {
+                        Vector3 moveDir = toTarget / dist;
+                        float step = Mathf.Min(dist, c.moveSpeed * dt);
+                        c.root.transform.position += moveDir * step;
+                        // Orient smoothly toward walk direction
+                        if (moveDir.sqrMagnitude > .001f)
+                        {
+                            Quaternion targetRot = Quaternion.LookRotation(moveDir);
+                            c.root.transform.rotation = Quaternion.Slerp(c.root.transform.rotation, targetRot, dt * 6f);
+                        }
+                    }
+                    else
+                    {
+                        // Reached current point; pick a neighboring connected node inside allowed spawn area
+                        var candidates = Neighbors(c.node).Where(n => reachable.Contains(n) && InsideSpawnArea(nodes[n]) && Connected(c.node, n)).ToList();
+                        if (candidates.Count > 0)
+                        {
+                            int nextNode = candidates[(i + (int)(ambientClock * 10f)) % candidates.Count];
+                            c.node = nextNode;
+                            c.wanderTarget = nodes[nextNode] + Vector3.up * .06f;
+                            c.wanderWaitTimer = UnityEngine.Random.Range(1.8f, 4.5f);
+                        }
+                        else
+                        {
+                            c.wanderWaitTimer = 2.0f;
+                        }
+                    }
+                }
                 if (c.visual != null)
                 {
                     float phase = ambientClock * 2.6f + i * .9f;
@@ -624,7 +653,7 @@ namespace Valmon.Campaign
             Vector3 delta = nodes[b] - nodes[a];
             return !Physics.SphereCast(nodes[a] + Vector3.up * .8f, .32f, delta.normalized, out _, delta.magnitude, 1 << TerrainLayer);
         }
-        public float StartingYaw => Mathf.Atan2(-spawn.x, -spawn.z) * Mathf.Rad2Deg;
+        public float StartingYaw => Mathf.Atan2(ArenaCenter.x-spawn.x, ArenaCenter.z-spawn.z) * Mathf.Rad2Deg;
         private float SpawnScore(Vector3 point)
         {
             float score = -Mathf.Abs(new Vector2(point.x, point.z).magnitude - 18f);
@@ -634,13 +663,19 @@ namespace Valmon.Campaign
             score += Physics.SphereCast(focus, .3f, behind, out RaycastHit hit, 8, 1 << TerrainLayer) ? hit.distance * 4 : 32;
             return score;
         }
+        private static bool IsArenaFloor(string name)
+        {
+            string n=name.ToLowerInvariant();
+            return n.Contains("ground") || n.Contains("sand_island") || n.Contains("floor") || n.Contains("dirt_patch") || n.Contains("pathstone") || n.Contains("hill") || n.Contains("rockcluster") || n.Contains("fillrock");
+        }
+        private bool SpawnClear(Vector3 p) => !Physics.CheckCapsule(p+Vector3.up*.5f,p+Vector3.up*1.1f,.4f,1<<TerrainLayer);
         private void BuildNavigation(float top)
         {
             nodes.Clear(); reachable.Clear();
             for (int z = 0; z < Grid; z++) for (int x = 0; x < Grid; x++)
             {
-                Vector3 from = new Vector3((x - 20) * 2.1f, top, (z - 20) * 2.1f);
-                if (Physics.Raycast(from, Vector3.down, out RaycastHit hit, top + 10, 1 << TerrainLayer) && hit.normal.y > .82f && !Physics.CheckCapsule(hit.point + Vector3.up * .55f, hit.point + Vector3.up * (PlayerHeight - .32f), .32f, 1 << TerrainLayer))
+                Vector3 from = new Vector3((x - 40) * 1.05f, top, (z - 40) * 1.05f);
+                if (Physics.Raycast(from, Vector3.down, out RaycastHit hit, top + 10, 1 << TerrainLayer) && IsArenaFloor(hit.collider.name) && InsideSpawnArea(hit.point) && hit.normal.y > .82f && !Physics.CheckCapsule(hit.point + Vector3.up * .55f, hit.point + Vector3.up * (PlayerHeight - .32f), .32f, 1 << TerrainLayer))
                     nodes[x + z * Grid] = hit.point;
             }
             var visited = new HashSet<int>();
@@ -676,18 +711,78 @@ namespace Valmon.Campaign
             route.Reverse(); return new Queue<Vector3>(route);
         }
 
-        public void ShowBattle(OwnedCreature friendly, OwnedCreature enemy)
+        public void ShowBattle(OwnedCreature friendly, OwnedCreature enemy, int stage = 0)
         {
             if (terrainRoot != null) terrainRoot.SetActive(false);
             if (presentationRoot != null) { presentationRoot.SetActive(false); Object.Destroy(presentationRoot); }
             presentationRoot = new GameObject("Turn based battle stage");
-            Platform("Battle floor", presentationRoot.transform, new Vector3(0, -.25f, 1), new Vector3(22, .5f, 18), new Color(.07f, .085f, .14f));
-            battleTamer = Model(friendly.species.model, presentationRoot.transform, new Vector3(-2.5f, 0, 0), 2.6f).transform;
-            battleEnemy = Model(enemy.species.model, presentationRoot.transform, new Vector3(2.5f, 0, 2), 2.6f).transform;
-            battleTamer.LookAt(new Vector3(2.5f, 0, 2)); battleEnemy.LookAt(new Vector3(-2.5f, 0, 0));
+
+            Vector3 playerSpawn = new Vector3(-2.5f, 0, 0);
+            Vector3 enemySpawn  = new Vector3( 2.5f, 0, 2);
+            bool mapSpawned = false;
+
+            GameObject[] source = (catalog != null) ? catalog.battleMaps : null;
+            if (source != null && source.Length > 0)
+            {
+                int stageIndex = Mathf.Clamp(stage, 0, source.Length - 1);
+                GameObject mapPrefab = source[stageIndex];
+                if (mapPrefab != null)
+                {
+                    GameObject map = Object.Instantiate(mapPrefab, presentationRoot.transform);
+                    map.name = "BattleArena_" + (stageIndex + 1);
+                    DisableImportedSceneComponents(map);
+                    foreach (Collider col in map.GetComponentsInChildren<Collider>()) col.enabled = false;
+                    Renderer[] renderers = map.GetComponentsInChildren<Renderer>();
+                    if (renderers.Length > 0)
+                    {
+                        Bounds bounds = BoundsOf(renderers);
+                        float widest = Mathf.Max(bounds.size.x, bounds.size.z, 1f);
+                        float fit = 22f / widest;
+                        map.transform.localScale *= fit;
+                        bounds = BoundsOf(map.GetComponentsInChildren<Renderer>());
+                        map.transform.position -= new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+                        FixMaterials(map.GetComponentsInChildren<Renderer>());
+
+                        Transform playerPlatform   = FindDeepChild(map.transform, "PlayerPlatform_Top");
+                        Transform opponentPlatform = FindDeepChild(map.transform, "OpponentPlatform_Top");
+                        if (playerPlatform != null)   playerSpawn = playerPlatform.position + Vector3.up * 0.05f;
+                        if (opponentPlatform != null) enemySpawn  = opponentPlatform.position + Vector3.up * 0.05f;
+                        mapSpawned = true;
+                    }
+                }
+            }
+
+            if (!mapSpawned)
+                Platform("Battle floor", presentationRoot.transform, new Vector3(0, -.25f, 1), new Vector3(22, .5f, 18), new Color(.07f, .085f, .14f));
+
+            float modelSize = mapSpawned ? 0.9f : 2.6f;
+            battleTamer = Model(friendly.species.model, presentationRoot.transform, playerSpawn, modelSize).transform;
+            battleEnemy = Model(enemy.species.model, presentationRoot.transform, enemySpawn, modelSize).transform;
+            battleTamerHome = playerSpawn;
+            battleEnemyHome = enemySpawn;
+            battleTamer.LookAt(new Vector3(enemySpawn.x, playerSpawn.y, enemySpawn.z));
+            battleEnemy.LookAt(new Vector3(playerSpawn.x, enemySpawn.y, playerSpawn.z));
             Ring(battleTamer, new Color(.2f, .9f, .7f)); Ring(battleEnemy, new Color(.8f, .2f, 1f));
-            camera.transform.position = new Vector3(0, 4.8f, -10);
-            camera.transform.LookAt(new Vector3(0, 1.2f, 1));
+
+            Vector3 midpoint = (playerSpawn + enemySpawn) * 0.5f;
+            Vector3 forward  = (enemySpawn - playerSpawn); forward.y = 0;
+            Vector3 side     = Vector3.Cross(Vector3.up, forward.normalized);
+            float camPull = mapSpawned ? 5.5f : 7f;
+            float camHeight = mapSpawned ? 2.8f : 4.8f;
+            float camBack = mapSpawned ? 0.5f : 2f;
+            camera.transform.position = midpoint + side * camPull + Vector3.up * camHeight - forward.normalized * camBack;
+            camera.transform.LookAt(midpoint + Vector3.up * 0.6f);
+        }
+
+        private static Transform FindDeepChild(Transform parent, string name)
+        {
+            if (parent.name == name) return parent;
+            foreach (Transform child in parent)
+            {
+                Transform found = FindDeepChild(child, name);
+                if (found != null) return found;
+            }
+            return null;
         }
         public void ResumeMap()
         {
